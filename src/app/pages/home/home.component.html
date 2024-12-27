@@ -1,0 +1,24 @@
+        <!-- Section -->
+        <section>
+            <header class="major">
+              <h2>Ipsum sed dolor</h2>
+            </header>
+            <ng-container *ngIf="articles$() as articles;">
+                <div *ngIf="articles.length; else empty" class="posts">
+                    <article *ngFor="let article of articles$() let i = index;">
+                        <a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a>
+                        <h3>{{article.title}}</h3>
+                        <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+                        <ul class="actions">
+                        <li><a href="#" class="button">More</a></li>
+                        </ul>
+                    </article>
+                </div>
+
+                <ng-template #empty>
+                    <div>No Data</div>
+                  </ng-template>
+                  
+                  <div *ngIf="isLoading$()">Loading...</div>
+            </ng-container>
+          </section>
