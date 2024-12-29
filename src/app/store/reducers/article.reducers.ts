@@ -17,7 +17,7 @@ export const initialState: ArticleState = {
 export const articleReducer = createReducer(
     initialState,
     
-    on(ArticleActions.loadArticles, state => ({ ...state, loading: true })),
+    on(ArticleActions.loadArticles, (state) => ({ ...state, loading: true })),
     
     on(ArticleActions.loadArticlesSuccess, (state, { articles }) =>({ ...state, articles, loading: false })),
     

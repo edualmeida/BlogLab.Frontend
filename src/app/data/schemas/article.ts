@@ -6,6 +6,8 @@ export interface ServerArticle {
     thumbnail: string;
     color: string;
     category: string;
+    createdOn: Date;
+    author: string;
 }
 
 export interface Article {
@@ -16,4 +18,6 @@ export interface Article {
     thumbnail: string;
     color: string;
     category: string;
+    createdOn: string;
+    author: string;
 }

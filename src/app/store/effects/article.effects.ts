@@ -7,21 +7,22 @@ import * as ArticleActions from "../actions/article.actions";
 
 @Injectable()
 export class ArticleEffects {
-  
-  loadArticles$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ArticleActions.loadArticles),
-      mergeMap(() => 
-        this.articleCatalogService.getAllArticles().pipe(
-          map((articles) => ArticleActions.loadArticlesSuccess({ articles })),
-          catchError((error) =>
-            of(ArticleActions.loadArticlesFailure({ error: error.message }))
+  loadArticles$;
+
+  constructor(private actions$: Actions, private articleCatalogService: ArticleCatalogService) 
+  {
+    this.loadArticles$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(ArticleActions.loadArticles),
+        mergeMap(() => 
+          this.articleCatalogService.getAllArticles().pipe(
+            map((articles) => ArticleActions.loadArticlesSuccess({ articles })),
+            catchError((error) =>
+              of(ArticleActions.loadArticlesFailure({ error: error.message }))
+            )
           )
         )
       )
-    )
-  );
-
-  constructor(private actions$: Actions, 
-    private articleCatalogService: ArticleCatalogService) {}
+    );
+  }
 }

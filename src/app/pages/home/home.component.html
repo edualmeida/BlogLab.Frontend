@@ -1,24 +1,111 @@
-        <!-- Section -->
-        <section>
-            <header class="major">
-              <h2>Ipsum sed dolor</h2>
-            </header>
-            <ng-container *ngIf="articles$() as articles;">
-                <div *ngIf="articles.length; else empty" class="posts">
-                    <article *ngFor="let article of articles$() let i = index;">
-                        <a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a>
-                        <h3>{{article.title}}</h3>
-                        <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-                        <ul class="actions">
-                        <li><a href="#" class="button">More</a></li>
-                        </ul>
-                    </article>
-                </div>
+<div id="wrapper">
 
-                <ng-template #empty>
-                    <div>No Data</div>
-                  </ng-template>
-                  
-                  <div *ngIf="isLoading$()">Loading...</div>
-            </ng-container>
-          </section>
+
+      <!-- Main -->
+        <div id="main">
+
+          <!-- Post -->
+          <ng-container *ngIf="articles$() as articles;">
+            <div *ngIf="articles.length; else empty">
+
+                <article class="post" *ngFor="let article of articles$() let i = index;" >                  
+                    <header>
+                      <div class="title">
+                        <h2><a href="single.html">{{article.title}}</a></h2>
+                        <p>{{article.subtitle}}</p>
+                      </div>
+                      <div class="meta">
+                        <time class="published" datetime="2015-11-01">{{article.createdOn}}</time>
+                        <a href="#" class="author"><span class="name">{{article.author}}</span><img src="assets/images/articles/avatar01.jpg" alt="Author" /></a>
+                      </div>
+                    </header>
+                    <a href="single.html" class="image featured"><img src="{{article.thumbnail}}" alt="Thumbnail" /></a>
+                    <p>{{article.text}}</p>
+                    <footer>
+                      <ul class="actions">
+                        <li><a href="single.html" class="button large">Continue Reading</a></li>
+                      </ul>
+                      <ul class="stats">
+                        <li><a href="#">General</a></li>
+                        <li><a href="#" class="icon solid fa-heart">0</a></li>
+                        <li><a href="#" class="icon solid fa-comment">0</a></li>
+                      </ul>
+                    </footer>
+                </article>
+            </div>
+
+            <ng-template #empty>
+                <div>No Data</div>
+              </ng-template>
+              
+              <div *ngIf="isLoading$()">Loading...</div>
+          </ng-container>
+
+          <!-- Pagination -->
+            <ul class="actions pagination">
+              <li><a href="" class="disabled button large previous">Previous Page</a></li>
+              <li><a href="#" class="button large next">Next Page</a></li>
+            </ul>
+
+        </div>
+
+      <!-- Sidebar -->
+        <section id="sidebar">
+
+          <!-- Intro -->
+            <section id="intro">
+              <a href="#" class="logo"><img src="assets/images/logo.jpg" alt="" /></a>
+              <header>
+                <h2>Future Imperfect</h2>
+                <p>Another fine responsive site template by <a href="http://html5up.net">HTML5 UP</a></p>
+              </header>
+            </section>
+
+          <!-- Posts List -->
+            <section>
+              <ul class="posts">
+                <li>
+                  <article>
+                    <header>
+                      <h3><a href="single.html">Lorem ipsum fermentum ut nisl vitae</a></h3>
+                      <time class="published" datetime="2015-10-20">October 20, 2015</time>
+                    </header>
+                    <a href="single.html" class="image"><img src="assets/images/articles/mini-pic.jpg" alt="" /></a>
+                  </article>
+                </li>
+                <li>
+                  <article>
+                    <header>
+                      <h3><a href="single.html">Convallis maximus nisl mattis nunc id lorem</a></h3>
+                      <time class="published" datetime="2015-10-15">October 15, 2015</time>
+                    </header>
+                    <a href="single.html" class="image"><img src="images/pic09.jpg" alt="" /></a>
+                  </article>
+                </li>
+              </ul>
+            </section>
+
+          <!-- About -->
+            <section class="blurb">
+              <h2>About</h2>
+              <p>Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed mattis nunc id lorem euismod amet placerat. Vivamus porttitor magna enim, ac accumsan tortor cursus at phasellus sed ultricies.</p>
+              <ul class="actions">
+                <li><a href="#" class="button">Learn More</a></li>
+              </ul>
+            </section>
+
+          <!-- Footer -->
+            <section id="footer">
+              <ul class="icons">
+                <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+                <li><a href="#" class="icon solid fa-rss"><span class="label">RSS</span></a></li>
+                <li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+              </ul>
+              <p class="copyright">&copy; Untitled. Design: <a href="http://html5up.net">HTML5 UP</a>. Images: <a href="http://unsplash.com">Unsplash</a>.</p>
+            </section>
+
+        </section>
+      
+</div>
