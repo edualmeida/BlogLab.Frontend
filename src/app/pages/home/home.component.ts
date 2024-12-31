@@ -6,13 +6,13 @@ import { articleSelector } from "../../store/selectors/article.selectors";
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/store';
 import { CommonModule } from '@angular/common';
-import { NgOptimizedImage } from '@angular/common'
+import { SidebarComponent } from "../../shared/sidebar/sidebar.component";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  imports: [CommonModule, NgOptimizedImage]
+  imports: [CommonModule, SidebarComponent]
 })
 export class HomeComponent implements OnInit {
   isLoading$: Signal<boolean | undefined>;
