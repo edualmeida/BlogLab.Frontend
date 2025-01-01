@@ -7,12 +7,13 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../store/store';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from "../../shared/sidebar/sidebar.component";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
-  imports: [CommonModule, SidebarComponent]
+  styleUrls: ['../styles/articles-feature.scss', './home.component.scss'],
+  imports: [CommonModule, SidebarComponent, RouterLink]
 })
 export class HomeComponent implements OnInit {
   isLoading$: Signal<boolean | undefined>;
