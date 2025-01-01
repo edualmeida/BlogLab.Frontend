@@ -1,0 +1,27 @@
+/* Footer */
+
+#footer {
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    text-align: center;
+}
+
+#footer .icons {
+    color: #aaaaaa;
+}
+
+#footer .copyright {
+    color: #aaaaaa;
+    font-family: "Raleway", Helvetica, sans-serif;
+    font-size: 0.5em;
+    font-weight: 400;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+}
+
+body.single #footer {
+    text-align: center;
+}
