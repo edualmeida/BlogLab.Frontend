@@ -18,7 +18,8 @@
             <p>{{article.text}}</p>
             <footer>
               <ul class="actions">
-                <li><a routerLink="['/article:id']" class="button large">Continue Reading</a></li>
+                <!-- <li><a routerLink="['/article:id']" class="button large">Continue Reading</a></li> -->
+                <li><a (click)="selectArticle(article.id)" class="button large">Continue Reading</a></li>
               </ul>
               <ul class="stats">
                 <li><a href="#">General</a></li>
@@ -31,7 +32,7 @@
     <ng-template #empty>
       <div>No Data</div>
     </ng-template>
-    <div *ngIf="isLoading$()">Loading...</div>
+    <div *ngIf="isLoading$ | async">Loading...</div>
   </ng-container>
   <!-- Pagination -->
     <ul class="actions pagination">

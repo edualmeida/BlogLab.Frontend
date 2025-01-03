@@ -11,7 +11,7 @@
   <!-- Posts List -->
     <section>
       <ul class="posts">
-        @for (article of articles$(); track article) {
+        @for (article of (articles$ | async); track article) {
         <li>
           <article>
             <header>

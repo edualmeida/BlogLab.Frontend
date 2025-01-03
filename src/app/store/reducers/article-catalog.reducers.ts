@@ -1,16 +1,40 @@
-import { createReducer, on } from "@ngrx/store";
-import { ArticleCatalogState } from "../states/article-catalog.state";
-import { loadArticles, loadArticlesSuccess, loadArticlesFailure } from "../actions/article-catalog.actions";
+import { createFeature, createReducer, createSelector, on } from "@ngrx/store";
+import * as CatalogActions from "../actions/article-catalog.actions";
+import { Article } from "../data/schemas/article";
+
+export interface ArticleCatalogState {
+    articles: Article[];
+    loading: boolean;
+    selectedId: string | null;
+    error: string;
+}
 
 export const initialState: ArticleCatalogState = {
     articles: [],
     loading: false,
+    selectedId: null,
     error: ''
 };
 
-export const catalogReducer = createReducer(
+const reducer = createReducer(
     initialState,    
-    on(loadArticles, (state) => ({ ...state, loading: true })),    
-    on(loadArticlesSuccess, (state, { articles }) => ({ ...state, articles: articles, loading: false })),    
-    on(loadArticlesFailure, (state, { error }) => ({ ...state, error, loading: false }))
+    on(CatalogActions.loadArticles, (state) => ({ ...state, loading: true })),    
+    on(CatalogActions.loadArticlesSuccess, (state, { articles }) => ({ ...state, articles: articles, loading: false })),    
+    on(CatalogActions.loadArticlesFailure, (state, { error }) => ({ ...state, error, loading: false })),
+    on(CatalogActions.selectArticle, (state, { articleId }) => ({
+        ...state,
+        selectedId: articleId,
+      }))
 );
+
+export const catalogFeature = createFeature({
+    name: 'catalog',
+    reducer,
+    extraSelectors: ({ selectSelectedId, selectArticles }) => ({
+        selectSelectedArticle: createSelector(
+          selectSelectedId,
+          selectArticles,
+          (selectedId, articles) => articles.find((s) => s.id === selectedId)
+        )
+      })
+  });
