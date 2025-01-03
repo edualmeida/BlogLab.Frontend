@@ -1,25 +1,16 @@
 import { createReducer, on } from "@ngrx/store";
 import * as ArticleActions from "../actions/article.actions";
-import { Article } from "../../data/schemas/article";
-
-export interface ArticleState {
-    articles: Article[];
-    loading: boolean;
-    error: string;
-}
+import { ArticleState } from "../states/article.state";
 
 export const initialState: ArticleState = {
-    articles: [],
+    article: undefined,
     loading: false,
     error: ''
 };
 
 export const articleReducer = createReducer(
-    initialState,
-    
-    on(ArticleActions.loadArticles, (state) => ({ ...state, loading: true })),
-    
-    on(ArticleActions.loadArticlesSuccess, (state, { articles }) =>({ ...state, articles, loading: false })),
-    
-    on(ArticleActions.loadArticlesFailure, (state, { error }) => ({ ...state, error, loading: false }))
+    initialState,    
+    on(ArticleActions.loadArticle, (state) => ({ ...state, loading: true })),    
+    on(ArticleActions.loadArticleSuccess, (state, { article }) =>({ ...state, article, loading: false })),    
+    on(ArticleActions.loadArticleFailure, (state, { error }) => ({ ...state, error, loading: false }))
 );

@@ -1,17 +1,23 @@
 import { Action, ActionReducer } from "@ngrx/store";
-import { articleReducer, ArticleState } from "./reducers/article.reducers";
-import { ArticleEffects as ArticleEffects } from "./effects/article.effects";
+import { catalogReducer } from "./reducers/article-catalog.reducers";
+import { ArticleCatalogEffects as ArticleCatalogEffects } from "./effects/article-catalog.effects";
+import { ArticleCatalogState } from "./states/article-catalog.state";
+import { ArticleState } from "./states/article.state";
+import { articleReducer } from "./reducers/article.reducers";
 
 export interface AppState {
-  article: ArticleState
+  articleCatalogState: ArticleCatalogState
+  articleState: ArticleState
 }
 
 export interface AppStore {
-  article: ActionReducer<ArticleState, Action>;
+  articleCatalogState: ActionReducer<ArticleCatalogState, Action>;
+  articleState: ActionReducer<ArticleState, Action>;
 }
 
 export const appStore: AppStore = {
-  article: articleReducer
+  articleCatalogState: catalogReducer,
+  articleState: articleReducer
 }
 
-export const appEffects = [ArticleEffects];
+export const appEffects = [ArticleCatalogEffects];

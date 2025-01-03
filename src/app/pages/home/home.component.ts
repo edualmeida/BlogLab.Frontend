@@ -1,13 +1,14 @@
-import { Component, OnInit, Signal } from '@angular/core';
+import { Component, OnInit, signal, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Article } from '../../data/schemas/article';
-import * as ArticleActions from "../../store/actions/article.actions";
-import { articleSelector } from "../../store/selectors/article.selectors";
+import { Article } from '../../store/data/schemas/article';
+import * as CatalogActions from "../../store/actions/article-catalog.actions";
+import { articleCatalogSelector } from "../../store/selectors/article-catalog.selectors";
 import { Store } from '@ngrx/store';
-import { AppState } from '../../store/store';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from "../../shared/sidebar/sidebar.component";
 import { RouterLink } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { AppState } from '../../store/store';
 
 @Component({
   selector: 'app-home',
@@ -17,20 +18,16 @@ import { RouterLink } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   isLoading$: Signal<boolean | undefined>;
-  articles$: Signal<Article[] | undefined>;
+  articles$: Observable<Article[]>;
   avatarImgURL: string | undefined;
 
   constructor(private store: Store<AppState>) {
-    this.articles$ = toSignal(this.store.select(articleSelector));
-    this.isLoading$ = toSignal(this.store.select((state) => state.article.loading));
+    this.articles$ = this.store.select((articleCatalogSelector));
+    this.isLoading$ = toSignal(this.store.select((state) => state.articleCatalogState.loading));
     this.avatarImgURL = "/assets/avatar01.jpg";
   }
 
-  loadArticles() {
-    this.store.dispatch(ArticleActions.loadArticles());
-  }
-
   ngOnInit(): void {
-    this.loadArticles();
+    this.store.dispatch(CatalogActions.loadArticles());
   }
 }

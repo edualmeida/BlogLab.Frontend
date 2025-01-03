@@ -1,6 +1,7 @@
 import { createAction, props } from "@ngrx/store";
-import { Article } from "../../data/schemas/article";
+import { Article } from "../data/schemas/article";
 
-export const loadArticles = createAction('[Article] Load Articles');
-export const loadArticlesSuccess = createAction('[Article] Load Articles Success', props<{ articles: Article[] }>());
-export const loadArticlesFailure = createAction('[Article] Load Articles Failure', props<{ error: string }>());
+export const loadArticle = createAction('[Article] Load Article', props<{ id: string }>());
+export const loadArticleSuccess = createAction('[Article] Load Article Success', props<{ article: Article }>());
+export const loadArticleFailure = createAction('[Article] Load Article Failure', props<{ error: string }>());
+

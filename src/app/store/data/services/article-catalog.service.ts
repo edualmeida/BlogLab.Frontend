@@ -4,7 +4,7 @@ import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { ServerArticle, Article } from '../schemas/article';
 import Utils from './common-utils.service';
-import { environment } from "../../environments/environment";
+import { environment } from "../../../environments/environment";
 import { DatePipe } from '@angular/common';
 
 @Injectable({
@@ -26,8 +26,6 @@ export class ArticleCatalogService {
     return this.getArticles()
       .pipe(
         map((serverArticles) => {
-          console.log('load srv')
-
           return (
             serverArticles.map((article:ServerArticle): Article => ({
                id: article.id,
@@ -41,6 +39,26 @@ export class ArticleCatalogService {
                author: article.author
            }))
         )})
+      );
+    }
+
+  getArticleById(id: string): Observable<Article> {
+    return this.http.get<ServerArticle>(environment.ArticleCatalogBaseUrl + "/" + id)
+      .pipe(
+        map((article:ServerArticle) => {
+          console.log('load srv getArticleById');
+              return {
+                id: article.id,
+                thumbnail: `${environment.BaseThumbnailUrl+article.thumbnail}`,
+                title: article.title,
+                subtitle: article.subtitle,
+                text: article.text,
+                category: article.category,
+                color: article.color,
+                createdOn: this.datepipe.transform(article.createdOn, 'longDate')!,
+                author: article.author
+            };
+          })
       );
     }
 }

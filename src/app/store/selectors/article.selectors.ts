@@ -1,18 +1,16 @@
 import { createSelector } from "reselect";
-import { ArticleState } from "../reducers/article.reducers";
+import { ArticleState } from "../states/article.state";
 import { AppState } from "../store";
 
-//export const getOAuth = (state: AppState) => state.oAuth;
-
-const feature = (state: AppState) => state.article;
+const articleState = (state: AppState) => state.articleState;
 
 export const articleSelector = createSelector(
-  feature,
-  (state: ArticleState) => state.articles
+  articleState,
+  (state: ArticleState) => state.article
 );
 
 export const getLoadingState = createSelector(
-  feature,
+  articleState,
   state => {
     if (state === null) {
       return null;

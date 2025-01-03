@@ -1,12 +1,12 @@
 import { Component, OnInit, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
-import { Article } from '../../data/schemas/article';
-import { AppState } from '../../store/store';
-import { articleSelector } from '../../store/selectors/article.selectors';
-import * as ArticleActions from "../../store/actions/article.actions";
+import { Article } from '../../store/data/schemas/article';
+import { articleCatalogSelector } from '../../store/selectors/article-catalog.selectors';
+import * as ArticleActions from "../../store/actions/article-catalog.actions";
 import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AppState } from '../../store/store';
 
 @Component({
   selector: 'app-sidebar',
@@ -20,7 +20,7 @@ export class SidebarComponent  implements OnInit {
   faCoffee = faCoffee;
 
   constructor(private store: Store<AppState>) {
-    this.articles$ = toSignal(this.store.select(articleSelector));
+    this.articles$ = toSignal(this.store.select(articleCatalogSelector));
   }
 
   loadArticles() {
