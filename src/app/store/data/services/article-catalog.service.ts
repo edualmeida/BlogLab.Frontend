@@ -1,25 +1,20 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ServerArticle, Article } from '../schemas/article';
-import Utils from './common-utils.service';
-import { environment } from "../../../environments/environment";
 import { DatePipe } from '@angular/common';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class ArticleCatalogService {
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-  
   constructor(private http: HttpClient, private datepipe: DatePipe) {}
 
   getArticles(): Observable<any> {
-    return this.http.get(environment.ArticleCatalogBaseUrl);
+    return this.http.get(environment.articleCatalogBaseUrl);
   }
 
   getAllArticles(): Observable<Article[]> {
@@ -29,7 +24,7 @@ export class ArticleCatalogService {
           return (
             serverArticles.map((article:ServerArticle): Article => ({
                id: article.id,
-               thumbnail: `${environment.BaseThumbnailUrl+article.thumbnail}`,
+               thumbnail: `${environment.baseThumbnailUrl+article.thumbnail}`,
                title: article.title,
                subtitle: article.subtitle,
                text: article.text,
@@ -43,13 +38,13 @@ export class ArticleCatalogService {
     }
 
   getArticleById(id: string): Observable<Article> {
-    return this.http.get<ServerArticle>(environment.ArticleCatalogBaseUrl + "/" + id)
+    return this.http.get<ServerArticle>(environment.articleCatalogBaseUrl + "/" + id)
       .pipe(
         map((article:ServerArticle) => {
           console.log('load srv getArticleById');
               return {
                 id: article.id,
-                thumbnail: `${environment.BaseThumbnailUrl+article.thumbnail}`,
+                thumbnail: `${environment.baseThumbnailUrl+article.thumbnail}`,
                 title: article.title,
                 subtitle: article.subtitle,
                 text: article.text,
