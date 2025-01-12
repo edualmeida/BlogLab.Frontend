@@ -1,6 +1,6 @@
 import { createFeature, createReducer, createSelector, on } from "@ngrx/store";
 import * as CatalogActions from "../actions/article-catalog.actions";
-import { Article } from "../data/schemas/article";
+import { Article } from "../../models/article";
 
 export interface ArticleCatalogState {
     articles: Article[];

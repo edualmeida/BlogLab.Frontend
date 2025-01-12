@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { Article } from "../data/schemas/article";
+import { Article } from "../../models/article";
 
 export const loadArticles = createAction('[Catalog] Load Articles');
 export const loadArticlesSuccess = createAction('[Catalog] Load Articles Success', props<{ articles: Article[] }>());

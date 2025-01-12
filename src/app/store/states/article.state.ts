@@ -1,4 +1,4 @@
-import { Article } from "../data/schemas/article";
+import { Article } from "../../models/article";
 
 export interface ArticleState {
     article?: Article;

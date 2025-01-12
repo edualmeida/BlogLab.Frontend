@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, Signal } from '@angular/core';
 import { FooterComponent } from "../../shared/footer/footer.component";
-import { Article } from '../../store/data/schemas/article';
+import { Article } from '../../models/article';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { articleSelector } from "../../store/selectors/article.selectors";
