@@ -2,35 +2,116 @@
   <div class="col-md-4">
     <h1>Sign up</h1>
     <hr><br>
-    <div *ngIf="errorMessage">
+    @if(errorMessage$ | async; as errorMessage)
+    {
       <div class="alert alert-danger" role="alert">
         {{errorMessage}}
       </div>
-    </div>
-    <form (ngSubmit)="onSubmit()" ngNativeValidate>
-      <div class="form-group">
+    }
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label for="name">Name</label>
+        <input class="form-control" id="name" formControlName="name" type="text" placeholder="enter your name" required/>
+        @if(loginForm.get('name')?.invalid && loginForm.get('name')?.touched) 
+        {
+          <div>
+            @if(loginForm.get('name')?.errors?.['required']) 
+            {
+              <small>Name is required.</small>
+            }
+            @if(loginForm.get('name')?.errors?.['minlength']) 
+            {
+              <small>Name must be at least 5 characters long.</small>
+            }
+          </div>
+        }
+      </div>
+      <div>
+        <label for="middleName">Middle name</label>
+        <input class="form-control" id="middleName" formControlName="middleName" type="text" placeholder="enter your middleName" required/>
+        @if(loginForm.get('middleName')?.invalid && loginForm.get('middleName')?.touched) 
+        {
+          <div>
+            @if(loginForm.get('middleName')?.errors?.['required']) 
+            {
+              <small>Middle name is required.</small>
+            }
+            @if(loginForm.get('middleName')?.errors?.['minlength']) 
+            {
+              <small>Middle name must be at least 5 characters long.</small>
+            }
+          </div>
+        }
+      </div>
+      <div>
+        <label for="surname">Surname</label>
+        <input class="form-control" id="surname" formControlName="surname" type="text" placeholder="enter your surname" required/>
+        @if(loginForm.get('surname')?.invalid && loginForm.get('surname')?.touched) 
+        {
+          <div>
+            @if(loginForm.get('surname')?.errors?.['required']) 
+            {
+              <small>Surname is required.</small>
+            }
+            @if(loginForm.get('surname')?.errors?.['minlength']) 
+            {
+              <small>Surname must be at least 5 characters long.</small>
+            }
+          </div>
+        }
+      </div>
+      <div>
         <label for="email">Email</label>
-        <input
-          [(ngModel)]="user.email"
-          name="email"
-          type="email"
-          required
-          class="form-control"
-          id="email"
-          placeholder="enter your email">
+        <input class="form-control" id="email" formControlName="email" type="email" placeholder="enter your email" required/>
+        @if(loginForm.get('email')?.invalid && loginForm.get('email')?.touched) 
+        {
+          <div>
+            @if(loginForm.get('email')?.errors?.['required']) 
+            {
+              <small>Email is required.</small>
+            }
+            @if(loginForm.get('email')?.errors?.['minlength']) 
+            {
+              <small>Email must be at least 5 characters long.</small>
+            }
+          </div>
+        }
       </div>
-      <div class="form-group">
+      <div>
         <label for="password">Password</label>
-        <input
-          [(ngModel)]="user.password"
-          name="password"
-          type="password"
-          required
-          class="form-control"
-          id="password"
-          placeholder="enter a password">
+        <input id="password" class="form-control" formControlName="password" type="password" placeholder="enter a password" required/>
+        @if(loginForm.get('password')?.invalid && loginForm.get('password')?.touched) 
+        {
+          <div>
+            @if(loginForm.get('password')?.errors?.['required']) 
+            {
+              <small>Password is required.</small>
+            }
+            @if(loginForm.get('password')?.errors?.['minlength']) 
+            {
+              <small>Password must be at least 5 characters long.</small>
+            }
+          </div>
+        }
       </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <div>
+        <label for="confirmPassword">Confirm Password</label>
+        <input id="confirmPassword" class="form-control" formControlName="confirmPassword" type="confirmPassword" placeholder="confirm password" required/>
+        @if(loginForm.get('confirmPassword')?.invalid && loginForm.get('confirmPassword')?.touched) 
+        {
+          <div>
+            @if(loginForm.get('confirmPassword')?.errors?.['required']) 
+            {
+              <small>Confirm Password is required.</small>
+            }
+            @if(loginForm.get('confirmPassword')?.errors?.['minlength']) 
+            {
+              <small>Confirm Password must be at least 5 characters long.</small>
+            }
+          </div>
+        }
+      </div>
+      <button type="submit" [disabled]="loginForm.invalid">Submit</button>
       <a [routerLink]="['/']" class="btn btn-success">Cancel</a>
     </form>
     <p>

@@ -11,7 +11,10 @@ export class ArticleCatalogEffects {
   loadArticles$;
   navigate$;
 
-  constructor(private actions$: Actions, private articleCatalogService: ArticleCatalogService, private router: Router) 
+  constructor(
+    private actions$: Actions, 
+    private articleCatalogService: ArticleCatalogService, 
+    private router: Router) 
   {
     this.loadArticles$ = createEffect(() =>
       this.actions$.pipe(

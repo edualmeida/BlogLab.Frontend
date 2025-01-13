@@ -4,12 +4,13 @@ import * as AuthActions from "../../store/actions/auth.actions";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { authFeature } from '../../store/reducers/auth.reducers';
 import { AsyncPipe, CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-log-in',
   templateUrl: './log-in.component.html',
   styleUrls: ['./log-in.component.scss'],
-  imports: [CommonModule,ReactiveFormsModule, AsyncPipe]
+  imports: [CommonModule,ReactiveFormsModule, AsyncPipe, RouterModule]
 })
 export class LogInComponent implements OnInit {
   store = inject(Store);

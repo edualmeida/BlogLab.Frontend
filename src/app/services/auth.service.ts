@@ -14,6 +14,10 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
+  isAuth(): boolean {
+    return !!localStorage.getItem('token');
+  }
+  
   getToken(): string {
     return localStorage.getItem('token') ?? "";
   }
