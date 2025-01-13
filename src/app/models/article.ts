@@ -21,3 +21,14 @@ export interface Article {
     createdOn: string;
     author: string;
 }
+
+export interface CreateArticle {
+    title: string;
+    subtitle: string;
+    text: string;
+    thumbnail: string;
+    color: string;
+    category: string;
+    createdOn: string;
+    author: string;
+}

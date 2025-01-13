@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-article',
   imports: [CommonModule, FooterComponent],
   templateUrl: './article.component.html',
-  styleUrls: ['../styles/articles-feature.scss', './article.component.scss']
+  styleUrls: ['../styles/index.scss', './article.component.scss']
 })
 export class ArticleComponent implements OnInit {
   store = inject(Store);

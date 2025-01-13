@@ -9,7 +9,7 @@ import { catalogFeature } from '../../store/reducers/article-catalog.reducers';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['../styles/articles-feature.scss', './home.component.scss'],
+  styleUrls: ['../styles/index.scss', './home.component.scss'],
   imports: [CommonModule, SidebarComponent, RouterLink]
 })
 export class HomeComponent implements OnInit {

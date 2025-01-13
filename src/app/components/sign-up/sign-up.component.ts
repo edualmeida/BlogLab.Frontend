@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { User, RegisterUser } from '../../models/user';
+import { RegisterUser } from '../../models/user';
 import * as AuthActions from "../../store/actions/auth.actions";
-import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { authFeature } from '../../store/reducers/auth.reducers';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
