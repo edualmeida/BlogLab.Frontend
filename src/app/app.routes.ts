@@ -15,7 +15,7 @@ export const routes: Routes = [
   },
   {
     path: 'article',
-    component: ArticleComponent, canActivate: [authGuardService]
+    component: ArticleComponent
   },
   {
     path: 'login',
@@ -27,7 +27,7 @@ export const routes: Routes = [
   },
   {
     path: 'create-article',
-    component: CreateArticleComponent
+    component: CreateArticleComponent, canActivate: [authGuardService]
   }
 ];
 

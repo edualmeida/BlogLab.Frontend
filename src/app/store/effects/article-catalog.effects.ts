@@ -10,6 +10,8 @@ import { Router } from "@angular/router";
 export class ArticleCatalogEffects {
   loadArticles$;
   navigate$;
+  loadCategories$;
+  createArticle$;
 
   constructor(
     private actions$: Actions, 
@@ -40,5 +42,34 @@ export class ArticleCatalogEffects {
           ),
         { dispatch: false },
       );
+
+    this.loadCategories$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(CatalogActions.loadCategories),
+        mergeMap(() => 
+          this.articleCatalogService.getCategories().pipe(
+            map((categories) => CatalogActions.loadCategoriesSuccess({ categories })),
+            catchError((error) =>
+              of(CatalogActions.loadCategoriesFailure({ error: error.message }))
+            )
+          )
+        )
+      )
+    );
+
+    this.createArticle$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(CatalogActions.createArticle),
+        mergeMap((params) => 
+          this.articleCatalogService.createArticle(params.article).pipe(
+            tap(() => {this.router.navigate(['/'], {});}),
+            catchError((error) =>{
+              console.log(error); 
+              return of(CatalogActions.createArticleFailure({ error: error.message }));
+            })
+          )
+        )
+      )
+    );
   }
 }

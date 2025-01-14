@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { ServerArticle, Article } from '../models/article';
+import { map, tap } from 'rxjs/operators';
+import { ServerArticle, Article, ArticleCategory, CreateArticle } from '../models/article';
 import { DatePipe } from '@angular/common';
 import { environment } from '../../environments/environment';
 
@@ -56,4 +56,14 @@ export class ArticleCatalogService {
           })
       );
     }
+
+  getCategories(): Observable<ArticleCategory[]> {
+      return this.http.get<ArticleCategory[]>(environment.categoriesBaseUrl);
+  }
+
+  createArticle(article: CreateArticle): Observable<any> {
+    return this.http.post(environment.articleCatalogBaseUrl, article).pipe(
+      tap(_ => console.log(`Article added`))
+    );
+  }
 }

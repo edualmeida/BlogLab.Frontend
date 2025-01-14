@@ -40,13 +40,12 @@
                         }
                     </div>
                     <div class="col-12">
-                        <label for="category">Category</label>
-                        <select name="category" id="category">
+                        <label for="categoryId">Category</label>
+                        <select formControlName="categoryId" name="categoryId" id="categoryId">
                             <option value="">- Category -</option>
-                            <option value="1">Manufacturing</option>
-                            <option value="1">Shipping</option>
-                            <option value="1">Administration</option>
-                            <option value="1">Human Resources</option>
+                            @for (category of categories$ | async; track category) {
+                                <option [value]="category.id">{{category.name}}</option>
+                            }
                         </select>
                     </div>
                 </div>

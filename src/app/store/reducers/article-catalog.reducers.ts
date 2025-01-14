@@ -1,19 +1,21 @@
 import { createFeature, createReducer, createSelector, on } from "@ngrx/store";
 import * as CatalogActions from "../actions/article-catalog.actions";
-import { Article } from "../../models/article";
+import { Article, ArticleCategory } from "../../models/article";
 
 export interface ArticleCatalogState {
     articles: Article[];
     loading: boolean;
     selectedId: string | null;
     error: string;
+    categories: ArticleCategory[];
 }
 
 export const initialState: ArticleCatalogState = {
     articles: [],
     loading: false,
     selectedId: null,
-    error: ''
+    error: '',
+    categories: []
 };
 
 const reducer = createReducer(
@@ -21,10 +23,10 @@ const reducer = createReducer(
     on(CatalogActions.loadArticles, (state) => ({ ...state, loading: true })),    
     on(CatalogActions.loadArticlesSuccess, (state, { articles }) => ({ ...state, articles: articles, loading: false })),    
     on(CatalogActions.loadArticlesFailure, (state, { error }) => ({ ...state, error, loading: false })),
-    on(CatalogActions.selectArticle, (state, { articleId }) => ({
-        ...state,
-        selectedId: articleId,
-      }))
+    on(CatalogActions.selectArticle, (state, { articleId }) => ({ ...state, selectedId: articleId })),
+    on(CatalogActions.loadCategories, (state) => ({ ...state, loading: true })),
+    on(CatalogActions.loadCategoriesSuccess, (state, { categories }) => ({ ...state, categories: categories, loading: false })),
+    on(CatalogActions.loadCategoriesFailure, (state, { error }) => ({ ...state, error, loading: false }))
 );
 
 export const catalogFeature = createFeature({
