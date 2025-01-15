@@ -7,8 +7,20 @@
   </nav>
   <nav class="main">
     <ul>
-      <li><a routerLink="/sign-up">sign-up</a></li>
-      <li><a routerLink="/login">login</a></li>
+      @if(isAuthenticated$ | async; as isAuthenticated;) 
+      {
+        <li><a>Autenticado: {{isAuthenticated}}</a></li>
+        <li><a routerLink="/logout">logout</a></li>
+        @if(user$ | async; as user;) 
+        {
+          <li><a>user: {{user.email}}</a></li>
+          
+        } 
+      } 
+      @else {
+        <li><a routerLink="/sign-up">sign-up</a></li>
+        <li><a routerLink="/login">login</a></li>
+      }
     </ul>
   </nav>
 </header>

@@ -19,7 +19,7 @@ const reducer = createReducer(
     initialState,    
     on(AuthActions.logIn, (state) => ({ ...state })),    
     on(AuthActions.logInSuccess, (state, { user }) => ({ ...state, user, isAuthenticated: true })),    
-    on(AuthActions.logInFailure, (state, { error }) => ({ ...state, error, isAuthenticated: false }))  
+    on(AuthActions.logInFailure, (state, { error }) => ({ ...state, error }))  
 );
 
 export const authFeature = createFeature({

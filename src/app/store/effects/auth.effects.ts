@@ -37,7 +37,7 @@ export class AuthEffects {
           localStorage.setItem('token', payload.user.token);
           this.router.navigateByUrl('/');
         })
-      )
+      ), { dispatch: false }
     );
 
     this.logOut$ = createEffect(() =>
