@@ -2,8 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { User } from '../models/user';
+import { LoginResponse, TokenUser, User } from '../models/user';
 import { environment } from  '../../environments/environment';
+import { jwtDecode } from "jwt-decode";
 
 @Injectable({
   providedIn: 'root'
@@ -11,20 +12,47 @@ import { environment } from  '../../environments/environment';
 
 export class AuthService {
   private BASE_URL = environment.identityBaseUrl;
+  private TOKEN_STORAGE_KEY = 'token';
 
   constructor(private http: HttpClient) {}
 
-  isAuth(): boolean {
-    return !!localStorage.getItem('token');
+  isAuthenticated(): boolean {
+    return !!localStorage.getItem(this.TOKEN_STORAGE_KEY);
   }
   
-  getToken(): string {
-    return localStorage.getItem('token') ?? "";
+  setToken(token: string): void {
+    localStorage.setItem(this.TOKEN_STORAGE_KEY, token);
   }
 
-  logIn(email: string, password: string): Observable<User> {
+  getToken(): string {
+    return localStorage.getItem(this.TOKEN_STORAGE_KEY)!;
+  }
+
+  removeToken(): void {
+    localStorage.removeItem(this.TOKEN_STORAGE_KEY);
+  }
+
+  getUsername(): string {
+    if(!this.isAuthenticated()) {
+      console.log('not authenticated');
+      return '';
+    }
+
+    const token = this.getToken();
+    if(!token) {
+      return '';
+    }
+
+    console.log(token);
+    const decodedToken = jwtDecode<TokenUser>(token);
+    console.log('decodedToken ');
+    console.log(decodedToken);
+    return decodedToken.unique_name;//decodedToken.name;
+  }
+
+  logIn(email: string, password: string): Observable<LoginResponse> {
     const url = `${this.BASE_URL}/login`;
-    return this.http.post<User>(url, {email, password});
+    return this.http.post<LoginResponse>(url, {email, password});
   }
 
   signUp(email: string, password: string): Observable<User> {

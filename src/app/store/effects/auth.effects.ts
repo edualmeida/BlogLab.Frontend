@@ -22,7 +22,7 @@ export class AuthEffects {
         ofType(AuthActions.logIn),
         mergeMap((payload: {email: string, password: string}) => 
           this.authService.logIn(payload.email, payload.password).pipe(
-            map((user) => AuthActions.logInSuccess({user})),
+            map((loginResponse) => AuthActions.logInSuccess({token: loginResponse.token})),
               catchError((error) => of(AuthActions.logInFailure({ error: error.message }))              
             )
           )
@@ -34,7 +34,8 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.logInSuccess),
         tap((payload) => {
-          localStorage.setItem('token', payload.user.token);
+          console.log('LogInSuccess', payload);
+          this.authService.setToken(payload.token);
           this.router.navigateByUrl('/');
         })
       ), { dispatch: false }
@@ -44,9 +45,10 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.logOut),
         tap((payload) => {
-          localStorage.removeItem('token');
+          this.authService.removeToken();
+          this.router.navigateByUrl('/');
         })
-      )
+      ), { dispatch: false }
     );
   }
 }

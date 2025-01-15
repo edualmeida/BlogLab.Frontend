@@ -13,3 +13,12 @@ export interface RegisterUser {
   password: string;
   confirmPassword: string;
 }
+
+export interface LoginResponse {
+  token: string;
+}
+
+export interface TokenUser {
+  nameid: string;
+  unique_name: string;
+}

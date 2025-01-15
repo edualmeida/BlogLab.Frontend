@@ -5,17 +5,12 @@
       <li><a routerLink="/create-article">create-article</a></li>
     </ul>
   </nav>
-  <nav class="main">
+  <nav class="links">
     <ul>
-      @if(isAuthenticated$ | async; as isAuthenticated;) 
+      @if(username) 
       {
-        <li><a>Autenticado: {{isAuthenticated}}</a></li>
-        <li><a routerLink="/logout">logout</a></li>
-        @if(user$ | async; as user;) 
-        {
-          <li><a>user: {{user.email}}</a></li>
-          
-        } 
+        <li><a>{{username}}</a></li>
+        <li><a (click)="logout()">logout</a></li>
       } 
       @else {
         <li><a routerLink="/sign-up">sign-up</a></li>
