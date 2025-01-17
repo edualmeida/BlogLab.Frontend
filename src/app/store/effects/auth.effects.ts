@@ -22,8 +22,8 @@ export class AuthEffects {
         ofType(AuthActions.logIn),
         mergeMap((payload: {email: string, password: string}) => 
           this.authService.logIn(payload.email, payload.password).pipe(
-            map((loginResponse) => AuthActions.logInSuccess({token: loginResponse.token})),
-              catchError((error) => of(AuthActions.logInFailure({ error: error.message }))              
+            map((loginResponse) => AuthActions.logInSuccess({token: loginResponse.token, username: authService.getUsername(loginResponse.token)})),
+              catchError((error) => of(AuthActions.logInFailure({ error: error.message }))
             )
           )
         )
@@ -44,7 +44,7 @@ export class AuthEffects {
     this.logOut$ = createEffect(() =>
       this.actions$.pipe(
         ofType(AuthActions.logOut),
-        tap((payload) => {
+        tap(() => {
           this.authService.removeToken();
           this.router.navigateByUrl('/');
         })

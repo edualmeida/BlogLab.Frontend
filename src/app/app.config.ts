@@ -12,6 +12,7 @@ import { catalogFeature } from './store/reducers/article-catalog.reducers';
 import { authInterceptor } from './services/interceptors/auth.interceptor';
 import { errorInterceptor, tokenInterceptor } from './services/interceptors/token.interceptor';
 import { authFeature } from './store/reducers/auth.reducers';
+import { metaReducers } from './store/reducers/meta.reducers';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,7 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideStore(),
     provideState(catalogFeature),
-    provideState(authFeature),
+    provideState(authFeature.name, authFeature.reducer, { metaReducers }),
     provideEffects(appEffects),
     provideHttpClient(withInterceptors([authInterceptor,tokenInterceptor])),
     DatePipe,

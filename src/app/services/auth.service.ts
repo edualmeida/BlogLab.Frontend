@@ -32,16 +32,17 @@ export class AuthService {
     localStorage.removeItem(this.TOKEN_STORAGE_KEY);
   }
 
-  getUsername(): string {
-    if(!this.isAuthenticated()) {
-      console.log('not authenticated');
-      return '';
-    }
+  getUsername(token: string): string {
+    // console.log('getUsername:' + parent);
+    // if(!this.isAuthenticated()) {
+    //   console.log('not authenticated');
+    //   return '';
+    // }
 
-    const token = this.getToken();
-    if(!token) {
-      return '';
-    }
+    // const token = this.getToken();
+    // if(!token) {
+    //   return '';
+    // }
 
     console.log(token);
     const decodedToken = jwtDecode<TokenUser>(token);
