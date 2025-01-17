@@ -16,7 +16,11 @@ export class ArticleEffects {
         ofType(ArticleActions.loadArticle),
         mergeMap((payload: {id: string}) => 
           this.articleCatalogService.getArticleById(payload.id).pipe(
-            map((article) => ArticleActions.loadArticleSuccess({ article })),
+            map((article) => {
+              console.log(article);
+              return ArticleActions.loadArticleSuccess({ article })
+            }
+            ),
             catchError((error) =>
               of(ArticleActions.loadArticleFailure({ error: error.message }))
             )

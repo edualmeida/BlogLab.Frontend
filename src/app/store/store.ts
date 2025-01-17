@@ -3,6 +3,7 @@ import { ArticleCatalogState } from "./reducers/article-catalog.reducers";
 import * as auth from "./reducers/auth.reducers";
 import { AuthEffects } from "./effects/auth.effects";
 import { ArticleState } from "./reducers/article.reducers";
+import { ArticleEffects } from "./effects/article.effects";
 
 export const articleCatalogFeatureKey = "articleCatalog";
 
@@ -12,4 +13,4 @@ export interface AppState {
   authState: auth.AuthState
 }
 
-export const appEffects = [ArticleCatalogEffects, AuthEffects];
+export const appEffects = [ArticleCatalogEffects, AuthEffects, ArticleEffects];

@@ -9,7 +9,7 @@ import { Router } from "@angular/router";
 @Injectable()
 export class ArticleCatalogEffects {
   loadArticles$;
-  navigate$;
+  selectArticle$;
   loadCategories$;
   createArticle$;
 
@@ -32,12 +32,12 @@ export class ArticleCatalogEffects {
       )
     );
 
-    this.navigate$ = createEffect(
+    this.selectArticle$ = createEffect(
         () =>
           this.actions$.pipe(
             ofType(CatalogActions.selectArticle),
             tap(({ articleId }) => {
-              this.router.navigate(['article'], {});
+              this.router.navigate(['article'], { queryParams: {id: articleId}});
             }),
           ),
         { dispatch: false },
