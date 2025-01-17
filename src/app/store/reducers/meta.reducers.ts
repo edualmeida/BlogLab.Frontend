@@ -1,6 +1,6 @@
 import { Action, ActionReducer, MetaReducer } from '@ngrx/store';
 import { localStorageSync } from 'ngrx-store-localstorage';
-import { authFeature } from './auth.reducers';
+import { authFeature, authMetaReducer } from './auth.reducers';
 import * as AuthActions from '../actions/auth.actions';
 import { merge } from 'rxjs';
 //import { reducers } from './reducers';
@@ -38,8 +38,8 @@ export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
   };
 }
 
-export function persistStateReducer(_reducer: ActionReducer<any>) {
-  const localStorageKey = '__identity';
+export function persistStateMetaReducer(localStorageKey: string, _reducer: ActionReducer<any>) {
+  //const localStorageKey = '__identity';
   return (state: any | undefined, action: Action) => {
     if (state === undefined) {
       const persisted = localStorage.getItem(localStorageKey);
@@ -52,4 +52,4 @@ export function persistStateReducer(_reducer: ActionReducer<any>) {
   };
 }
 
-export const metaReducers: MetaReducer<any>[] = [persistStateReducer];
+export const metaReducers: MetaReducer<any>[] = [authMetaReducer];

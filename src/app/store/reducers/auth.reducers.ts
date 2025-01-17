@@ -1,5 +1,6 @@
-import { createFeature, createReducer, createSelector, on } from "@ngrx/store";
+import { ActionReducer, createFeature, createReducer, on } from "@ngrx/store";
 import * as AuthActions from '../actions/auth.actions';
+import { persistStateMetaReducer } from './meta.reducers';
 
 
 export interface AuthState {
@@ -27,4 +28,9 @@ export const reducer = createReducer(
 export const authFeature = createFeature({
     name: 'auth',
     reducer
-  });
+});
+
+export const IDENTITY_STORAGE_KEY = '__identity';
+export function authMetaReducer(_reducer: ActionReducer<any>) {
+    return persistStateMetaReducer(IDENTITY_STORAGE_KEY, _reducer);
+}

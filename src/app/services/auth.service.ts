@@ -5,50 +5,34 @@ import { Observable } from 'rxjs';
 import { LoginResponse, TokenUser, User } from '../models/user';
 import { environment } from  '../../environments/environment';
 import { jwtDecode } from "jwt-decode";
+import { IDENTITY_STORAGE_KEY } from '../store/reducers/auth.reducers';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AuthService {
+
   private BASE_URL = environment.identityBaseUrl;
-  private TOKEN_STORAGE_KEY = 'token';
 
   constructor(private http: HttpClient) {}
 
-  isAuthenticated(): boolean {
-    return !!localStorage.getItem(this.TOKEN_STORAGE_KEY);
-  }
-  
-  setToken(token: string): void {
-    localStorage.setItem(this.TOKEN_STORAGE_KEY, token);
+  isAuthenticated() {
+    const item = localStorage.getItem(IDENTITY_STORAGE_KEY);
+    return item ? JSON.parse(item).isAuthenticated : null;
   }
 
   getToken(): string {
-    return localStorage.getItem(this.TOKEN_STORAGE_KEY)!;
+    const item = localStorage.getItem(IDENTITY_STORAGE_KEY);
+    return item ? JSON.parse(item).token : null;
   }
 
-  removeToken(): void {
-    localStorage.removeItem(this.TOKEN_STORAGE_KEY);
+  logout(): void {
+    localStorage.removeItem(IDENTITY_STORAGE_KEY);
   }
 
-  getUsername(token: string): string {
-    // console.log('getUsername:' + parent);
-    // if(!this.isAuthenticated()) {
-    //   console.log('not authenticated');
-    //   return '';
-    // }
-
-    // const token = this.getToken();
-    // if(!token) {
-    //   return '';
-    // }
-
-    console.log(token);
-    const decodedToken = jwtDecode<TokenUser>(token);
-    console.log('decodedToken ');
-    console.log(decodedToken);
-    return decodedToken.unique_name;//decodedToken.name;
+  decodeUsername(token: string): string {
+    return jwtDecode<TokenUser>(token).unique_name;
   }
 
   logIn(email: string, password: string): Observable<LoginResponse> {

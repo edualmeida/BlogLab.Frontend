@@ -1,16 +1,27 @@
-import { createReducer, on } from "@ngrx/store";
+import { createFeature, createReducer, on } from "@ngrx/store";
 import * as ArticleActions from "../actions/article.actions";
-import { ArticleState } from "../states/article.state";
+import { Article } from "../../models/article";
+
+export interface ArticleState {
+    article: Article | null;
+    loading: boolean;
+    error: string;
+}
 
 export const initialState: ArticleState = {
-    article: undefined,
+    article: null,
     loading: false,
     error: ''
 };
 
-export const articleReducer = createReducer(
+const reducer = createReducer(
     initialState,    
     on(ArticleActions.loadArticle, (state) => ({ ...state, loading: true })),    
     on(ArticleActions.loadArticleSuccess, (state, { article }) =>({ ...state, article, loading: false })),    
-    on(ArticleActions.loadArticleFailure, (state, { error }) => ({ ...state, error, loading: false }))
+    on(ArticleActions.loadArticleFailure, (state, { error }) => ({ ...state, error, article: null, loading: false }))
 );
+
+export const articleFeature = createFeature({
+    name: 'article',
+    reducer
+});
