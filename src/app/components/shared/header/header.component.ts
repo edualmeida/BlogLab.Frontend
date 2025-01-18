@@ -1,10 +1,10 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { authFeature } from '../../store/reducers/auth.reducers';
+import { authFeature } from '../../../store/reducers/auth.reducers';
 import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
-import { AuthService } from '../../services/auth.service';
-import * as AuthActions from "../../store/actions/auth.actions";
+import { AuthService } from '../../../services/auth.service';
+import * as AuthActions from "../../../store/actions/auth.actions";
 
 @Component({
   selector: 'app-header',

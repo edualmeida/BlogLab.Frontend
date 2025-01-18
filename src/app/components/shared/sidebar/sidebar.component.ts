@@ -1,9 +1,9 @@
-import { Component, inject, OnInit, Signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as ArticleActions from "../../store/actions/article-catalog.actions";
+import * as ArticleActions from '../../../store/actions/article-catalog.actions';
 import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { catalogFeature } from '../../store/reducers/article-catalog.reducers';
+import { catalogFeature } from '../../../store/reducers/article-catalog.reducers';
 import { AsyncPipe } from '@angular/common';
 
 @Component({

@@ -6,7 +6,7 @@
         <article class="post" *ngFor="let article of articles let i = index;" >                  
             <header>
               <div class="title">
-                <h2><a href="single.html">{{article.title}}</a></h2>
+                <h2><a (click)="selectArticle(article.id)">{{article.title}}</a></h2>
                 <p>{{article.subtitle}}</p>
               </div>
               <div class="meta">
@@ -14,7 +14,7 @@
                 <a href="#" class="author"><span class="name">{{article.author}}</span><img src="assets/images/articles/avatar01.jpg" alt="Author" /></a>
               </div>
             </header>
-            <a routerLink="/article" class="image featured"><img src="{{article.thumbnail}}" alt="Thumbnail" /></a>
+            <a (click)="selectArticle(article.id)" class="image featured"><img src="{{article.thumbnail}}" alt="Thumbnail" /></a>
             <p>{{article.text}}</p>
             <footer>
               <ul class="actions">

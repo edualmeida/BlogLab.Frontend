@@ -2,15 +2,14 @@ import { Component, inject, OnInit, signal, Signal } from '@angular/core';
 import * as CatalogActions from "../../store/actions/article-catalog.actions";
 import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
-import { SidebarComponent } from "../../shared/sidebar/sidebar.component";
-import { RouterLink } from '@angular/router';
+import { SidebarComponent } from '../shared/sidebar/sidebar.component';
 import { catalogFeature } from '../../store/reducers/article-catalog.reducers';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['../styles/index.scss', './home.component.scss'],
-  imports: [CommonModule, SidebarComponent, RouterLink]
+  imports: [CommonModule, SidebarComponent]
 })
 export class HomeComponent implements OnInit {
   store = inject(Store);

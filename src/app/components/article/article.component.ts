@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FooterComponent } from "../../shared/footer/footer.component";
+import { FooterComponent } from "../shared/footer/footer.component";
 import { Store } from '@ngrx/store';
 import { articleFeature } from '../../store/reducers/article.reducers';
 import { CommonModule } from '@angular/common';
