@@ -22,7 +22,11 @@ export class AuthEffects {
         ofType(AuthActions.logIn),
         mergeMap((payload: {email: string, password: string}) => 
           this.authService.logIn(payload.email, payload.password).pipe(
-            map((loginResponse) => AuthActions.logInSuccess({token: loginResponse.token, username: authService.decodeUsername(loginResponse.token)})),
+            map((loginResponse) => 
+              {
+                const tokenUser = this.authService.decodeTokenUser(loginResponse.token);
+                return AuthActions.logInSuccess({token: loginResponse.token, username: tokenUser.unique_name, isAdmin: tokenUser.role === this.authService.ADMIN_ROLE});
+              }),
               catchError((error) => of(AuthActions.logInFailure({ error: error.message }))
             )
           )

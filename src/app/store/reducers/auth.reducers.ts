@@ -8,21 +8,23 @@ export interface AuthState {
   token: string | null;
   username: string | null;
   error: string | null;
+  isAdmin: boolean;
 }
 
 export const initialState: AuthState = {
   isAuthenticated: false,
   token: null,
   username: null,
-  error: ''
+  error: '',
+  isAdmin: false
 };
 
 export const reducer = createReducer(
     initialState,    
     on(AuthActions.logIn, (state) => ({ ...state })),
-    on(AuthActions.logInSuccess, (state, { token, username }) => ({ ...state, token, username,  isAuthenticated: true })),
-    on(AuthActions.logInFailure, (state, { error }) => ({ ...state, error, username: null, token: null, isAuthenticated: false })),
-    on(AuthActions.logOut, (state) => ({ ...state, username: null, token: null, isAuthenticated: false }))
+    on(AuthActions.logInSuccess, (state, { token, username, isAdmin }) => ({ ...state, token, username,  isAuthenticated: true, isAdmin })),
+    on(AuthActions.logInFailure, (state, { error }) => ({ ...state, error, username: null, token: null, isAuthenticated: false, isAdmin: false })),
+    on(AuthActions.logOut, (state) => ({ ...state, username: null, token: null, isAuthenticated: false, isAdmin: false }))
 );
 
 export const authFeature = createFeature({

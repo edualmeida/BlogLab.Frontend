@@ -2,7 +2,10 @@
   <span class="header-title"><a routerLink="/">Future Imperfect</a></span>
   <nav class="links">
     <ul>
-      <li><a routerLink="/create-article">create-article</a></li>
+      @if(username$ | async; as username) 
+      {
+        <li><a routerLink="/create-article">create-article</a></li>
+      }
     </ul>
   </nav>
   <nav class="links">

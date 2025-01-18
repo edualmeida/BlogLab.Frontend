@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-log-in',
   templateUrl: './log-in.component.html',
-  styleUrls: ['./log-in.component.scss'],
+  styleUrls: ['../styles/index.scss','./log-in.component.scss'],
   imports: [CommonModule,ReactiveFormsModule, AsyncPipe, RouterModule]
 })
 export class LogInComponent implements OnInit {

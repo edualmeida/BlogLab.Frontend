@@ -1,0 +1,38 @@
+.container {
+    max-width: 400px;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  div {
+    margin-bottom: 25px;
+  }
+  
+  label {
+    display: block;
+    font-weight: bold;
+    margin: 0 0 0.7em 0;
+  }
+  
+  input, select, button {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+  }
+  
+  small {
+    color: red;
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+  }
+
+  #main {
+    line-height: 0.8;
+  }
+
+  .title {
+    margin-bottom: 0px;
+  }

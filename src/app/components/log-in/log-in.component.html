@@ -1,53 +1,60 @@
-<div class="row">
-  <div class="col-md-4">
-    <h1>Log in</h1>
-    <hr><br>
-    @if(errorMessage$ | async; as errorMessage)
-    {
-      <div class="alert alert-danger" role="alert">
-        {{errorMessage}}
+<!-- Main -->
+<div id="main">
+	<article class="post">
+    <header>
+      <div class="title">
+        <h2>Log in</h2>
+        <p>Please use your email and password</p>
       </div>
-    }
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div>
-        <label for="email">Email</label>
-        <input class="form-control" id="email" formControlName="email" type="email" placeholder="enter your email" required/>
-        @if(loginForm.get('email')?.invalid && loginForm.get('email')?.touched) 
-        {
-          <div>
-            @if(loginForm.get('email')?.errors?.['required']) 
-            {
-              <small>Email is required.</small>
-            }
-            @if(loginForm.get('email')?.errors?.['minlength']) 
-            {
-              <small>Email must be at least 5 characters long.</small>
-            }
-          </div>
-        }
-      </div>
-      <div>
-        <label for="password">Password</label>
-        <input id="password" class="form-control" formControlName="password" type="password" placeholder="enter a password" required/>
-        @if(loginForm.get('password')?.invalid && loginForm.get('password')?.touched) 
-        {
-          <div>
-            @if(loginForm.get('password')?.errors?.['required']) 
-            {
-              <small>Password is required.</small>
-            }
-            @if(loginForm.get('password')?.errors?.['minlength']) 
-            {
-              <small>Password must be at least 5 characters long.</small>
-            }
-          </div>
-        }
-      </div>      
-      <button type="submit" [disabled]="loginForm.invalid">Submit</button>
-    </form>
-    <p>
-      <span>Don't have an account?&nbsp;</span>
-      <a [routerLink]="['/sign-up']">Sign up!</a>
-    </p>
-  </div>
+    </header>
+    <div class="">
+      @if(errorMessage$ | async; as errorMessage)
+      {
+        <div class="alert alert-danger" role="alert">
+          {{errorMessage}}
+        </div>
+      }
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div>
+          <label for="email">Email</label>
+          <input class="form-control" id="email" formControlName="email" type="email" placeholder="enter your email" required/>
+          @if(loginForm.get('email')?.invalid && loginForm.get('email')?.touched) 
+          {
+            <div>
+              @if(loginForm.get('email')?.errors?.['required']) 
+              {
+                <small>Email is required.</small>
+              }
+              @if(loginForm.get('email')?.errors?.['minlength']) 
+              {
+                <small>Email must be at least 5 characters long.</small>
+              }
+            </div>
+          }
+        </div>
+        <div>
+          <label for="password">Password</label>
+          <input id="password" class="form-control" formControlName="password" type="password" placeholder="enter a password" required/>
+          @if(loginForm.get('password')?.invalid && loginForm.get('password')?.touched) 
+          {
+            <div>
+              @if(loginForm.get('password')?.errors?.['required']) 
+              {
+                <small>Password is required.</small>
+              }
+              @if(loginForm.get('password')?.errors?.['minlength']) 
+              {
+                <small>Password must be at least 5 characters long.</small>
+              }
+            </div>
+          }
+        </div>      
+        <button type="submit" [disabled]="loginForm.invalid">Submit</button>
+      </form>
+      <p>
+        <span>Don't have an account?&nbsp;</span>
+        <a [routerLink]="['/sign-up']">Sign up!</a>
+      </p>
+    </div>
+  </article>
 </div>

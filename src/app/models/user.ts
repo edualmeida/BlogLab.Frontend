@@ -21,4 +21,5 @@ export interface LoginResponse {
 export interface TokenUser {
   nameid: string;
   unique_name: string;
+  role: string;
 }

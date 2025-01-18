@@ -14,8 +14,14 @@ import { IDENTITY_STORAGE_KEY } from '../store/reducers/auth.reducers';
 export class AuthService {
 
   private BASE_URL = environment.identityBaseUrl;
+  public ADMIN_ROLE = 'Administrator';
 
   constructor(private http: HttpClient) {}
+
+  isAdminAuthenticated(): boolean {
+    const item = localStorage.getItem(IDENTITY_STORAGE_KEY);
+    return item ? JSON.parse(item).isAdmin : null;
+  }
 
   isAuthenticated() {
     const item = localStorage.getItem(IDENTITY_STORAGE_KEY);
@@ -31,8 +37,8 @@ export class AuthService {
     localStorage.removeItem(IDENTITY_STORAGE_KEY);
   }
 
-  decodeUsername(token: string): string {
-    return jwtDecode<TokenUser>(token).unique_name;
+  decodeTokenUser(token: string): TokenUser {
+    return jwtDecode<TokenUser>(token);
   }
 
   logIn(email: string, password: string): Observable<LoginResponse> {

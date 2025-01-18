@@ -3,9 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { ArticleComponent } from './components/article/article.component';
 import { LogInComponent } from './components/log-in/log-in.component';
-import { authGuardService } from './services/auth-guard.service';
+import { authGuardService } from './services/interceptors/auth-guard.service';
 import { CreateArticleComponent } from './components/create-article/create-article.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { adminAuthGuardService } from './services/interceptors/admin-auth-guard.service';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -27,7 +28,7 @@ export const routes: Routes = [
   },
   {
     path: 'create-article',
-    component: CreateArticleComponent, canActivate: [authGuardService]
+    component: CreateArticleComponent, canActivate: [adminAuthGuardService]
   }
 ];
 

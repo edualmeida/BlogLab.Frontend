@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.css'],
+  styleUrls: ['../styles/index.scss','./sign-up.component.scss'],
   imports: [CommonModule,ReactiveFormsModule, AsyncPipe, RouterModule]  
 })
 

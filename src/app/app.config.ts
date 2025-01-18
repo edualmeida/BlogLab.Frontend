@@ -9,7 +9,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { catalogFeature } from './store/reducers/article-catalog.reducers';
-import { authInterceptor } from './services/interceptors/auth.interceptor';
+import { authInterceptor } from './services/interceptors/apikey.interceptor';
 import { errorInterceptor, tokenInterceptor } from './services/interceptors/token.interceptor';
 import { authFeature } from './store/reducers/auth.reducers';
 import { metaReducers } from './store/reducers/meta.reducers';
