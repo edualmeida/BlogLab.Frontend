@@ -14,6 +14,7 @@ import { errorInterceptor, tokenInterceptor } from './services/interceptors/toke
 import { authFeature } from './store/reducers/auth.reducers';
 import { metaReducers } from './store/reducers/meta.reducers';
 import { articleFeature } from './store/reducers/article.reducers';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -27,6 +28,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authInterceptor,tokenInterceptor])),
     DatePipe,
     provideRouterStore(),
-    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })
+    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }), provideAnimationsAsync()
 ],
 };

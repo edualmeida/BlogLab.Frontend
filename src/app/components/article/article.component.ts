@@ -6,6 +6,10 @@ import { CommonModule } from '@angular/common';
 import * as ArticleActions from "../../store/actions/article.actions";
 import { ActivatedRoute } from '@angular/router';
 import { authFeature } from '../../store/reducers/auth.reducers';
+import {
+  MatDialog
+} from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-article',
@@ -19,6 +23,7 @@ export class ArticleComponent implements OnInit {
   route = inject(ActivatedRoute);
   article$ = this.store.select(articleFeature.selectArticle);
   isAdmin$ = this.store.select(authFeature.selectIsAdmin);
+  readonly dialog = inject(MatDialog);
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe((params) => {
@@ -29,8 +34,16 @@ export class ArticleComponent implements OnInit {
   }
 
   deleteArticle(id: string) {
-    if(confirm("Are you sure to delete this article?")) {
-      this.store.dispatch(ArticleActions.deleteArticle({id}));
-    }
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: { title: 'Please confirm', question: 'Are you sure to delete this article?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+
+      if(result) {
+        this.store.dispatch(ArticleActions.deleteArticle({id}));
+      }
+    });
   }
 }
