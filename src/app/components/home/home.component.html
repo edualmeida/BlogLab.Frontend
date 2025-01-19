@@ -15,10 +15,9 @@
               </div>
             </header>
             <a (click)="selectArticle(article.id)" class="image featured"><img src="{{article.thumbnail}}" alt="Thumbnail" /></a>
-            <p>{{article.text}}</p>
+            <p [innerHtml]="article.text"></p>
             <footer>
               <ul class="actions">
-                <!-- <li><a routerLink="['/article:id']" class="button large">Continue Reading</a></li> -->
                 <li><a (click)="selectArticle(article.id)" class="button large">Continue Reading</a></li>
               </ul>
               <ul class="stats">

@@ -17,13 +17,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   store = inject(Store);
   authService = inject(AuthService);
   username$: any;
-  
+  isAdmin$: any;
+
   logout() {
     this.store.dispatch(AuthActions.logOut());
   }
 
   ngOnInit(): void {    
     this.username$ = this.store.select(authFeature.selectUsername);
+    this.isAdmin$ = this.store.select(authFeature.selectIsAdmin);
   }
 
   ngOnDestroy(): void {

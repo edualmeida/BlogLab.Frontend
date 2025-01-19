@@ -5,7 +5,7 @@ import { articleFeature } from '../../store/reducers/article.reducers';
 import { CommonModule } from '@angular/common';
 import * as ArticleActions from "../../store/actions/article.actions";
 import { ActivatedRoute } from '@angular/router';
-import { map, pluck, Subject, takeUntil } from 'rxjs';
+import { authFeature } from '../../store/reducers/auth.reducers';
 
 @Component({
   selector: 'app-article',
@@ -18,6 +18,7 @@ export class ArticleComponent implements OnInit {
   store = inject(Store);
   route = inject(ActivatedRoute);
   article$ = this.store.select(articleFeature.selectArticle);
+  isAdmin$ = this.store.select(authFeature.selectIsAdmin);
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe((params) => {
@@ -25,5 +26,11 @@ export class ArticleComponent implements OnInit {
       console.log(id);
       this.store.dispatch(ArticleActions.loadArticle({id}));
     });
+  }
+
+  deleteArticle(id: string) {
+    if(confirm("Are you sure to delete this article?")) {
+      this.store.dispatch(ArticleActions.deleteArticle({id}));
+    }
   }
 }

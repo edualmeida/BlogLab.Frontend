@@ -2,7 +2,7 @@
   <span class="header-title"><a routerLink="/">Future Imperfect</a></span>
   <nav class="links">
     <ul>
-      @if(username$ | async; as username) 
+      @if(isAdmin$ | async) 
       {
         <li><a routerLink="/create-article">create-article</a></li>
       }

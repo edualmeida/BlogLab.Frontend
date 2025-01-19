@@ -66,4 +66,10 @@ export class ArticleCatalogService {
       tap(_ => console.log(`Article added`))
     );
   }
+
+  deleteArticle(id: string): Observable<any> {
+    return this.http.delete(environment.articleCatalogBaseUrl + "/" + id).pipe(
+      tap(_ => console.log(`Article added`))
+    );
+  }
 }

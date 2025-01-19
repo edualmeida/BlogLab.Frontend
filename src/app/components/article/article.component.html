@@ -16,6 +16,12 @@
 			<span class="image featured"><img src="{{article.thumbnail}}" alt="Thumbnail" /></span>
 			<p>{{article.text}}</p>
 			<footer>
+				@if(isAdmin$ | async) 
+      			{
+					<ul class="actions">
+						<li><a (click)="deleteArticle(article.id)" class="button large">Delete</a></li>
+					</ul>
+				}
 				<ul class="stats">
 					<li><a href="#">General</a></li>
 					<li><a href="#" class="icon solid fa-heart">0</a></li>
