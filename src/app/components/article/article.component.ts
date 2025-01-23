@@ -34,7 +34,7 @@ export class ArticleComponent implements OnInit {
   }
 
   deleteArticle(id: string) {
-    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: { title: 'Please confirm', question: 'Are you sure to delete this article?' }
     });
 
