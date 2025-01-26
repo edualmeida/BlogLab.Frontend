@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "BlogLab.UI": {
+    "BlogLab.Frontend": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -69,10 +69,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "BlogLab.UI:build:production"
+              "buildTarget": "BlogLab.Frontend:build:production"
             },
             "development": {
-              "buildTarget": "BlogLab.UI:build:development"
+              "buildTarget": "BlogLab.Frontend:build:development"
             }
           },
           "defaultConfiguration": "development"

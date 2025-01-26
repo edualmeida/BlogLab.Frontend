@@ -1,10 +1,10 @@
-import { Injectable } from "@angular/core";
-import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { of } from "rxjs";
-import { catchError, map, mergeMap, tap } from "rxjs/operators";
-import { ArticleCatalogService } from "../../services/article-catalog.service";
-import * as CatalogActions from "../actions/article-catalog.actions";
-import { Router } from "@angular/router";
+import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { of } from 'rxjs';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { ArticleCatalogService } from '../../services/article-catalog.service';
+import * as CatalogActions from '../actions/article-catalog.actions';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ArticleCatalogEffects {
@@ -12,18 +12,19 @@ export class ArticleCatalogEffects {
   selectArticle$;
   loadCategories$;
   createArticle$;
+  createArticleSuccess$;
 
   constructor(
-    private actions$: Actions, 
-    private articleCatalogService: ArticleCatalogService, 
-    private router: Router) 
-  {
+    private actions$: Actions,
+    private articleCatalogService: ArticleCatalogService,
+    private router: Router
+  ) {
     this.loadArticles$ = createEffect(() =>
       this.actions$.pipe(
         ofType(CatalogActions.loadArticles),
-        mergeMap(() => 
-          this.articleCatalogService.getAllArticles().pipe(
-            map((articles) => CatalogActions.loadArticlesSuccess({ articles })),
+        mergeMap(({pageNumber, pageSize}) =>
+          this.articleCatalogService.getAllArticles(pageNumber, pageSize).pipe(
+            map((result) => CatalogActions.loadArticlesSuccess({ articles: result.articles, totalPages: result.totalPages })),
             catchError((error) =>
               of(CatalogActions.loadArticlesFailure({ error: error.message }))
             )
@@ -33,22 +34,26 @@ export class ArticleCatalogEffects {
     );
 
     this.selectArticle$ = createEffect(
-        () =>
-          this.actions$.pipe(
-            ofType(CatalogActions.selectArticle),
-            tap(({ articleId }) => {
-              this.router.navigate(['article'], { queryParams: {id: articleId}});
-            }),
-          ),
-        { dispatch: false },
-      );
+      () =>
+        this.actions$.pipe(
+          ofType(CatalogActions.selectArticle),
+          tap(({ articleId }) => {
+            this.router.navigate(['article'], {
+              queryParams: { id: articleId },
+            });
+          })
+        ),
+      { dispatch: false }
+    );
 
     this.loadCategories$ = createEffect(() =>
       this.actions$.pipe(
         ofType(CatalogActions.loadCategories),
-        mergeMap(() => 
+        mergeMap(() =>
           this.articleCatalogService.getCategories().pipe(
-            map((categories) => CatalogActions.loadCategoriesSuccess({ categories })),
+            map((categories) =>
+              CatalogActions.loadCategoriesSuccess({ categories })
+            ),
             catchError((error) =>
               of(CatalogActions.loadCategoriesFailure({ error: error.message }))
             )
@@ -60,16 +65,29 @@ export class ArticleCatalogEffects {
     this.createArticle$ = createEffect(() =>
       this.actions$.pipe(
         ofType(CatalogActions.createArticle),
-        mergeMap((params) => 
+        mergeMap((params) =>
           this.articleCatalogService.createArticle(params.article).pipe(
-            tap(() => {this.router.navigate(['/'], {});}),
-            catchError((error) =>{
-              console.log(error); 
-              return of(CatalogActions.createArticleFailure({ error: error.message }));
+            map(() => CatalogActions.createArticleSuccess()),
+            catchError((error) => {
+              console.log(error);
+              return of(
+                CatalogActions.createArticleFailure({ error: error.message })
+              );
             })
           )
         )
       )
     );
+
+    this.createArticleSuccess$ = createEffect(
+      () =>
+        this.actions$.pipe(
+          ofType(CatalogActions.createArticleSuccess),
+          tap(() => {
+            this.router.navigate(['/'], {});
+          })
+        ),
+      { dispatch: false }
+    );    
   }
 }

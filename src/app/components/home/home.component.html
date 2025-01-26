@@ -27,16 +27,16 @@
               </ul>
             </footer>
         </article>
+          <!-- Pagination -->
+        <ul class="actions pagination">
+          <li><input type="button" class="button large next" value="Previous Page" (click)="prevPage()" [disabled]="isPrevDisabled"></li>
+          <li><input type="button" class="button large next" value="Next Page" (click)="nextPage()" [disabled]="pageNumber >= ((totalPages$ | async) ?? 0)"></li>
+        </ul>
     </div>
     <ng-template #empty>
       <div>No Data</div>
     </ng-template>
     <div *ngIf="isLoading$ | async">Loading...</div>
   </ng-container>
-  <!-- Pagination -->
-    <ul class="actions pagination">
-      <li><a href="" class="disabled button large previous">Previous Page</a></li>
-      <li><a href="#" class="button large next">Next Page</a></li>
-    </ul>
 </div>
 <app-sidebar></app-sidebar>

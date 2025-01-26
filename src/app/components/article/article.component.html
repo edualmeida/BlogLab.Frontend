@@ -19,7 +19,8 @@
 				@if(isAdmin$ | async) 
       			{
 					<ul class="actions">
-						<li><a (click)="deleteArticle(article.id)" class="button large">Delete</a></li>
+						<li><input [routerLink]="['/']" type="button" value="Home"></li>
+						<li><input (click)="deleteArticle(article.id)" type="button" value="Delete"></li>
 					</ul>
 				}
 				<ul class="stats">

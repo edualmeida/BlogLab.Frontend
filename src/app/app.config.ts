@@ -1,4 +1,8 @@
-import { ApplicationConfig, isDevMode, provideZoneChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  isDevMode,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideState, provideStore } from '@ngrx/store';
@@ -10,11 +14,12 @@ import { DatePipe } from '@angular/common';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { catalogFeature } from './store/reducers/article-catalog.reducers';
 import { authInterceptor } from './services/interceptors/apikey.interceptor';
-import { errorInterceptor, tokenInterceptor } from './services/interceptors/token.interceptor';
+import { tokenInterceptor } from './services/interceptors/token.interceptor';
 import { authFeature } from './store/reducers/auth.reducers';
-import { metaReducers } from './store/reducers/meta.reducers';
+import { metaReducers } from './store/reducers/auth.reducers';
 import { articleFeature } from './store/reducers/article.reducers';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { errorInterceptor } from './services/interceptors/error.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,9 +30,10 @@ export const appConfig: ApplicationConfig = {
     provideState(articleFeature),
     provideState(authFeature.name, authFeature.reducer, { metaReducers }),
     provideEffects(appEffects),
-    provideHttpClient(withInterceptors([authInterceptor,tokenInterceptor])),
+    provideHttpClient(withInterceptors([authInterceptor, errorInterceptor, tokenInterceptor])),
     DatePipe,
     provideRouterStore(),
-    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }), provideAnimationsAsync()
-],
+    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
+    provideAnimationsAsync(),
+  ],
 };

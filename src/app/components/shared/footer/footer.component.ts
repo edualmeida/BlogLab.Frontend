@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -6,13 +6,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   selector: 'app-footer',
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss'],
-  imports: [FontAwesomeModule]
+  imports: [FontAwesomeModule],
 })
-export class FooterComponent implements OnInit {
+export class FooterComponent {
   faCoffee = faCoffee;
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 }

@@ -11,16 +11,22 @@
   <!-- Posts List -->
     <section>
       <ul class="posts">
-        @for (article of (articles$ | async); track article.id) {
-        <li>
-          <article>
-            <header>
-              <h3><a href="single.html">{{article.title}}</a></h3>
-              <time class="published">{{article.createdOn}}</time>
-            </header>
-            <a href="single.html" class="image"><img src="assets/images/articles/mini-pic.jpg" alt="" /></a>
-          </article>
-        </li>
+        @if(isLoading$ | async) {
+          <li>Loading...</li>
+        } @else {
+          @for (article of (articles$ | async)?.slice(0,articlesCount); track article.id) {
+            <li>
+              <article>
+                <header>
+                  <h3><a href="single.html">{{article.title}}</a></h3>
+                  <time class="published">{{article.createdOn}}</time>
+                </header>
+                <a href="single.html" class="image"><img src="assets/images/articles/mini-pic.jpg" alt="" /></a>
+              </article>
+            </li>
+            } @empty {
+            <li>No Data</li>
+            }
         }
       </ul>
     </section>

@@ -4,11 +4,23 @@ import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { tap, map } from 'rxjs/operators';
 import * as RouterActions from '../actions/router.actions';
-import { selectRouteParam } from '../selectors/router.selectors';
+import { getRouterSelectors } from "@ngrx/router-store";
+
+export const {
+  selectQueryParam,
+  selectRouteParam,
+  selectRouteDataParam, 
+} = getRouterSelectors();
+
+export const selectRouteArticleId = selectRouteParam('id');
 
 @Injectable()
 export class RouterEffects {
-  constructor(private actions$: Actions, private router: Router, private location: Location) {}
+  constructor(
+    private actions$: Actions,
+    private router: Router,
+    private location: Location
+  ) {}
 
   navigate$ = createEffect(
     () =>
@@ -17,27 +29,27 @@ export class RouterEffects {
         map((action) => action.payload),
         tap(({ path, query: queryParams, extras }) => {
           this.router.navigate(path, { queryParams, ...extras });
-        }),
+        })
       ),
-    { dispatch: false },
+    { dispatch: false }
   );
 
   navigateBack$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(RouterActions.Back),
-        tap(() => this.location.back()),
+        tap(() => this.location.back())
       ),
-    { dispatch: false },
+    { dispatch: false }
   );
 
   setCurrentCourse$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(RouterActions.SetRouteArticleId),
-        tap(() => selectRouteParam('id')),
+        tap(() => selectRouteParam('id'))
       ),
-    { dispatch: false },
+    { dispatch: false }
   );
 
   // setCurrentCourse$ = createEffect(() => this.actions$.pipe(

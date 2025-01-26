@@ -5,20 +5,18 @@ import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { catalogFeature } from '../../../store/reducers/article-catalog.reducers';
 import { AsyncPipe } from '@angular/common';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-sidebar',
   imports: [FontAwesomeModule, AsyncPipe],
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.scss'
+  styleUrl: './sidebar.component.scss',
 })
-
-export class SidebarComponent  implements OnInit {
+export class SidebarComponent {
   store = inject(Store);
   articles$ = this.store.select(catalogFeature.selectArticles);
+  isLoading$ = this.store.select(catalogFeature.selectLoading);
+  articlesCount = environment.sidebarArticlesCount;
   faCoffee = faCoffee;
-
-  ngOnInit(): void {
-    this.store.dispatch(ArticleActions.loadArticles());
-  }
 }

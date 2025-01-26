@@ -1,7 +1,7 @@
 export interface RouterState {
-    id: string;
+  id: string;
 }
 
 export const initialState: RouterState = {
-    id: ''
+  id: '',
 };

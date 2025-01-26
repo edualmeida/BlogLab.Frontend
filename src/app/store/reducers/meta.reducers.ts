@@ -1,12 +1,7 @@
-import { Action, ActionReducer, MetaReducer } from '@ngrx/store';
-import { authFeature, authMetaReducer } from './auth.reducers';
-import * as AuthActions from '../actions/auth.actions';
-import { merge } from 'rxjs';
-//import { reducers } from './reducers';
+import { Action, ActionReducer } from '@ngrx/store';
 
-// console.log all actions
-export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
-  return function(state, action) {
+export function debugActionState(reducer: ActionReducer<any>): ActionReducer<any> {
+  return function (state, action) {
     console.log('state', state);
     console.log('action', action);
 
@@ -14,7 +9,10 @@ export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
   };
 }
 
-export function persistStateMetaReducer(localStorageKey: string, _reducer: ActionReducer<any>) {
+export function persistState(
+  localStorageKey: string,
+  _reducer: ActionReducer<any>
+) {
   return (state: any | undefined, action: Action) => {
     if (state === undefined) {
       const persisted = localStorage.getItem(localStorageKey);
@@ -26,5 +24,3 @@ export function persistStateMetaReducer(localStorageKey: string, _reducer: Actio
     return nextState;
   };
 }
-
-export const metaReducers: MetaReducer<any>[] = [authMetaReducer];
