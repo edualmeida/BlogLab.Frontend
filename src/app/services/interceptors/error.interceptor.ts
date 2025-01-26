@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { HttpInterceptorFn } from '@angular/common/http';
+import Utils from '../common-utils.service';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
@@ -19,7 +20,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         router.navigateByUrl('/log-in');
       }
 
-      return throwError(() => new Error(response.error.message));
+      return Utils.handleError(response);
     })
   );
 };
