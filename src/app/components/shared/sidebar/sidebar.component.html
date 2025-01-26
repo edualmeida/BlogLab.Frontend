@@ -14,7 +14,7 @@
         @if(isLoading$ | async) {
           <li>Loading...</li>
         } @else {
-          @for (article of (articles$ | async)?.slice(0,articlesCount); track article.id) {
+          @for (article of (articles$ | async); track article.id) {
             <li>
               <article>
                 <header>

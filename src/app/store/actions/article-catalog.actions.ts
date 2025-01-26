@@ -13,6 +13,18 @@ export const loadArticlesFailure = createAction(
   '[Catalog] Load Articles Failure',
   props<{ error: string }>()
 );
+export const loadTopArticles = createAction(
+  '[Catalog] Load Top Articles',
+  props<{ pageSize:number }>()
+);
+export const loadTopArticlesSuccess = createAction(
+  '[Catalog] Load Top Articles Success',
+  props<{ articles: Article[] }>()
+);
+export const loadTopArticlesFailure = createAction(
+  '[Catalog] Load Top Articles Failure',
+  props<{ error: string }>()
+);
 export const selectArticle = createAction(
   '[Catalog] Select Article',
   props<{ articleId: string }>()

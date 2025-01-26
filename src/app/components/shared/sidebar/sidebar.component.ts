@@ -13,10 +13,13 @@ import { environment } from '../../../../environments/environment';
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
   store = inject(Store);
-  articles$ = this.store.select(catalogFeature.selectArticles);
+  articles$ = this.store.select(catalogFeature.selectTopArticles);
   isLoading$ = this.store.select(catalogFeature.selectLoading);
-  articlesCount = environment.sidebarArticlesCount;
   faCoffee = faCoffee;
+
+  ngOnInit(): void {
+    this.store.dispatch(ArticleActions.loadTopArticles({ pageSize: environment.sidebarArticlesCount }));  
+  }
 }

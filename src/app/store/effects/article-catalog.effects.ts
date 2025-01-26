@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 @Injectable()
 export class ArticleCatalogEffects {
   loadArticles$;
+  loadTopArticles$;
   selectArticle$;
   loadCategories$;
   createArticle$;
@@ -27,6 +28,20 @@ export class ArticleCatalogEffects {
             map((result) => CatalogActions.loadArticlesSuccess({ articles: result.articles, totalPages: result.totalPages })),
             catchError((error) =>
               of(CatalogActions.loadArticlesFailure({ error: error.message }))
+            )
+          )
+        )
+      )
+    );
+
+    this.loadTopArticles$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(CatalogActions.loadTopArticles),
+        mergeMap(({ pageSize }) =>
+          this.articleCatalogService.getAllArticles(1, pageSize).pipe(
+            map((result) => CatalogActions.loadTopArticlesSuccess({ articles: result.articles })),
+            catchError((error) =>
+              of(CatalogActions.loadTopArticlesFailure({ error: error.message }))
             )
           )
         )

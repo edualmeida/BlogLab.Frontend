@@ -5,6 +5,6 @@ export const environment = {
   categoriesBaseUrl: 'https://localhost:7190/api/categories',
   baseThumbnailUrl: 'assets/images/articles/',
   apiKey: 'JEXqpyi4cPGWgH',
-  sidebarArticlesCount: 3,
+  sidebarArticlesCount: 2,
   homeArticlesCount: 3,
 };

@@ -4,6 +4,7 @@ import { Article, ArticleCategory } from '../../models/article';
 
 export interface ArticleCatalogState {
   articles: Article[];
+  topArticles: Article[];
   loading: boolean;
   selectedId: string | null;
   error: string;
@@ -13,6 +14,7 @@ export interface ArticleCatalogState {
 
 export const initialState: ArticleCatalogState = {
   articles: [],
+  topArticles: [],
   loading: false,
   selectedId: null,
   error: '',
@@ -46,6 +48,17 @@ const reducer = createReducer(
     loading: false,
   })),
   on(CatalogActions.loadCategoriesFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
+  })),
+  on(CatalogActions.loadTopArticles, (state) => ({ ...state, loading: true })),
+  on(CatalogActions.loadTopArticlesSuccess, (state, { articles }) => ({
+    ...state,
+    topArticles: articles,
+    loading: false,
+  })),
+  on(CatalogActions.loadTopArticlesFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,
