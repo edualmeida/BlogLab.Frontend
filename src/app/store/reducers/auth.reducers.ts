@@ -55,4 +55,4 @@ export function authMetaReducer(_reducer: ActionReducer<AuthState>): MetaReducer
   return persistState(IDENTITY_STORAGE_KEY, _reducer) as MetaReducer<AuthState, Action<string>>;
 }
 
-export const metaReducers: MetaReducer<any>[] = [authMetaReducer, debugActionState];
+export const metaReducers: MetaReducer<any>[] = [authMetaReducer];

@@ -20,6 +20,8 @@ import { metaReducers } from './store/reducers/auth.reducers';
 import { articleFeature } from './store/reducers/article.reducers';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { errorInterceptor } from './services/interceptors/error.interceptor';
+import { provideToastr } from 'ngx-toastr';
+import { notificationFeature } from './store/reducers/notification.reducers';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -28,6 +30,7 @@ export const appConfig: ApplicationConfig = {
     provideStore(),
     provideState(catalogFeature),
     provideState(articleFeature),
+    provideState(notificationFeature),
     provideState(authFeature.name, authFeature.reducer, { metaReducers }),
     provideEffects(appEffects),
     provideHttpClient(withInterceptors([authInterceptor, errorInterceptor, tokenInterceptor])),
@@ -35,5 +38,6 @@ export const appConfig: ApplicationConfig = {
     provideRouterStore(),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideAnimationsAsync(),
+    provideToastr()
   ],
 };
