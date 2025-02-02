@@ -16,12 +16,13 @@ export class ArticleCatalogEffects {
   createArticle$;
   createArticleSuccess$;
   loadArticlesSuccess$;
+  createArticleSuccessNotification$;
 
   constructor(
     private actions$: Actions,
     private articleCatalogService: ArticleCatalogService,
     private router: Router
-  ) 
+  )
   {
     this.loadArticles$ = createEffect(() =>
       this.actions$.pipe(
@@ -103,10 +104,6 @@ export class ArticleCatalogEffects {
           ofType(CatalogActions.createArticleSuccess),
           tap(() => {
             this.router.navigate(['/'], {});
-            NotificationActions.displaySuccess({
-              title: "Increment",
-              description: "Counter was incremented by 1"
-            })
           })
         ),
       { dispatch: false }
@@ -115,10 +112,20 @@ export class ArticleCatalogEffects {
     this.loadArticlesSuccess$ = createEffect(() =>
       this.actions$.pipe(
         ofType(CatalogActions.loadArticlesSuccess),
-        mergeMap((action) => 
+        mergeMap((action) =>
           of(NotificationActions.displaySuccess({
-            title: "Articles Loaded successfully",
-            description: action.articles.length + " articles loaded"
+            title: action.articles.length + " Articles loaded successfully"
+          }))
+        ),
+      )
+    );
+
+    this.createArticleSuccessNotification$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(CatalogActions.createArticleSuccess),
+        mergeMap((action) =>
+          of(NotificationActions.displaySuccess({
+            title: "Article created successfully!"
           }))
         ),
       )
