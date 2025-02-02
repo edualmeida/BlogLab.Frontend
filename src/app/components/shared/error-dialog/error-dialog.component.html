@@ -1,0 +1,13 @@
+<h2 mat-dialog-title>Sorry, an error has occurred</h2>
+<mat-dialog-content>
+  @if (data.status){
+    <b>Status Code: {{ data.status }}</b>
+  }
+  <p>Something went wrong</p>
+  <p class="error-message">
+    {{ data.message }}
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close cdkFocusInitial>Close</button>
+</mat-dialog-actions>
