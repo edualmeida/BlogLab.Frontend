@@ -114,7 +114,7 @@ export class ArticleCatalogEffects {
         ofType(CatalogActions.loadArticlesSuccess),
         mergeMap((action) =>
           of(NotificationActions.displaySuccess({
-            title: action.articles.length + " Articles loaded successfully"
+            title: `Articles (${action.articles.length}) loaded successfully`
           }))
         ),
       )

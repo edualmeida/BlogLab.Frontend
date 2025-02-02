@@ -19,9 +19,10 @@ import { authFeature } from './store/reducers/auth.reducers';
 import { metaReducers } from './store/reducers/auth.reducers';
 import { articleFeature } from './store/reducers/article.reducers';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { errorInterceptor } from './services/interceptors/error.interceptor';
+import { httpErrorInterceptor } from './services/interceptors/http-error.interceptor';
 import { provideToastr } from 'ngx-toastr';
 import { notificationFeature } from './store/reducers/notification.reducers';
+import {HttpLoadingInterceptor} from './services/interceptors/http-loading.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -33,7 +34,7 @@ export const appConfig: ApplicationConfig = {
     provideState(notificationFeature),
     provideState(authFeature.name, authFeature.reducer, { metaReducers }),
     provideEffects(appEffects),
-    provideHttpClient(withInterceptors([authInterceptor, errorInterceptor, tokenInterceptor])),
+    provideHttpClient(withInterceptors([authInterceptor, httpErrorInterceptor, tokenInterceptor, HttpLoadingInterceptor])),
     DatePipe,
     provideRouterStore(),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
