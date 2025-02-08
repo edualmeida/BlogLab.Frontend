@@ -3,12 +3,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/auth.service';
 import { HttpInterceptorFn } from '@angular/common/http';
-import Utils from '../common-utils.service';
-import {ErrorDialogService} from '../error-dialog.service';
+import Utils from '../services/common-utils.service';
+import {ErrorDialogService} from '../services/error-dialog.service';
 
-export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
+export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const authService = inject(AuthService);
   const zone = inject(NgZone);

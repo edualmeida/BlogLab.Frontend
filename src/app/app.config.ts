@@ -13,17 +13,17 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { catalogFeature } from './store/reducers/article-catalog.reducers';
-import { authInterceptor } from './services/interceptors/apikey.interceptor';
-import { tokenInterceptor } from './services/interceptors/token.interceptor';
+import { apiKeyAuthInterceptor } from './interceptors/apikey-auth.interceptor';
+import { tokenInterceptor } from './interceptors/token.interceptor';
 import { authFeature } from './store/reducers/auth.reducers';
 import { metaReducers } from './store/reducers/auth.reducers';
 import { articleFeature } from './store/reducers/article.reducers';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { httpErrorInterceptor } from './services/interceptors/http-error.interceptor';
+import { errorInterceptor } from './interceptors/error.interceptor';
 import { provideToastr } from 'ngx-toastr';
 import { notificationFeature } from './store/reducers/notification.reducers';
-import {HttpLoadingInterceptor} from './services/interceptors/http-loading.interceptor';
-import {ArticleExistsGuard} from './guards/ArticleExistsGuard';
+import {loadingInterceptor} from './interceptors/loading.interceptor';
+import {ArticleExistsGuard} from './guards/article-exists.guard';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -35,7 +35,7 @@ export const appConfig: ApplicationConfig = {
     provideState(notificationFeature),
     provideState(authFeature.name, authFeature.reducer, { metaReducers }),
     provideEffects(appEffects),
-    provideHttpClient(withInterceptors([authInterceptor, httpErrorInterceptor, tokenInterceptor, HttpLoadingInterceptor])),
+    provideHttpClient(withInterceptors([apiKeyAuthInterceptor, errorInterceptor, tokenInterceptor, loadingInterceptor])),
     DatePipe,
     provideRouterStore(),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
