@@ -20,6 +20,7 @@ export interface ServerArticle {
   category: string;
   createdOn: Date;
   author: string;
+  categoryId: string;
 }
 
 export interface Article {
@@ -32,6 +33,7 @@ export interface Article {
   category: string;
   createdOn: string;
   author: string;
+  categoryId: string;
 }
 
 export interface CreateArticle {

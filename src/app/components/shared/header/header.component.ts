@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
 import * as AuthActions from '../../../store/actions/auth.actions';
+import * as ArticleActions from '../../../store/actions/article.actions';
 
 @Component({
   selector: 'app-header',
@@ -25,5 +26,9 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.username$ = this.store.select(authFeature.selectUsername);
     this.isAdmin$ = this.store.select(authFeature.selectIsAdmin);
+  }
+
+  createArticle(): void {
+    this.store.dispatch(ArticleActions.navigateToCreateArticle());
   }
 }

@@ -2,19 +2,19 @@
   <span class="header-title"><a routerLink="/">Future Imperfect</a></span>
   <nav class="links">
     <ul>
-      @if(isAdmin$ | async) 
+      @if(isAdmin$ | async)
       {
-        <li><a routerLink="/create-article">create-article</a></li>
+        <li><a (click)="createArticle()">create-article</a></li>
       }
     </ul>
   </nav>
   <nav class="links">
     <ul>
-      @if(username$ | async; as username) 
+      @if(username$ | async; as username)
       {
         <li><a>{{username}}</a></li>
         <li><a (click)="logout()">logout</a></li>
-      } 
+      }
       @else {
         <li><a routerLink="/sign-up">sign-up</a></li>
         <li><a routerLink="/login">login</a></li>

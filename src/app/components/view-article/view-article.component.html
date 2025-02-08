@@ -16,13 +16,9 @@
 			<span class="image featured"><img src="{{article.thumbnail}}" alt="Thumbnail" /></span>
 			<p>{{article.text}}</p>
 			<footer>
-				@if(isAdmin$ | async) 
-      			{
-					<ul class="actions">
-						<li><input [routerLink]="['/']" type="button" value="Home"></li>
-						<li><input (click)="deleteArticle(article.id)" type="button" value="Delete"></li>
-					</ul>
-				}
+        <ul class="actions">
+          <li><input [routerLink]="['/']" type="button" value="Home"></li>
+        </ul>
 				<ul class="stats">
 					<li><a href="#">General</a></li>
 					<li><a href="#" class="icon solid fa-heart">0</a></li>

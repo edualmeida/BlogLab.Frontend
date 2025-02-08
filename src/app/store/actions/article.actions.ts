@@ -1,6 +1,13 @@
 import { createAction, props } from '@ngrx/store';
 import { Article } from '../../models/article';
 
+export const navigateToCreateArticle = createAction(
+  '[Article] Navigate To Create Article'
+);
+export const navigateToEditArticle = createAction(
+  '[Article] Navigate To Edit Article',
+  props<{ id: string }>()
+);
 export const loadArticle = createAction(
   '[Article] Load Article',
   props<{ id: string }>()

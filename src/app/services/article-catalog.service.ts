@@ -47,6 +47,7 @@ export class ArticleCatalogService {
               color: article.color,
               createdOn: this.datepipe.transform(article.createdOn, 'longDate')!,
               author: article.author,
+              categoryId: article.categoryId
           }))
         }))
       );
@@ -67,6 +68,7 @@ export class ArticleCatalogService {
             color: article.color,
             createdOn: this.datepipe.transform(article.createdOn, 'longDate')!,
             author: article.author,
+            categoryId: article.categoryId
           };
         })
       );

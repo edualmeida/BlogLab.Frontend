@@ -25,7 +25,7 @@ export const loadTopArticlesFailure = createAction(
   '[Catalog] Load Top Articles Failure',
   props<{ error: string }>()
 );
-export const selectArticle = createAction(
+export const navigateToViewArticle = createAction(
   '[Catalog] Select Article',
   props<{ articleId: string }>()
 );

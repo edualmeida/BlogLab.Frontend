@@ -23,6 +23,7 @@ import { httpErrorInterceptor } from './services/interceptors/http-error.interce
 import { provideToastr } from 'ngx-toastr';
 import { notificationFeature } from './store/reducers/notification.reducers';
 import {HttpLoadingInterceptor} from './services/interceptors/http-loading.interceptor';
+import {ArticleExistsGuard} from './guards/ArticleExistsGuard';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -39,6 +40,7 @@ export const appConfig: ApplicationConfig = {
     provideRouterStore(),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideAnimationsAsync(),
-    provideToastr()
+    provideToastr(),
+    ArticleExistsGuard
   ],
 };

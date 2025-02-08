@@ -1,0 +1,72 @@
+﻿import {inject, Injectable} from '@angular/core';
+import {Router, CanActivateFn, CanActivate, ActivatedRouteSnapshot} from '@angular/router';
+import {Action, Store} from '@ngrx/store';
+import {articleFeature} from '../store/reducers/article.reducers';
+import {Observable, of, take} from 'rxjs';
+import {catchError, map, switchMap, tap} from 'rxjs/operators';
+import {ArticleCatalogService} from '../services/article-catalog.service';
+import * as ArticleActions from '../store/actions/article.actions';
+import {Article} from '../models/article';
+
+@Injectable()
+export class ArticleExistsGuard implements CanActivate {
+  constructor(
+    private store: Store<Store>,
+    private router: Router,
+    private articleCatalogService: ArticleCatalogService
+  ) { }
+
+  /**
+   * `hasArticle` composes `hasArticleInStore` and `hasArticleInApi`. It first checks
+   * if the article is in store, and if not it then checks if it is in the
+   * API.
+   */
+  hasArticleInStore(id: string): Observable<boolean> {
+    return this.store.select(articleFeature.selectArticle).pipe(
+      map(article => !!article),
+      take(1)
+    );
+  }
+
+  /**
+   * This method loads a article with the given ID from the API and caches
+   * it in the store, returning `true` or `false` if it was found.
+   */
+  hasArticleInApi(id: string): Observable<boolean> {
+    return this.articleCatalogService.getArticleById(id)
+      .pipe(
+        tap((article: Article) => this.store.dispatch(ArticleActions.loadArticleSuccess({article}))),
+        map((article: Article) => !!article),
+        catchError((error) => {
+          this.router.navigate(['/404']);
+          return of(false);
+        })
+      );
+  }
+
+  /**
+   * `hasArticle` composes `hasArticleInStore` and `hasArticleInApi`. It first checks
+   * if the Article is in store, and if not it then checks if it is in the
+   * API.
+   */
+  hasArticle(id: string): Observable<boolean> {
+    return this.hasArticleInStore(id)
+      .pipe(
+        switchMap(inStore => {
+          console.log('ArticleExistsGuard', inStore);
+          if (inStore) {
+            return of(inStore);
+          }
+
+          return this.hasArticleInApi(id);
+        })
+      )
+  }
+
+  canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
+
+    console.log('route', route);
+    console.log('params id', route.queryParams['id']);
+    return this.hasArticle(route.queryParams['id']);
+  }
+}

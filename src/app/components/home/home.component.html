@@ -3,7 +3,7 @@
   <!-- Post -->
   <ng-container *ngIf="articles$ | async as articles;">
     <div *ngIf="articles.length; else empty">
-        <article class="post" *ngFor="let article of articles let i = index;" >                  
+        <article class="post" *ngFor="let article of articles let i = index;" >
             <header>
               <div class="title">
                 <h2><a (click)="selectArticle(article.id)">{{article.title}}</a></h2>
@@ -18,6 +18,10 @@
             <p [innerHtml]="article.text"></p>
             <footer>
               <ul class="actions">
+                @if(isAdmin$ | async)
+                {
+                  <li><a (click)="editArticle(article.id)" class="button large">Edit</a></li>
+                }
                 <li><a (click)="selectArticle(article.id)" class="button large">Continue Reading</a></li>
               </ul>
               <ul class="stats">

@@ -1,22 +1,62 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 import { ArticleCatalogService } from '../../services/article-catalog.service';
 import * as ArticleActions from '../actions/article.actions';
 import { Router } from '@angular/router';
 
 @Injectable()
 export class ArticleEffects {
+  readonly editArticleUrl= "edit-article";
+
   loadArticle$;
   deleteArticle$;
   deleteArticleSuccess$;
-
+  navigateToCreateArticle$;
+  navigateToEditArticle$;
+  loadSelectedArticle$;
   constructor(
     private actions$: Actions,
     private articleCatalogService: ArticleCatalogService,
     private router: Router
-  ) {
+  )
+  {
+    this.navigateToCreateArticle$ = createEffect(
+      () =>
+        this.actions$.pipe(
+          ofType(ArticleActions.navigateToCreateArticle),
+          tap(() => {
+            this.router.navigate([this.editArticleUrl]);
+          })
+        ),
+      { dispatch: false }
+    );
+
+    this.navigateToEditArticle$ = createEffect(
+      () =>
+        this.actions$.pipe(
+          ofType(ArticleActions.navigateToEditArticle),
+          tap(({id}) => {
+            this.router.navigate([this.editArticleUrl], {
+              queryParams: { id: id },
+            });
+          })
+        ),
+      { dispatch: false }
+    );
+
+    this.loadSelectedArticle$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(ArticleActions.navigateToEditArticle),
+        switchMap(({ id }) =>
+          of(ArticleActions.loadArticle({
+            id: id
+          }))
+        ),
+      )
+    );
+
     this.loadArticle$ = createEffect(() =>
       this.actions$.pipe(
         ofType(ArticleActions.loadArticle),

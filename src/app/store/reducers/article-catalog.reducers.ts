@@ -37,7 +37,7 @@ const reducer = createReducer(
     loading: false,
     totalPages: 0,
   })),
-  on(CatalogActions.selectArticle, (state, { articleId }) => ({
+  on(CatalogActions.navigateToViewArticle, (state, { articleId }) => ({
     ...state,
     selectedId: articleId,
   })),

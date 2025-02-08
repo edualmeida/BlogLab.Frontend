@@ -6,12 +6,15 @@ import { ArticleCatalogService } from '../../services/article-catalog.service';
 import * as CatalogActions from '../actions/article-catalog.actions';
 import { Router } from '@angular/router';
 import * as NotificationActions from '../actions/notification.actions';
+import * as ArticleActions from '../actions/article.actions';
 
 @Injectable()
 export class ArticleCatalogEffects {
+  readonly viewArticleUrl = "article";
+
   loadArticles$;
   loadTopArticles$;
-  selectArticle$;
+  navigateToViewArticle$;
   loadCategories$;
   createArticle$;
   createArticleSuccess$;
@@ -52,18 +55,30 @@ export class ArticleCatalogEffects {
       )
     );
 
-    this.selectArticle$ = createEffect(
+    this.navigateToViewArticle$ = createEffect(
       () =>
         this.actions$.pipe(
-          ofType(CatalogActions.selectArticle),
+          ofType(CatalogActions.navigateToViewArticle),
           tap(({ articleId }) => {
-            this.router.navigate(['article'], {
+            this.router.navigate([this.viewArticleUrl], {
               queryParams: { id: articleId },
             });
           })
         ),
       { dispatch: false }
     );
+
+    // loaded by the ArticleExistsGuard
+    // this.loadSelectedArticle$ = createEffect(() =>
+    //   this.actions$.pipe(
+    //     ofType(CatalogActions.navigateToViewArticle),
+    //     switchMap(({ articleId }) =>
+    //       of(ArticleActions.loadArticle({
+    //         id: articleId
+    //       }))
+    //     ),
+    //   )
+    // );
 
     this.loadCategories$ = createEffect(() =>
       this.actions$.pipe(
@@ -114,7 +129,7 @@ export class ArticleCatalogEffects {
         ofType(CatalogActions.loadArticlesSuccess),
         mergeMap((action) =>
           of(NotificationActions.displaySuccess({
-            title: `Articles (${action.articles.length}) loaded successfully`
+            title: `Loaded ${action.articles.length} articles`
           }))
         ),
       )
@@ -123,7 +138,7 @@ export class ArticleCatalogEffects {
     this.createArticleSuccessNotification$ = createEffect(() =>
       this.actions$.pipe(
         ofType(CatalogActions.createArticleSuccess),
-        mergeMap((action) =>
+        switchMap((action) =>
           of(NotificationActions.displaySuccess({
             title: "Article created successfully!"
           }))
