@@ -27,6 +27,11 @@ const reducer = createReducer(
     error,
     article: null,
     loading: false,
+  })),
+  on(ArticleActions.clearSelectedArticle, (state) => ({
+    ...state,
+    article: null,
+    loading: false
   }))
 );
 

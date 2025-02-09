@@ -44,7 +44,6 @@ export class HomeComponent implements OnInit {
   }
 
   loadArticles(pageNumber:number = 1) {
-    console.log('Loading articles...', pageNumber);
     this.store.dispatch(CatalogActions.loadArticles({
       pageNumber: this.pageNumber,
       pageSize: environment.homeArticlesCount

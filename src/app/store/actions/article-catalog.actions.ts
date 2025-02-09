@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Article, ArticleCategory, CreateArticle } from '../../models/article';
+import {Article, ArticleCategory, CreateArticle, UpdateArticle} from '../../models/article';
 
 export const loadArticles = createAction(
   '[Catalog] Load Articles',
@@ -36,6 +36,15 @@ export const createArticle = createAction(
 export const createArticleSuccess = createAction('[Catalog] Create Success');
 export const createArticleFailure = createAction(
   '[Catalog] Create Failure',
+  props<{ error: string }>()
+);
+export const updateArticle = createAction(
+  '[Catalog] Update',
+  props<{ article: UpdateArticle }>()
+);
+export const updateArticleSuccess = createAction('[Catalog] Update Success');
+export const updateArticleFailure = createAction(
+  '[Catalog] Update Failure',
   props<{ error: string }>()
 );
 export const loadCategories = createAction('[Catalog] Load Categories');

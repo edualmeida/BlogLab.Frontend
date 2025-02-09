@@ -43,6 +43,14 @@ export interface CreateArticle {
   categoryId: string;
 }
 
+export interface UpdateArticle {
+  id: string;
+  title: string;
+  subtitle: string;
+  text: string;
+  categoryId: string;
+}
+
 export interface ArticleCategory {
   id: string;
   name: string;

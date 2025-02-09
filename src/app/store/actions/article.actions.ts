@@ -4,6 +4,9 @@ import { Article } from '../../models/article';
 export const navigateToCreateArticle = createAction(
   '[Article] Navigate To Create Article'
 );
+export const clearSelectedArticle = createAction(
+  '[Article] Clear Selected Article'
+);
 export const navigateToEditArticle = createAction(
   '[Article] Navigate To Edit Article',
   props<{ id: string }>()

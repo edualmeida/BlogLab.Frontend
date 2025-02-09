@@ -16,6 +16,7 @@ export class ArticleEffects {
   navigateToCreateArticle$;
   navigateToEditArticle$;
   loadSelectedArticle$;
+  clearSelectedArticle$;
   constructor(
     private actions$: Actions,
     private articleCatalogService: ArticleCatalogService,
@@ -31,6 +32,16 @@ export class ArticleEffects {
           })
         ),
       { dispatch: false }
+    );
+
+    this.clearSelectedArticle$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(ArticleActions.navigateToCreateArticle),
+        switchMap(() => {
+            return of(ArticleActions.clearSelectedArticle());
+          }
+        ),
+      )
     );
 
     this.navigateToEditArticle$ = createEffect(
@@ -49,10 +60,12 @@ export class ArticleEffects {
     this.loadSelectedArticle$ = createEffect(() =>
       this.actions$.pipe(
         ofType(ArticleActions.navigateToEditArticle),
-        switchMap(({ id }) =>
-          of(ArticleActions.loadArticle({
+        switchMap(({ id }) => {
+          console.log('navigateToEditArticle->ArticleActions.loadArticle', id);
+          return of(ArticleActions.loadArticle({
             id: id
-          }))
+          }));
+        }
         ),
       )
     );
@@ -63,7 +76,7 @@ export class ArticleEffects {
         mergeMap((payload: { id: string }) =>
           this.articleCatalogService.getArticleById(payload.id).pipe(
             map((article) => {
-              console.log(article);
+              console.log('loadArticle$->getArticleById',article);
               return ArticleActions.loadArticleSuccess({ article });
             }),
             catchError((error) =>

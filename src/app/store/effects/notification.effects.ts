@@ -11,14 +11,13 @@ export class NotificationEffects {
   displayError$;
 
   constructor(
-    private actions$: Actions, 
-    private toastr: ToastrService) 
+    private actions$: Actions,
+    private toastr: ToastrService)
   {
       this.displaySuccess$ = createEffect(() =>
         this.actions$.pipe(
           ofType(NotificationActions.displaySuccess),
           tap(action => {
-            console.log("displaySuccess", action);
             this.toastr.success(action.description, action.title);
           })
         ),

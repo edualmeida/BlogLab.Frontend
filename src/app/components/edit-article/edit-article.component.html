@@ -1,14 +1,18 @@
-<!-- Main -->
 <div id="main">
-  <h3>Create article</h3>
-  @let article = article$ | async;
-  <form [formGroup]="articleForm" (ngSubmit)="onSubmit()">
+  @if(article$ | async){
+    <h3>Edit article</h3>
+  }@else {
+    <h3>Create article</h3>
+  }
+  <form
+    [formGroup]="articleForm"
+    (ngSubmit)="onSubmit()">
     <article class="post">
             <header>
                 <div class="title row gtr-uniform">
                     <div class="col-12">
                         <label for="title">Title</label>
-                        <input class="form-control" id="title" formControlName="title" type="text" placeholder="enter title" value="{{article?.title}}" required/>
+                        <input class="form-control" id="title" formControlName="title" type="text" placeholder="enter title" required/>
                         @if(articleForm.get('title')?.invalid && articleForm.get('title')?.touched)
                         {
                         <div>
@@ -25,7 +29,7 @@
                     </div>
                     <div class="col-12">
                         <label for="subtitle">Subtitle</label>
-                        <input class="form-control" id="subtitle" formControlName="subtitle" type="text" placeholder="enter subtitle" value="{{article?.subtitle}}" required/>
+                        <input class="form-control" id="subtitle" formControlName="subtitle" type="text" placeholder="enter subtitle" required/>
                         @if(articleForm.get('subtitle')?.invalid && articleForm.get('subtitle')?.touched)
                         {
                         <div>
@@ -45,7 +49,7 @@
                         <select formControlName="categoryId" name="categoryId" id="categoryId">
                             <option value="">- Category -</option>
                             @for (category of categories$ | async; track category.id) {
-                              <option [value]="category.id" [selected]="article?.categoryId === category.id">{{category.name}}</option>
+                              <option [value]="category.id" >{{category.name}}</option>
                             }
                         </select>
                     </div>
@@ -54,7 +58,7 @@
             <div class="row gtr-uniform">
                 <div class="col-12">
                     <label for="text">Text</label>
-                    <textarea class="form-control" id="text" formControlName="text" type="text" placeholder="enter text" rows="16" value="{{article?.text}}" required></textarea>
+                    <textarea class="form-control" id="text" formControlName="text" type="text" placeholder="enter text" rows="16" required></textarea>
                     @if(articleForm.get('text')?.invalid && articleForm.get('text')?.touched)
                     {
                     <div>
@@ -73,8 +77,8 @@
                     <ul class="actions">
                         <li><input type="submit" [disabled]="articleForm.invalid" value="Submit"></li>
                         <li><input type="reset" value="Reset"></li>
-<!--                        <li><input (click)="deleteArticle(article?.id)" type="button" value="Delete"></li>-->
                         <li><input [routerLink]="['/']" type="button" value="Cancel"></li>
+                        <li><input (click)="deleteArticle(articleForm.get('id')?.value!!)" type="button" value="Delete"></li>
                     </ul>
                 </div>
             </div>
