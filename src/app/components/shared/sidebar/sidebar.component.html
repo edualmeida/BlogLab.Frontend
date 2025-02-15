@@ -18,10 +18,10 @@
             <li>
               <article>
                 <header>
-                  <h3><a href="single.html">{{article.title}}</a></h3>
+                  <h3><a (click)="selectArticle(article.id)">{{article.title}}</a></h3>
                   <time class="published">{{article.createdOn}}</time>
                 </header>
-                <a href="single.html" class="image"><img src="assets/images/articles/mini-pic.jpg" alt="" /></a>
+                <a (click)="selectArticle(article.id)" class="image"><img src="assets/images/articles/mini-pic.jpg" alt="" /></a>
               </article>
             </li>
             } @empty {

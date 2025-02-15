@@ -34,9 +34,3 @@ export const routes: Routes = [
     canActivate: [adminAuthGuard],
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
-})
-export class AppRoutingModule {}

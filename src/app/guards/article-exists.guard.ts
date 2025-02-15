@@ -1,6 +1,6 @@
-﻿import {inject, Injectable} from '@angular/core';
-import {Router, CanActivateFn, CanActivate, ActivatedRouteSnapshot} from '@angular/router';
-import {Action, Store} from '@ngrx/store';
+﻿import {Injectable} from '@angular/core';
+import {Router, CanActivate, ActivatedRouteSnapshot} from '@angular/router';
+import {Store} from '@ngrx/store';
 import {articleFeature} from '../store/reducers/article.reducers';
 import {Observable, of, take} from 'rxjs';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
@@ -11,9 +11,9 @@ import {Article} from '../models/article';
 @Injectable()
 export class ArticleExistsGuard implements CanActivate {
   constructor(
-    private store: Store<Store>,
-    private router: Router,
-    private articleCatalogService: ArticleCatalogService
+    private readonly store: Store<Store>,
+    private readonly router: Router,
+    private readonly articleCatalogService: ArticleCatalogService
   ) { }
 
   /**
@@ -23,7 +23,7 @@ export class ArticleExistsGuard implements CanActivate {
    */
   hasArticleInStore(id: string): Observable<boolean> {
     return this.store.select(articleFeature.selectArticle).pipe(
-      map(article => !!article),
+      map(article => !!article && article.id == id),
       take(1)
     );
   }
@@ -53,7 +53,6 @@ export class ArticleExistsGuard implements CanActivate {
     return this.hasArticleInStore(id)
       .pipe(
         switchMap(inStore => {
-          console.log('ArticleExistsGuard', inStore);
           if (inStore) {
             return of(inStore);
           }
@@ -64,9 +63,6 @@ export class ArticleExistsGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
-
-    console.log('route', route);
-    console.log('params id', route.queryParams['id']);
     return this.hasArticle(route.queryParams['id']);
   }
 }

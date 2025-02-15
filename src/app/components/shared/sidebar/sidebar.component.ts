@@ -6,6 +6,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { catalogFeature } from '../../../store/reducers/article-catalog.reducers';
 import { AsyncPipe } from '@angular/common';
 import { environment } from '../../../../environments/environment';
+import * as CatalogActions from '../../../store/actions/article-catalog.actions';
 
 @Component({
   selector: 'app-sidebar',
@@ -20,6 +21,10 @@ export class SidebarComponent implements OnInit {
   faCoffee = faCoffee;
 
   ngOnInit(): void {
-    this.store.dispatch(ArticleActions.loadTopArticles({ pageSize: environment.sidebarArticlesCount }));  
+    this.store.dispatch(ArticleActions.loadTopArticles({ pageSize: environment.sidebarArticlesCount }));
+  }
+
+  selectArticle(articleId: string) {
+    this.store.dispatch(CatalogActions.navigateToViewArticle({ articleId }));
   }
 }
