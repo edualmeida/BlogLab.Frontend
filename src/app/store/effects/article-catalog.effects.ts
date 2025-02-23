@@ -32,7 +32,7 @@ export class ArticleCatalogEffects {
         ofType(CatalogActions.loadArticles),
         mergeMap(({pageNumber, pageSize}) =>
           this.articleCatalogService.getAllArticles(pageNumber, pageSize).pipe(
-            map((result) => CatalogActions.loadArticlesSuccess({ articles: result.articles, totalPages: result.totalPages })),
+            map((result) => { console.log(result); return CatalogActions.loadArticlesSuccess({ articles: result.articles, totalPages: result.totalPages });}),
             catchError((error) =>
               of(CatalogActions.loadArticlesFailure({ error: error.message }))
             )

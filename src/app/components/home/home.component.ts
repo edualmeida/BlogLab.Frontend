@@ -7,6 +7,7 @@ import { SidebarComponent } from '../shared/sidebar/sidebar.component';
 import { catalogFeature } from '../../store/reducers/article-catalog.reducers';
 import { environment } from '../../../environments/environment';
 import {authFeature} from '../../store/reducers/auth.reducers';
+import {ArticleCatalogService} from '../../services/article-catalog.service';
 
 @Component({
   selector: 'app-home',
@@ -22,9 +23,12 @@ export class HomeComponent implements OnInit {
   pageNumber = 1;
   avatarImgURL = '/assets/avatar01.jpg';
   isAdmin$ = this.store.select(authFeature.selectIsAdmin);
-
+  private articleCatalogService = inject(ArticleCatalogService);
   ngOnInit(): void {
     this.loadArticles(this.pageNumber);
+    this.articleCatalogService.getAllArticles(1, 3).subscribe(x=> {
+      console.log(x);
+    });
   }
 
   selectArticle(articleId: string) {
