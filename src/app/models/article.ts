@@ -21,6 +21,7 @@ export interface ServerArticle {
   createdOn: Date;
   author: string;
   categoryId: string;
+  isBookmarked: boolean | null;
 }
 
 export interface Article {
@@ -34,6 +35,7 @@ export interface Article {
   createdOn: string;
   author: string;
   categoryId: string;
+  isBookmarked: boolean | null;
 }
 
 export interface CreateArticle {

@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { articleFeature } from '../../store/reducers/article.reducers';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import {ArticleComponent} from '../article/article.component';
+import { ArticleComponent } from '../article/article.component';
 
 @Component({
   selector: 'app-view-article',
@@ -13,6 +13,6 @@ import {ArticleComponent} from '../article/article.component';
   styleUrls: ['../styles/index.scss', './view-article.component.scss'],
 })
 export class ViewArticleComponent {
-  store  = inject(Store);
+  store = inject(Store);
   article$ = this.store.select(articleFeature.selectArticle);
 }

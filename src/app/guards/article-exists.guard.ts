@@ -1,12 +1,13 @@
-﻿import {Injectable} from '@angular/core';
-import {Router, CanActivate, ActivatedRouteSnapshot} from '@angular/router';
-import {Store} from '@ngrx/store';
-import {articleFeature} from '../store/reducers/article.reducers';
-import {Observable, of, take} from 'rxjs';
-import {catchError, map, switchMap, tap} from 'rxjs/operators';
-import {ArticleCatalogService} from '../services/article-catalog.service';
+﻿import { Injectable } from '@angular/core';
+import { Router, CanActivate, ActivatedRouteSnapshot } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { articleFeature } from '../store/reducers/article.reducers';
+import { Observable, of, take } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { ArticleCatalogService } from '../services/article-catalog.service';
 import * as ArticleActions from '../store/actions/article.actions';
-import {Article} from '../models/article';
+import { Article } from '../models/article';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class ArticleExistsGuard implements CanActivate {
@@ -14,7 +15,7 @@ export class ArticleExistsGuard implements CanActivate {
     private readonly store: Store<Store>,
     private readonly router: Router,
     private readonly articleCatalogService: ArticleCatalogService
-  ) { }
+  ) {}
 
   /**
    * `hasArticle` composes `hasArticleInStore` and `hasArticleInApi`. It first checks
@@ -23,7 +24,7 @@ export class ArticleExistsGuard implements CanActivate {
    */
   hasArticleInStore(id: string): Observable<boolean> {
     return this.store.select(articleFeature.selectArticle).pipe(
-      map(article => !!article && article.id == id),
+      map((article) => !!article && article.id == id),
       take(1)
     );
   }
@@ -33,15 +34,19 @@ export class ArticleExistsGuard implements CanActivate {
    * it in the store, returning `true` or `false` if it was found.
    */
   hasArticleInApi(id: string): Observable<boolean> {
-    return this.articleCatalogService.getArticleById(id)
-      .pipe(
-        tap((article: Article) => this.store.dispatch(ArticleActions.loadArticleSuccess({article}))),
-        map((article: Article) => !!article),
-        catchError((error) => {
+    return this.articleCatalogService.getArticleById(id).pipe(
+      tap((article: Article) =>
+        this.store.dispatch(ArticleActions.loadArticleSuccess({ article }))
+      ),
+      map((article: Article) => !!article),
+      catchError((error) => {
+        if (error instanceof HttpErrorResponse && error.status === 401) {
           this.router.navigate(['/404']);
-          return of(false);
-        })
-      );
+        }
+
+        return of(false);
+      })
+    );
   }
 
   /**
@@ -50,16 +55,15 @@ export class ArticleExistsGuard implements CanActivate {
    * API.
    */
   hasArticle(id: string): Observable<boolean> {
-    return this.hasArticleInStore(id)
-      .pipe(
-        switchMap(inStore => {
-          if (inStore) {
-            return of(inStore);
-          }
+    return this.hasArticleInStore(id).pipe(
+      switchMap((inStore) => {
+        if (inStore) {
+          return of(inStore);
+        }
 
-          return this.hasArticleInApi(id);
-        })
-      )
+        return this.hasArticleInApi(id);
+      })
+    );
   }
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {

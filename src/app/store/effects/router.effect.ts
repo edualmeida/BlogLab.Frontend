@@ -4,13 +4,10 @@ import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { tap, map } from 'rxjs/operators';
 import * as RouterActions from '../actions/router.actions';
-import { getRouterSelectors } from "@ngrx/router-store";
+import { getRouterSelectors } from '@ngrx/router-store';
 
-export const {
-  selectQueryParam,
-  selectRouteParam,
-  selectRouteDataParam, 
-} = getRouterSelectors();
+export const { selectQueryParam, selectRouteParam, selectRouteDataParam } =
+  getRouterSelectors();
 
 export const selectRouteArticleId = selectRouteParam('id');
 
@@ -43,7 +40,7 @@ export class RouterEffects {
     { dispatch: false }
   );
 
-  setCurrentCourse$ = createEffect(
+  setCurrentArticle$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(RouterActions.SetRouteArticleId),

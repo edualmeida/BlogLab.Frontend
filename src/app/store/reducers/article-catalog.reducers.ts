@@ -1,5 +1,5 @@
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
-import * as CatalogActions from '../actions/article-catalog.actions';
+import { articleCatalogActions } from '../actions/article-catalog.actions';
 import { Article, ArticleCategory } from '../../models/article';
 
 export interface ArticleCatalogState {
@@ -24,41 +24,53 @@ export const initialState: ArticleCatalogState = {
 
 const reducer = createReducer(
   initialState,
-  on(CatalogActions.loadArticles, (state) => ({ ...state, loading: true })),
-  on(CatalogActions.loadArticlesSuccess, (state, { articles, totalPages }) => ({
+  on(articleCatalogActions.loadArticles, (state) => ({
     ...state,
-    articles: articles,
-    loading: false,
-    totalPages: totalPages,
+    loading: true,
   })),
-  on(CatalogActions.loadArticlesFailure, (state, { error }) => ({
+  on(
+    articleCatalogActions.loadArticlesSuccess,
+    (state, { articles, totalPages }) => ({
+      ...state,
+      articles: articles,
+      loading: false,
+      totalPages: totalPages,
+    })
+  ),
+  on(articleCatalogActions.loadArticlesFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,
     totalPages: 0,
   })),
-  on(CatalogActions.navigateToViewArticle, (state, { articleId }) => ({
+  on(articleCatalogActions.navigateToViewArticle, (state, { articleId }) => ({
     ...state,
     selectedId: articleId,
   })),
-  on(CatalogActions.loadCategories, (state) => ({ ...state, loading: true })),
-  on(CatalogActions.loadCategoriesSuccess, (state, { categories }) => ({
+  on(articleCatalogActions.loadCategories, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(articleCatalogActions.loadCategoriesSuccess, (state, { categories }) => ({
     ...state,
     categories: categories,
     loading: false,
   })),
-  on(CatalogActions.loadCategoriesFailure, (state, { error }) => ({
+  on(articleCatalogActions.loadCategoriesFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,
   })),
-  on(CatalogActions.loadTopArticles, (state) => ({ ...state, loading: true })),
-  on(CatalogActions.loadTopArticlesSuccess, (state, { articles }) => ({
+  on(articleCatalogActions.loadTopArticles, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(articleCatalogActions.loadTopArticlesSuccess, (state, { articles }) => ({
     ...state,
     topArticles: articles,
     loading: false,
   })),
-  on(CatalogActions.loadTopArticlesFailure, (state, { error }) => ({
+  on(articleCatalogActions.loadTopArticlesFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,

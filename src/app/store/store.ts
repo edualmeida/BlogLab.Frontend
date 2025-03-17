@@ -5,6 +5,7 @@ import { AuthEffects } from './effects/auth.effects';
 import { ArticleState } from './reducers/article.reducers';
 import { ArticleEffects } from './effects/article.effects';
 import { NotificationEffects } from './effects/notification.effects';
+import {BookmarkEffects} from './effects/bookmark.effects';
 
 export const articleCatalogFeatureKey = 'articleCatalog';
 
@@ -14,4 +15,4 @@ export interface AppState {
   authState: auth.AuthState;
 }
 
-export const appEffects = [ArticleCatalogEffects, AuthEffects, ArticleEffects, NotificationEffects];
+export const appEffects = [ArticleCatalogEffects, AuthEffects, ArticleEffects, NotificationEffects, BookmarkEffects];

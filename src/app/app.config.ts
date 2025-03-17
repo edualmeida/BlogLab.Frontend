@@ -24,6 +24,7 @@ import { provideToastr } from 'ngx-toastr';
 import { notificationFeature } from './store/reducers/notification.reducers';
 import {loadingInterceptor} from './interceptors/loading.interceptor';
 import {ArticleExistsGuard} from './guards/article-exists.guard';
+import {bookmarkFeature} from './store/reducers/bookmark.reducers';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -38,13 +39,24 @@ export const appConfig: ApplicationConfig = {
     provideState(articleFeature),
     provideState(notificationFeature),
     provideState(authFeature.name, authFeature.reducer, { metaReducers }),
+    provideState(bookmarkFeature),
     provideEffects(appEffects),
-    provideHttpClient(withInterceptors([apiKeyAuthInterceptor, errorInterceptor, tokenInterceptor, loadingInterceptor])),
+    provideHttpClient(
+      withInterceptors([
+        apiKeyAuthInterceptor,
+        tokenInterceptor,
+        errorInterceptor,
+        loadingInterceptor,
+      ])
+    ),
     DatePipe,
     provideRouterStore(),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideAnimationsAsync(),
-    provideToastr(),
+    provideToastr({
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }),
     ArticleExistsGuard
   ],
 };

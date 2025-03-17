@@ -1,24 +1,45 @@
 <article class="post">
   <header>
     <div class="title">
-      <h2><a href="#">{{article.title}}</a></h2>
-      <p>{{article.subtitle}}</p>
+      <h2>
+        <a href="#">{{ article.title }}</a>
+      </h2>
+      <p>{{ article.subtitle }}</p>
     </div>
     <div class="meta">
-      <time class="published" datetime="2015-11-01">{{article.createdOn}}</time>
-      <a href="#" class="author"><span class="name">{{article.author}}</span><img src="assets/images/articles/avatar01.jpg" alt="Author" /></a>
+      <time class="published" datetime="2015-11-01">{{
+        article.createdOn
+      }}</time>
+      <a href="#" class="author"
+        ><span class="name">{{ article.author }}</span
+        ><img src="assets/images/articles/avatar01.jpg" alt="Author"
+      /></a>
     </div>
   </header>
-  <span class="image featured"><img src="{{article.thumbnail}}" alt="Thumbnail" /></span>
-  <p>{{article.text}}</p>
+  <span class="image featured"
+    ><img src="{{ article.thumbnail }}" alt="Thumbnail"
+  /></span>
+  <p>{{ article.text }}</p>
   <footer>
     <ul class="actions">
-      <li><input [routerLink]="['/']" type="button" value="Home"></li>
+      <li><input [routerLink]="['/']" type="button" value="Home" /></li>
+      <li>
+        <input type="button" value="Bookmark" (click)="bookmarkArticle()" />
+      </li>
     </ul>
     <ul class="stats">
       <li><a href="#">General</a></li>
-      <li><a href="#" class="icon solid fa-heart">0</a></li>
-      <li><a href="#" class="icon solid fa-comment">0</a></li>
+      <li>
+        <a href="#" class="icon solid fa-heart">
+          @if (article.isBookmarked) {
+            <fa-icon
+              [icon]="faSolidHeart"
+              (click)="bookmarkArticle()"></fa-icon>
+          } @else {
+            <fa-icon [icon]="faRegularHeart"></fa-icon>
+          }
+        </a>
+      </li>
     </ul>
   </footer>
 </article>

@@ -22,55 +22,41 @@ export class ArticleCatalogService {
     private datepipe: DatePipe
   ) {}
 
-  getArticles(pageNumber:number, pageSize:number): Observable<GetArticlesResponse> {
+  getArticles(
+    pageNumber: number,
+    pageSize: number
+  ): Observable<GetArticlesResponse> {
     return this.http.get<GetArticlesResponse>(
-      environment.articleCatalogBaseUrl+
-      '?pageNumber='+pageNumber+
-      '&pageSize='+pageSize);
+      environment.articleCatalogBaseUrl +
+        '?pageNumber=' +
+        pageNumber +
+        '&pageSize=' +
+        pageSize
+    );
   }
 
-  getAllArticles(pageNumber:number, pageSize:number): Observable<GetArticlesResult> {
-    return this
-      .getArticles(pageNumber, pageSize)
-      .pipe(
-        map((response:GetArticlesResponse) => ({
-          totalCount: response.totalCount,
-          totalPages: response.totalPages,
-          articles: response.articles.map(
-            (article: ServerArticle): Article => ({
-              id: article.id,
-              thumbnail: `${environment.baseThumbnailUrl + article.thumbnail}`,
-              title: article.title,
-              subtitle: article.subtitle,
-              text: article.text,
-              category: article.category,
-              color: article.color,
-              createdOn: this.datepipe.transform(article.createdOn, 'longDate')!,
-              author: article.author,
-              categoryId: article.categoryId
-          }))
-        }))
-      );
+  getAllArticles(
+    pageNumber: number,
+    pageSize: number
+  ): Observable<GetArticlesResult> {
+    return this.getArticles(pageNumber, pageSize).pipe(
+      map((response: GetArticlesResponse) => ({
+        totalCount: response.totalCount,
+        totalPages: response.totalPages,
+        articles: response.articles.map((serverArticle: ServerArticle) =>
+          this.mapServerArticleToArticle(serverArticle, this.datepipe)
+        ),
+      }))
+    );
   }
 
   getArticleById(id: string): Observable<Article> {
     return this.http
       .get<ServerArticle>(environment.articleCatalogBaseUrl + '/' + id)
       .pipe(
-        map((article: ServerArticle) => {
-          return {
-            id: article.id,
-            thumbnail: `${environment.baseThumbnailUrl + article.thumbnail}`,
-            title: article.title,
-            subtitle: article.subtitle,
-            text: article.text,
-            category: article.category,
-            color: article.color,
-            createdOn: this.datepipe.transform(article.createdOn, 'longDate')!,
-            author: article.author,
-            categoryId: article.categoryId
-          };
-        })
+        map((serverArticle: ServerArticle) =>
+          this.mapServerArticleToArticle(serverArticle, this.datepipe)
+        )
       );
   }
 
@@ -78,15 +64,34 @@ export class ArticleCatalogService {
     return this.http.get<ArticleCategory[]>(environment.categoriesBaseUrl);
   }
 
-  createArticle(article: CreateArticle): Observable<any> {
+  createArticle(article: CreateArticle): Observable<object> {
     return this.http
       .post(environment.articleCatalogBaseUrl, article)
       .pipe(tap(() => console.log(`Article added`)));
   }
 
-  deleteArticle(id: string): Observable<any> {
+  deleteArticle(id: string): Observable<object> {
     return this.http
       .delete(environment.articleCatalogBaseUrl + '/' + id)
       .pipe(tap(() => console.log(`Article added`)));
+  }
+
+  private mapServerArticleToArticle(
+    article: ServerArticle,
+    datePipe: DatePipe
+  ): Article {
+    return {
+      id: article.id,
+      thumbnail: `${environment.baseThumbnailUrl + article.thumbnail}`,
+      title: article.title,
+      subtitle: article.subtitle,
+      text: article.text,
+      category: article.category,
+      color: article.color,
+      createdOn: datePipe.transform(article.createdOn, 'longDate')!,
+      author: article.author,
+      categoryId: article.categoryId,
+      isBookmarked: article.isBookmarked,
+    };
   }
 }

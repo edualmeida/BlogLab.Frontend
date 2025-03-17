@@ -21,7 +21,11 @@ export class SidebarComponent implements OnInit {
   faCoffee = faCoffee;
 
   ngOnInit(): void {
-    this.store.dispatch(ArticleActions.loadTopArticles({ pageSize: environment.sidebarArticlesCount }));
+    this.store.dispatch(
+      ArticleActions.loadTopArticles({
+        pageSize: environment.sidebarArticlesCount,
+      })
+    );
   }
 
   selectArticle(articleId: string) {

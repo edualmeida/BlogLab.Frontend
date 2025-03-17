@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, exhaustMap, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { ArticleCatalogService } from '../../services/article-catalog.service';
 import * as CatalogActions from '../actions/article-catalog.actions';
 import { Router } from '@angular/router';
 import * as NotificationActions from '../actions/notification.actions';
-import * as ArticleActions from '../actions/article.actions';
 
 @Injectable()
 export class ArticleCatalogEffects {
-  readonly viewArticleUrl = "article";
+  readonly viewArticleUrl = 'article';
 
   loadArticles$;
   loadTopArticles$;
@@ -25,14 +24,19 @@ export class ArticleCatalogEffects {
     private actions$: Actions,
     private articleCatalogService: ArticleCatalogService,
     private router: Router
-  )
-  {
+  ) {
     this.loadArticles$ = createEffect(() =>
       this.actions$.pipe(
         ofType(CatalogActions.loadArticles),
-        mergeMap(({pageNumber, pageSize}) =>
+        mergeMap(({ pageNumber, pageSize }) =>
           this.articleCatalogService.getAllArticles(pageNumber, pageSize).pipe(
-            map((result) => { console.log(result); return CatalogActions.loadArticlesSuccess({ articles: result.articles, totalPages: result.totalPages });}),
+            map((result) => {
+              console.log(result);
+              return CatalogActions.loadArticlesSuccess({
+                articles: result.articles,
+                totalPages: result.totalPages,
+              });
+            }),
             catchError((error) =>
               of(CatalogActions.loadArticlesFailure({ error: error.message }))
             )
@@ -46,9 +50,15 @@ export class ArticleCatalogEffects {
         ofType(CatalogActions.loadTopArticles),
         mergeMap(({ pageSize }) =>
           this.articleCatalogService.getAllArticles(1, pageSize).pipe(
-            map((result) => CatalogActions.loadTopArticlesSuccess({ articles: result.articles })),
+            map((result) =>
+              CatalogActions.loadTopArticlesSuccess({
+                articles: result.articles,
+              })
+            ),
             catchError((error) =>
-              of(CatalogActions.loadTopArticlesFailure({ error: error.message }))
+              of(
+                CatalogActions.loadTopArticlesFailure({ error: error.message })
+              )
             )
           )
         )
@@ -128,21 +138,25 @@ export class ArticleCatalogEffects {
       this.actions$.pipe(
         ofType(CatalogActions.loadArticlesSuccess),
         mergeMap((action) =>
-          of(NotificationActions.displaySuccess({
-            title: `Loaded ${action.articles.length} articles`
-          }))
-        ),
+          of(
+            NotificationActions.displaySuccess({
+              title: `Loaded ${action.articles.length} articles`,
+            })
+          )
+        )
       )
     );
 
     this.createArticleSuccessNotification$ = createEffect(() =>
       this.actions$.pipe(
         ofType(CatalogActions.createArticleSuccess),
-        switchMap((action) =>
-          of(NotificationActions.displaySuccess({
-            title: "Article created successfully!"
-          }))
-        ),
+        switchMap(() =>
+          of(
+            NotificationActions.displaySuccess({
+              title: 'Article created successfully!',
+            })
+          )
+        )
       )
     );
   }
