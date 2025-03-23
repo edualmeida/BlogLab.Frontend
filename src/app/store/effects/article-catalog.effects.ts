@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { ArticleCatalogService } from '../../services/article-catalog.service';
-import * as CatalogActions from '../actions/article-catalog.actions';
+import { articleCatalogActions } from '../actions/article-catalog.actions';
 import { Router } from '@angular/router';
 import * as NotificationActions from '../actions/notification.actions';
 
@@ -27,18 +27,22 @@ export class ArticleCatalogEffects {
   ) {
     this.loadArticles$ = createEffect(() =>
       this.actions$.pipe(
-        ofType(CatalogActions.loadArticles),
+        ofType(articleCatalogActions.loadArticles),
         mergeMap(({ pageNumber, pageSize }) =>
           this.articleCatalogService.getAllArticles(pageNumber, pageSize).pipe(
             map((result) => {
               console.log(result);
-              return CatalogActions.loadArticlesSuccess({
+              return articleCatalogActions.loadArticlesSuccess({
                 articles: result.articles,
                 totalPages: result.totalPages,
               });
             }),
             catchError((error) =>
-              of(CatalogActions.loadArticlesFailure({ error: error.message }))
+              of(
+                articleCatalogActions.loadArticlesFailure({
+                  error: error.message,
+                })
+              )
             )
           )
         )
@@ -47,17 +51,19 @@ export class ArticleCatalogEffects {
 
     this.loadTopArticles$ = createEffect(() =>
       this.actions$.pipe(
-        ofType(CatalogActions.loadTopArticles),
+        ofType(articleCatalogActions.loadTopArticles),
         mergeMap(({ pageSize }) =>
           this.articleCatalogService.getAllArticles(1, pageSize).pipe(
             map((result) =>
-              CatalogActions.loadTopArticlesSuccess({
+              articleCatalogActions.loadTopArticlesSuccess({
                 articles: result.articles,
               })
             ),
             catchError((error) =>
               of(
-                CatalogActions.loadTopArticlesFailure({ error: error.message })
+                articleCatalogActions.loadTopArticlesFailure({
+                  error: error.message,
+                })
               )
             )
           )
@@ -68,7 +74,7 @@ export class ArticleCatalogEffects {
     this.navigateToViewArticle$ = createEffect(
       () =>
         this.actions$.pipe(
-          ofType(CatalogActions.navigateToViewArticle),
+          ofType(articleCatalogActions.navigateToViewArticle),
           tap(({ articleId }) => {
             this.router.navigate([this.viewArticleUrl], {
               queryParams: { id: articleId },
@@ -81,7 +87,7 @@ export class ArticleCatalogEffects {
     // loaded by the ArticleExistsGuard
     // this.loadSelectedArticle$ = createEffect(() =>
     //   this.actions$.pipe(
-    //     ofType(CatalogActions.navigateToViewArticle),
+    //     ofType(articleCatalogActions.navigateToViewArticle),
     //     switchMap(({ articleId }) =>
     //       of(ArticleActions.loadArticle({
     //         id: articleId
@@ -92,14 +98,18 @@ export class ArticleCatalogEffects {
 
     this.loadCategories$ = createEffect(() =>
       this.actions$.pipe(
-        ofType(CatalogActions.loadCategories),
+        ofType(articleCatalogActions.loadCategories),
         mergeMap(() =>
           this.articleCatalogService.getCategories().pipe(
             map((categories) =>
-              CatalogActions.loadCategoriesSuccess({ categories })
+              articleCatalogActions.loadCategoriesSuccess({ categories })
             ),
             catchError((error) =>
-              of(CatalogActions.loadCategoriesFailure({ error: error.message }))
+              of(
+                articleCatalogActions.loadCategoriesFailure({
+                  error: error.message,
+                })
+              )
             )
           )
         )
@@ -108,14 +118,16 @@ export class ArticleCatalogEffects {
 
     this.createArticle$ = createEffect(() =>
       this.actions$.pipe(
-        ofType(CatalogActions.createArticle),
+        ofType(articleCatalogActions.createArticle),
         mergeMap((params) =>
           this.articleCatalogService.createArticle(params.article).pipe(
-            map(() => CatalogActions.createArticleSuccess()),
+            map(() => articleCatalogActions.createArticleSuccess()),
             catchError((error) => {
               console.log(error);
               return of(
-                CatalogActions.createArticleFailure({ error: error.message })
+                articleCatalogActions.createArticleFailure({
+                  error: error.message,
+                })
               );
             })
           )
@@ -126,7 +138,7 @@ export class ArticleCatalogEffects {
     this.createArticleSuccess$ = createEffect(
       () =>
         this.actions$.pipe(
-          ofType(CatalogActions.createArticleSuccess),
+          ofType(articleCatalogActions.createArticleSuccess),
           tap(() => {
             this.router.navigate(['/'], {});
           })
@@ -136,7 +148,7 @@ export class ArticleCatalogEffects {
 
     this.loadArticlesSuccess$ = createEffect(() =>
       this.actions$.pipe(
-        ofType(CatalogActions.loadArticlesSuccess),
+        ofType(articleCatalogActions.loadArticlesSuccess),
         mergeMap((action) =>
           of(
             NotificationActions.displaySuccess({
@@ -149,7 +161,7 @@ export class ArticleCatalogEffects {
 
     this.createArticleSuccessNotification$ = createEffect(() =>
       this.actions$.pipe(
-        ofType(CatalogActions.createArticleSuccess),
+        ofType(articleCatalogActions.createArticleSuccess),
         switchMap(() =>
           of(
             NotificationActions.displaySuccess({

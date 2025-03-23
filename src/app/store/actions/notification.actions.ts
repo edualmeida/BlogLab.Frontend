@@ -1,14 +1,14 @@
-import { createAction, props } from "@ngrx/store";
+import { createAction, props } from '@ngrx/store';
 
 export const displaySuccess = createAction(
-  "[Notification] Display Success",
+  '[Notification] Display Success',
   props<{ title: string; description?: string }>()
 );
 export const displayWarning = createAction(
-  "[Notification] Display Warning",
+  '[Notification] Display Warning',
   props<{ title: string; description?: string }>()
 );
 export const displayError = createAction(
-  "[Notification] Display Error",
+  '[Notification] Display Error',
   props<{ title: string; description?: string }>()
 );

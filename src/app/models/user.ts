@@ -16,6 +16,9 @@ export interface RegisterUser {
 
 export interface LoginResponse {
   token: string;
+  userid: string;
+  username: string;
+  isAdmin: boolean;
 }
 
 export interface TokenUser {

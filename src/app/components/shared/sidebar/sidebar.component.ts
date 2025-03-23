@@ -1,12 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as ArticleActions from '../../../store/actions/article-catalog.actions';
 import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { catalogFeature } from '../../../store/reducers/article-catalog.reducers';
 import { AsyncPipe } from '@angular/common';
 import { environment } from '../../../../environments/environment';
-import * as CatalogActions from '../../../store/actions/article-catalog.actions';
+import { articleCatalogActions } from '../../../store/actions/article-catalog.actions';
 
 @Component({
   selector: 'app-sidebar',
@@ -22,13 +21,15 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(
-      ArticleActions.loadTopArticles({
+      articleCatalogActions.loadTopArticles({
         pageSize: environment.sidebarArticlesCount,
       })
     );
   }
 
   selectArticle(articleId: string) {
-    this.store.dispatch(CatalogActions.navigateToViewArticle({ articleId }));
+    this.store.dispatch(
+      articleCatalogActions.navigateToViewArticle({ articleId })
+    );
   }
 }

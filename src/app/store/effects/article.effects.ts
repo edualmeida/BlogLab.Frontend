@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { ArticleCatalogService } from '../../services/article-catalog.service';
 import * as ArticleActions from '../actions/article.actions';
 import { Router } from '@angular/router';
 
 @Injectable()
 export class ArticleEffects {
-  readonly editArticleUrl= "edit-article";
+  readonly editArticleUrl = 'edit-article';
 
   loadArticle$;
   deleteArticle$;
@@ -21,8 +21,7 @@ export class ArticleEffects {
     private actions$: Actions,
     private articleCatalogService: ArticleCatalogService,
     private router: Router
-  )
-  {
+  ) {
     this.navigateToCreateArticle$ = createEffect(
       () =>
         this.actions$.pipe(
@@ -38,9 +37,8 @@ export class ArticleEffects {
       this.actions$.pipe(
         ofType(ArticleActions.navigateToCreateArticle),
         switchMap(() => {
-            return of(ArticleActions.clearSelectedArticle());
-          }
-        ),
+          return of(ArticleActions.clearSelectedArticle());
+        })
       )
     );
 
@@ -48,7 +46,7 @@ export class ArticleEffects {
       () =>
         this.actions$.pipe(
           ofType(ArticleActions.navigateToEditArticle),
-          tap(({id}) => {
+          tap(({ id }) => {
             this.router.navigate([this.editArticleUrl], {
               queryParams: { id: id },
             });
@@ -62,11 +60,12 @@ export class ArticleEffects {
         ofType(ArticleActions.navigateToEditArticle),
         switchMap(({ id }) => {
           console.log('navigateToEditArticle->ArticleActions.loadArticle', id);
-          return of(ArticleActions.loadArticle({
-            id: id
-          }));
-        }
-        ),
+          return of(
+            ArticleActions.loadArticle({
+              id: id,
+            })
+          );
+        })
       )
     );
 
@@ -76,7 +75,7 @@ export class ArticleEffects {
         mergeMap((payload: { id: string }) =>
           this.articleCatalogService.getArticleById(payload.id).pipe(
             map((article) => {
-              console.log('loadArticle$->getArticleById',article);
+              console.log('loadArticle$->getArticleById', article);
               return ArticleActions.loadArticleSuccess({ article });
             }),
             catchError((error) =>

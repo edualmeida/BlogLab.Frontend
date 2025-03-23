@@ -1,21 +1,21 @@
 <header id="header">
+  @let loginResponse = loginResponse$ | async;
   <span class="header-title"><a routerLink="/">Future Imperfect</a></span>
   <nav class="links">
     <ul>
-      @if(isAdmin$ | async)
-      {
+      @if (loginResponse?.isAdmin) {
         <li><a (click)="createArticle()">create-article</a></li>
       }
     </ul>
   </nav>
   <nav class="links">
     <ul>
-      @if(username$ | async; as username)
-      {
-        <li><a>{{username}}</a></li>
+      @if (loginResponse) {
+        <li>
+          <a>{{ loginResponse.username }}</a>
+        </li>
         <li><a (click)="logout()">logout</a></li>
-      }
-      @else {
+      } @else {
         <li><a routerLink="/sign-up">sign-up</a></li>
         <li><a routerLink="/login">login</a></li>
       }

@@ -31,7 +31,7 @@ const reducer = createReducer(
   on(ArticleActions.clearSelectedArticle, (state) => ({
     ...state,
     article: null,
-    loading: false
+    loading: false,
   }))
 );
 

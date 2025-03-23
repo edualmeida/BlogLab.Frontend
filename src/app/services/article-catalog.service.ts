@@ -12,6 +12,7 @@ import {
 } from '../models/article';
 import { DatePipe } from '@angular/common';
 import { environment } from '../../environments/environment';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,19 +20,19 @@ import { environment } from '../../environments/environment';
 export class ArticleCatalogService {
   constructor(
     private http: HttpClient,
-    private datepipe: DatePipe
+    private datepipe: DatePipe,
+    private authService: AuthService
   ) {}
 
   getArticles(
     pageNumber: number,
     pageSize: number
   ): Observable<GetArticlesResponse> {
+    const payloadUrl = `?pageNumber= + ${pageNumber} + &pageSize= + ${pageSize}`;
+
+    //if(this.authService.)
     return this.http.get<GetArticlesResponse>(
-      environment.articleCatalogBaseUrl +
-        '?pageNumber=' +
-        pageNumber +
-        '&pageSize=' +
-        pageSize
+      environment.articleCatalogBaseUrl + payloadUrl
     );
   }
 
@@ -82,7 +83,7 @@ export class ArticleCatalogService {
   ): Article {
     return {
       id: article.id,
-      thumbnail: `${environment.baseThumbnailUrl + article.thumbnail}`,
+      thumbnail: `${environment.baseThumbnailUrl + article.thumbnail}` + '.jpg',
       title: article.title,
       subtitle: article.subtitle,
       text: article.text,

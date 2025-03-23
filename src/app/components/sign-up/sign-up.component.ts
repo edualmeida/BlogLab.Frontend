@@ -18,7 +18,7 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['../styles/index.scss', './sign-up.component.scss'],
   imports: [CommonModule, ReactiveFormsModule, AsyncPipe, RouterModule],
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent {
   store = inject(Store);
   errorMessage$ = this.store.select(authFeature.selectError);
 
@@ -48,8 +48,6 @@ export class SignUpComponent implements OnInit {
       validators: [Validators.required, Validators.minLength(5)],
     }),
   });
-
-  ngOnInit() {}
 
   onSubmit(): void {
     this.store.dispatch(

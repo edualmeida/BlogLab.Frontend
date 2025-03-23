@@ -1,58 +1,67 @@
-import { Action, ActionReducer, createFeature, createReducer, MetaReducer, on } from '@ngrx/store';
+import {
+  Action,
+  ActionReducer,
+  createFeature,
+  createReducer,
+  createSelector,
+  MetaReducer,
+  on,
+} from '@ngrx/store';
 import * as AuthActions from '../actions/auth.actions';
-import { debugActionState, persistState } from './meta.reducers';
+import { persistState } from './meta.reducers';
+import { LoginResponse } from '../../models/user';
 
 export interface AuthState {
   isAuthenticated: boolean;
-  token: string | null;
-  username: string | null;
+  loginResponse: LoginResponse | null;
   error: string | null;
-  isAdmin: boolean;
 }
 
 export const initialState: AuthState = {
   isAuthenticated: false,
-  token: null,
-  username: null,
+  loginResponse: null,
   error: '',
-  isAdmin: false,
 };
 
 export const reducer = createReducer(
   initialState,
   on(AuthActions.logIn, (state) => ({ ...state })),
-  on(AuthActions.logInSuccess, (state, { token, username, isAdmin }) => ({
+  on(AuthActions.logInSuccess, (state, { loginResponse }) => ({
     ...state,
-    token,
-    username,
-    isAuthenticated: true,
-    isAdmin,
+    loginResponse,
   })),
   on(AuthActions.logInFailure, (state, { error }) => ({
     ...state,
     error,
-    username: null,
-    token: null,
+    loginResponse: null,
     isAuthenticated: false,
-    isAdmin: false,
   })),
   on(AuthActions.logOut, (state) => ({
     ...state,
-    username: null,
-    token: null,
+    loginResponse: null,
     isAuthenticated: false,
-    isAdmin: false,
   }))
 );
 
 export const authFeature = createFeature({
   name: 'auth',
   reducer,
+  extraSelectors: ({ selectAuthState }) => ({
+    selectIsAdmin: createSelector(
+      selectAuthState,
+      (authState) => authState.loginResponse?.isAdmin
+    ),
+  }),
 });
 
 export const IDENTITY_STORAGE_KEY = '__identity';
-export function authMetaReducer(_reducer: ActionReducer<AuthState>): MetaReducer<AuthState, Action<string>> {
-  return persistState(IDENTITY_STORAGE_KEY, _reducer) as MetaReducer<AuthState, Action<string>>;
+export function authMetaReducer(
+  _reducer: ActionReducer<AuthState>
+): MetaReducer<AuthState, Action<string>> {
+  return persistState(IDENTITY_STORAGE_KEY, _reducer) as MetaReducer<
+    AuthState,
+    Action<string>
+  >;
 }
 
 export const metaReducers: MetaReducer<any>[] = [authMetaReducer];

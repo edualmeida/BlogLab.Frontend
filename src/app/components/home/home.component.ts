@@ -1,13 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
-import * as CatalogActions from '../../store/actions/article-catalog.actions';
+import { articleCatalogActions } from '../../store/actions/article-catalog.actions';
 import * as ArticleActions from '../../store/actions/article.actions';
 import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../shared/sidebar/sidebar.component';
 import { catalogFeature } from '../../store/reducers/article-catalog.reducers';
 import { environment } from '../../../environments/environment';
-import {authFeature} from '../../store/reducers/auth.reducers';
-import {ArticleCatalogService} from '../../services/article-catalog.service';
+import { authFeature } from '../../store/reducers/auth.reducers';
+import { ArticleCatalogService } from '../../services/article-catalog.service';
 
 @Component({
   selector: 'app-home',
@@ -26,13 +26,15 @@ export class HomeComponent implements OnInit {
   private articleCatalogService = inject(ArticleCatalogService);
   ngOnInit(): void {
     this.loadArticles(this.pageNumber);
-    this.articleCatalogService.getAllArticles(1, 3).subscribe(x=> {
+    this.articleCatalogService.getAllArticles(1, 3).subscribe((x) => {
       console.log(x);
     });
   }
 
   selectArticle(articleId: string) {
-    this.store.dispatch(CatalogActions.navigateToViewArticle({ articleId }));
+    this.store.dispatch(
+      articleCatalogActions.navigateToViewArticle({ articleId })
+    );
   }
 
   nextPage() {
@@ -47,14 +49,18 @@ export class HomeComponent implements OnInit {
     return this.pageNumber === 1;
   }
 
-  loadArticles(pageNumber:number = 1) {
-    this.store.dispatch(CatalogActions.loadArticles({
-      pageNumber: this.pageNumber,
-      pageSize: environment.homeArticlesCount
-    }));
+  loadArticles(pageNumber = 1) {
+    this.store.dispatch(
+      articleCatalogActions.loadArticles({
+        pageNumber: pageNumber,
+        pageSize: environment.homeArticlesCount,
+      })
+    );
   }
 
   editArticle(articleId: string): void {
-    this.store.dispatch(ArticleActions.navigateToEditArticle({ id: articleId }));
+    this.store.dispatch(
+      ArticleActions.navigateToEditArticle({ id: articleId })
+    );
   }
 }

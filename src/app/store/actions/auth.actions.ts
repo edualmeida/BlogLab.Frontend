@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { RegisterUser } from '../../models/user';
+import { LoginResponse, RegisterUser } from '../../models/user';
 
 export const logIn = createAction(
   '[Auth] LogIn',
@@ -7,7 +7,7 @@ export const logIn = createAction(
 );
 export const logInSuccess = createAction(
   '[Auth] LogIn Success',
-  props<{ token: string; username: string; isAdmin: boolean }>()
+  props<{ loginResponse: LoginResponse }>()
 );
 export const logInFailure = createAction(
   '[Auth] LogIn Failure',

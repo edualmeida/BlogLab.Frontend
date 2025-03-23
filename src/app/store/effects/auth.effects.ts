@@ -23,14 +23,7 @@ export class AuthEffects {
         mergeMap((payload: { email: string; password: string }) =>
           this.authService.logIn(payload.email, payload.password).pipe(
             map((loginResponse) => {
-              const tokenUser = this.authService.decodeTokenUser(
-                loginResponse.token
-              );
-              return AuthActions.logInSuccess({
-                token: loginResponse.token,
-                username: tokenUser.unique_name,
-                isAdmin: tokenUser.role === this.authService.ADMIN_ROLE,
-              });
+              return AuthActions.logInSuccess({ loginResponse });
             }),
             catchError((error) =>
               of(AuthActions.logInFailure({ error: error.message }))
