@@ -1,52 +1,81 @@
 <!-- Sidebar -->
 <section id="sidebar">
   <!-- Intro -->
-    <section id="intro">
-      <a href="#" class="logo"><img src="assets/images/logo.jpg" alt="" /></a>
-      <header>
-        <h2>Future Imperfect</h2>
-        <p>Another fine responsive site template by <a href="http://html5up.net">HTML5 UP</a></p>
-      </header>
-    </section>
+  <section id="intro">
+    <a href="#" class="logo"><img src="assets/images/logo.jpg" alt="" /></a>
+    <header>
+      <h2>BlogLab</h2>
+      <p>
+        Angular, NgRx, RxJs
+        <a href="http://eduardolab.com">eduardolab.com</a>
+      </p>
+    </header>
+  </section>
   <!-- Posts List -->
-    <section>
-      <ul class="posts">
-        @if(isLoading$ | async) {
-          <li>Loading...</li>
-        } @else {
-          @for (article of (articles$ | async); track article.id) {
-            <li>
-              <article>
-                <header>
-                  <h3><a (click)="selectArticle(article.id)">{{article.title}}</a></h3>
-                  <time class="published">{{article.createdOn}}</time>
-                </header>
-                <a (click)="selectArticle(article.id)" class="image"><img src="assets/images/articles/mini-pic.jpg" alt="" /></a>
-              </article>
-            </li>
-            } @empty {
-            <li>No Data</li>
-            }
+  <section>
+    <ul class="posts">
+      @if (isLoading$ | async) {
+        <li>Loading...</li>
+      } @else {
+        @for (article of articles$ | async; track article.id) {
+          <li>
+            <article>
+              <header>
+                <h3>
+                  <a (click)="selectArticle(article.id)">{{ article.title }}</a>
+                </h3>
+                <time class="published">{{ article.createdOn }}</time>
+              </header>
+              <a (click)="selectArticle(article.id)" class="image"
+                ><img src="assets/images/articles/mini-pic.jpg" alt=""
+              /></a>
+            </article>
+          </li>
+        } @empty {
+          <li>No Data</li>
         }
-      </ul>
-    </section>
+      }
+    </ul>
+  </section>
   <!-- About -->
-    <section class="blurb">
-      <h2>About</h2>
-      <p>Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed mattis nunc id lorem euismod amet placerat. Vivamus porttitor magna enim, ac accumsan tortor cursus at phasellus sed ultricies.</p>
-      <ul class="actions">
-        <li><a href="https://www.eduardolab.com" class="button">Learn More</a></li>
-      </ul>
-    </section>
+  <section class="blurb">
+    <h2>About</h2>
+    <p>
+      Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed
+      mattis nunc id lorem euismod amet placerat. Vivamus porttitor magna enim,
+      ac accumsan tortor cursus at phasellus sed ultricies.
+    </p>
+    <ul class="actions">
+      <li>
+        <a href="https://www.eduardolab.com" class="button">Learn More</a>
+      </li>
+    </ul>
+  </section>
   <!-- Footer -->
-    <section id="footer">
-      <ul class="icons">
-        <li><fa-icon [icon]="faCoffee"></fa-icon></li>
-        <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-        <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-        <li><a href="#" class="icon solid fa-rss"><span class="label">RSS</span></a></li>
-        <li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
-      </ul>
-      <p class="copyright">&copy; Untitled. Design: <a href="http://html5up.net">HTML5 UP</a>. Images: <a href="http://unsplash.com">Unsplash</a>.</p>
-    </section>
+  <section id="footer">
+    <ul class="icons">
+      <li><fa-icon [icon]="faCoffee"></fa-icon></li>
+      <li>
+        <a href="#" class="icon brands fa-facebook-f"
+          ><span class="label">Facebook</span></a
+        >
+      </li>
+      <li>
+        <a href="#" class="icon brands fa-instagram"
+          ><span class="label">Instagram</span></a
+        >
+      </li>
+      <li>
+        <a href="#" class="icon solid fa-rss"><span class="label">RSS</span></a>
+      </li>
+      <li>
+        <a href="#" class="icon solid fa-envelope"
+          ><span class="label">Email</span></a
+        >
+      </li>
+    </ul>
+    <p class="copyright">
+      &copy; Untitled. Dev: <a href="http://eduardolab.com">eduardolab.com</a>.
+    </p>
+  </section>
 </section>
