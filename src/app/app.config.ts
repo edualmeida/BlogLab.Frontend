@@ -3,33 +3,34 @@ import {
   isDevMode,
   provideZoneChangeDetection,
 } from '@angular/core';
-import {provideRouter, withInMemoryScrolling} from '@angular/router';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { routes } from './app.routes';
 import { provideState, provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
-import { appEffects } from './store/store';
+import { appEffects } from './core/store/store';
 import { provideRouterStore } from '@ngrx/router-store';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { catalogFeature } from './store/reducers/article-catalog.reducers';
-import { apiKeyAuthInterceptor } from './interceptors/apikey-auth.interceptor';
-import { tokenInterceptor } from './interceptors/token.interceptor';
-import { authFeature } from './store/reducers/auth.reducers';
-import { metaReducers } from './store/reducers/auth.reducers';
-import { articleFeature } from './store/reducers/article.reducers';
+import { catalogFeature } from './features/article-list/store/article-catalog.reducers';
+import { apiKeyAuthInterceptor } from './core/interceptors/apikey-auth.interceptor';
+import { tokenInterceptor } from './core/interceptors/token.interceptor';
+import { authFeature } from './features/auth/store/auth.reducers';
+import { metaReducers } from './features/auth/store/auth.reducers';
+import { articleFeature } from './features/article-list/store/article.reducers';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { errorInterceptor } from './interceptors/error.interceptor';
+import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { provideToastr } from 'ngx-toastr';
-import { notificationFeature } from './store/reducers/notification.reducers';
-import {loadingInterceptor} from './interceptors/loading.interceptor';
-import {ArticleExistsGuard} from './guards/article-exists.guard';
-import {bookmarkFeature} from './store/reducers/bookmark.reducers';
+import { notificationFeature } from './core/store/notification.reducers';
+import { loadingInterceptor } from './core/interceptors/loading.interceptor';
+import { ArticleExistsGuard } from './features/article-list/guards/article-exists.guard';
+import { bookmarkFeature } from './features/bookmarks/store/bookmark.reducers';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes,
+    provideRouter(
+      routes,
       withInMemoryScrolling({
         scrollPositionRestoration: 'enabled',
       })
@@ -57,6 +58,6 @@ export const appConfig: ApplicationConfig = {
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
     }),
-    ArticleExistsGuard
+    ArticleExistsGuard,
   ],
 };
