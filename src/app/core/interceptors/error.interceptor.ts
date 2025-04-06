@@ -6,6 +6,8 @@ import { AuthService } from '../../features/auth/services/auth.service';
 import { HttpInterceptorFn } from '@angular/common/http';
 import Utils from '../services/common-utils.service';
 import { ErrorDialogService } from '../services/error-dialog.service';
+import { routePaths } from '../../app.routes';
+import { throwError } from 'rxjs';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
@@ -16,19 +18,23 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     catchError((response: HttpErrorResponse) => {
       console.error('errorInterceptor->response', response);
-      console.error('errorInterceptor->response.message', response.message);
-      console.error(
-        'errorInterceptor->response.error.message',
-        response.error.message
-      );
 
-      if (response.status === 401) {
+      if (response.error) {
+        console.error(
+          'errorInterceptor->custom response.error',
+          response.error
+        );
+
+        return throwError(() => response.error);
+      }
+
+      if (response.status === 401 && !response.error) {
         authService.logout();
-        router.navigateByUrl('/log-in');
+        router.navigateByUrl(routePaths.login());
       } else {
         zone.run(() =>
           errorDialogService.openDialog(
-            response?.error?.message || 'Undefined client error'
+            response.error || 'Undefined client error'
           )
         );
       }
