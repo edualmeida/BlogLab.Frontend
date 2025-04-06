@@ -1,0 +1,40 @@
+input[type="button"],
+.icon-toggle {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  -moz-transition:
+    background-color 0,
+    box-shadow 0s ease,
+    color 0s ease;
+  -webkit-transition:
+    background-color 0,
+    box-shadow 0s ease,
+    color 0.2s ease;
+  -ms-transition:
+    background-color 0s ease,
+    box-shadow 0s ease,
+    color 0s ease;
+  transition:
+    background-color 0s ease,
+    box-shadow 0s ease,
+    color 0s ease;
+  background-color: transparent;
+  border: 0;
+  box-shadow: none;
+  color: #3c3b3b !important;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Raleway", Helvetica, sans-serif;
+  font-size: 1.6em;
+  font-weight: 800;
+  height: 0;
+  letter-spacing: 0;
+  line-height: 0;
+  padding: 0;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+}

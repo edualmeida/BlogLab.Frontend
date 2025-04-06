@@ -23,22 +23,11 @@
   <footer>
     <ul class="actions">
       <li><input [routerLink]="['/']" type="button" value="Home" /></li>
-      <li>
-        <input type="button" value="Bookmark" (click)="bookmarkArticle()" />
-      </li>
     </ul>
     <ul class="stats">
       <li><a href="#">General</a></li>
       <li>
-        <a href="#" class="icon solid fa-heart">
-          @if (article.isBookmarked) {
-            <fa-icon
-              [icon]="faSolidHeart"
-              (click)="bookmarkArticle()"></fa-icon>
-          } @else {
-            <fa-icon [icon]="faRegularHeart"></fa-icon>
-          }
-        </a>
+        <blog-bookmark-toggle [article]="article"></blog-bookmark-toggle>
       </li>
     </ul>
   </footer>

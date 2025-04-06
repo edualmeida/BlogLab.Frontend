@@ -2,7 +2,7 @@
 const eslint = require("@eslint/js");
 const tseslint = require("typescript-eslint");
 const angular = require("angular-eslint");
-const eslintPluginPrettierRecommended = require('eslint-plugin-prettier/recommended');
+const eslintPluginPrettierRecommended = require("eslint-plugin-prettier/recommended");
 
 module.exports = tseslint.config(
   {
@@ -20,7 +20,7 @@ module.exports = tseslint.config(
         "error",
         {
           type: "attribute",
-          prefix: "app",
+          prefix: ["app", "blog"],
           style: "camelCase",
         },
       ],
@@ -28,7 +28,7 @@ module.exports = tseslint.config(
         "error",
         {
           type: "element",
-          prefix: "app",
+          prefix: ["app", "blog"],
           style: "kebab-case",
         },
       ],

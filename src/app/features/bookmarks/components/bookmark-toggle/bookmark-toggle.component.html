@@ -1,0 +1,7 @@
+<button class="icon-toggle" (click)="bookmarkArticle()">
+  @if (article.isBookmarked) {
+    <fa-icon [icon]="faSolidHeart"></fa-icon>
+  } @else {
+    <fa-icon [icon]="faRegularHeart"></fa-icon>
+  }
+</button>

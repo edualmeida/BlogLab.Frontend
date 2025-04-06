@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { RegisterUser } from '../../../../features/auth/models/user';
 import * as AuthActions from '../../store/auth.actions';
@@ -11,6 +11,7 @@ import {
 import { authFeature } from '../../store/auth.reducers';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ValidationErrorsComponent } from '../../../../shared/components/validation-errors/validation-errors.component';
 
 @Component({
   selector: 'app-sign-up',
@@ -19,11 +20,17 @@ import { RouterModule } from '@angular/router';
     '../../../../shared/styles/index.scss',
     './sign-up.component.scss',
   ],
-  imports: [CommonModule, ReactiveFormsModule, AsyncPipe, RouterModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    AsyncPipe,
+    RouterModule,
+    ValidationErrorsComponent,
+  ],
 })
-export class SignUpComponent {
+export class SignUpComponent implements OnInit {
   store = inject(Store);
-  errorMessage$ = this.store.select(authFeature.selectError);
+  loginErrors$ = this.store.select(authFeature.selectValidationErrors);
 
   loginForm = new FormGroup({
     name: new FormControl<string>('', {
@@ -51,6 +58,10 @@ export class SignUpComponent {
       validators: [Validators.required, Validators.minLength(5)],
     }),
   });
+
+  ngOnInit(): void {
+    console.log(' SignUpComponent ngOnInit');
+  }
 
   onSubmit(): void {
     this.store.dispatch(

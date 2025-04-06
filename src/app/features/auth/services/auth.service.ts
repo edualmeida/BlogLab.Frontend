@@ -18,7 +18,7 @@ export class AuthService {
 
   isAdminAuthenticated(): boolean {
     const item = localStorage.getItem(IDENTITY_STORAGE_KEY);
-    return item ? JSON.parse(item).isAdmin : false;
+    return item ? JSON.parse(item).loginResponse.isAdmin : false;
   }
 
   isAuthenticated() {
@@ -28,7 +28,7 @@ export class AuthService {
 
   getToken(): string | null {
     const item = localStorage.getItem(IDENTITY_STORAGE_KEY);
-    return item ? JSON.parse(item).token : null;
+    return item ? JSON.parse(item).loginResponse.token : null;
   }
 
   logout(): void {

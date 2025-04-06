@@ -26,7 +26,7 @@ export class AuthEffects {
               return AuthActions.logInSuccess({ loginResponse });
             }),
             catchError((error) =>
-              of(AuthActions.logInFailure({ error: error.message }))
+              of(AuthActions.logInFailure({ validationErrors: error }))
             )
           )
         )

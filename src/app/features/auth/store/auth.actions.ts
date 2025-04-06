@@ -14,7 +14,7 @@ export const logInSuccess = createAction(
 );
 export const logInFailure = createAction(
   '[Auth] LogIn Failure',
-  props<{ error: string }>()
+  props<{ validationErrors: string[] }>()
 );
 export const signUp = createAction(
   '[Auth] SignUp',

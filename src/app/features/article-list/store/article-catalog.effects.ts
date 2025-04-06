@@ -6,11 +6,10 @@ import { ArticleCatalogService } from '../services/article-catalog.service';
 import { articleCatalogActions } from '../store/article-catalog.actions';
 import { Router } from '@angular/router';
 import * as NotificationActions from '../../../core/store/notification.actions';
+import { routePaths } from '../../../app.routes';
 
 @Injectable()
 export class ArticleCatalogEffects {
-  readonly viewArticleUrl = 'article';
-
   loadArticles$;
   loadTopArticles$;
   navigateToViewArticle$;
@@ -31,7 +30,6 @@ export class ArticleCatalogEffects {
         mergeMap(({ pageNumber, pageSize }) =>
           this.articleCatalogService.getAllArticles(pageNumber, pageSize).pipe(
             map((result) => {
-              console.log(result);
               return articleCatalogActions.loadArticlesSuccess({
                 articles: result.articles,
                 totalPages: result.totalPages,
@@ -76,7 +74,7 @@ export class ArticleCatalogEffects {
         this.actions$.pipe(
           ofType(articleCatalogActions.navigateToViewArticle),
           tap(({ articleId }) => {
-            this.router.navigate([this.viewArticleUrl], {
+            this.router.navigate([routePaths.viewArticle()], {
               queryParams: { id: articleId },
             });
           })

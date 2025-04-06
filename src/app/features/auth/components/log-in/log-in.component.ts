@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as AuthActions from '../../store/auth.actions';
 import {
@@ -10,6 +10,7 @@ import {
 import { authFeature } from '../../store/auth.reducers';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ValidationErrorsComponent } from '../../../../shared/components/validation-errors/validation-errors.component';
 
 @Component({
   selector: 'app-log-in',
@@ -18,11 +19,17 @@ import { RouterModule } from '@angular/router';
     '../../../../shared/styles/index.scss',
     './log-in.component.scss',
   ],
-  imports: [CommonModule, ReactiveFormsModule, AsyncPipe, RouterModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    AsyncPipe,
+    RouterModule,
+    ValidationErrorsComponent,
+  ],
 })
-export class LogInComponent {
+export class LogInComponent implements OnInit {
   store = inject(Store);
-  errorMessage$ = this.store.select(authFeature.selectError);
+  loginErrors$ = this.store.select(authFeature.selectValidationErrors);
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.minLength(3)]),
     password: new FormControl('', [
@@ -30,6 +37,10 @@ export class LogInComponent {
       Validators.minLength(5),
     ]),
   });
+
+  ngOnInit(): void {
+    console.log(' LogInComponent ngOnInit');
+  }
 
   onSubmit(): void {
     this.store.dispatch(

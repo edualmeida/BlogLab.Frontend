@@ -10,17 +10,18 @@ import {
 import * as AuthActions from './auth.actions';
 import { persistState } from '../../../core/store/meta.reducers';
 import { LoginResponse } from '../../../features/auth/models/user';
+import { routerNavigationAction } from '@ngrx/router-store';
 
 export interface AuthState {
   isAuthenticated: boolean;
   loginResponse: LoginResponse | null;
-  error: string | null;
+  validationErrors: string[] | null;
 }
 
 export const initialState: AuthState = {
   isAuthenticated: false,
   loginResponse: null,
-  error: '',
+  validationErrors: null,
 };
 
 export const reducer = createReducer(
@@ -28,19 +29,24 @@ export const reducer = createReducer(
   on(AuthActions.logIn, (state) => ({ ...state })),
   on(AuthActions.logInSuccess, (state, { loginResponse }) => ({
     ...state,
+    isAuthenticated: true,
     loginResponse,
   })),
-  on(AuthActions.logInFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loginResponse: null,
-    isAuthenticated: false,
-  })),
+  on(
+    AuthActions.logInFailure,
+    (state, { validationErrors: validationErrors }) => ({
+      ...state,
+      validationErrors,
+      loginResponse: null,
+      isAuthenticated: false,
+    })
+  ),
   on(AuthActions.logOut, (state) => ({
     ...state,
     loginResponse: null,
     isAuthenticated: false,
-  }))
+  })),
+  on(routerNavigationAction, (state) => ({ ...state, validationErrors: null }))
 );
 
 export const authFeature = createFeature({

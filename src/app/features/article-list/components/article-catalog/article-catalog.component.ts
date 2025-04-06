@@ -26,12 +26,9 @@ export class HomeComponent implements OnInit {
   pageNumber = 1;
   avatarImgURL = '/assets/avatar01.jpg';
   isAdmin$ = this.store.select(authFeature.selectIsAdmin);
-  private articleCatalogService = inject(ArticleCatalogService);
+
   ngOnInit(): void {
     this.loadArticles(this.pageNumber);
-    this.articleCatalogService.getAllArticles(1, 3).subscribe((x) => {
-      console.log(x);
-    });
   }
 
   selectArticle(articleId: string) {

@@ -11,6 +11,7 @@ export class BookmarkService {
   constructor(private http: HttpClient) {}
 
   bookmarkArticle(articleId: string): Observable<object> {
+    console.log('Bookmarking article with id: ' + articleId);
     return this.http
       .post(environment.bookmarksBaseUrl, { articleId })
       .pipe(debug('Bookmarked article id: ' + articleId));
