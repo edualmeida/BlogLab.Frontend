@@ -35,13 +35,14 @@ export class ArticleCatalogEffects {
                 totalPages: result.totalPages,
               });
             }),
-            catchError((error) =>
-              of(
+            catchError((error) => {
+              console.log(error);
+              return of(
                 articleCatalogActions.loadArticlesFailure({
                   error: error.message,
                 })
-              )
-            )
+              );
+            })
           )
         )
       )

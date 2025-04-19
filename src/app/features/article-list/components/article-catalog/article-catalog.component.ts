@@ -7,7 +7,6 @@ import { SidebarComponent } from '../../../../shared/components/sidebar/sidebar.
 import { catalogFeature } from '../../store/article-catalog.reducers';
 import { environment } from '../../../../../environments/environment';
 import { authFeature } from '../../../auth/store/auth.reducers';
-import { ArticleCatalogService } from '../../services/article-catalog.service';
 
 @Component({
   selector: 'app-article-list',
@@ -29,6 +28,12 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadArticles(this.pageNumber);
+
+    this.store
+      .select(authFeature.selectIsAuthenticated)
+      .subscribe((isAuthenticated) => {
+        console.log('isAuthenticated', isAuthenticated);
+      });
   }
 
   selectArticle(articleId: string) {

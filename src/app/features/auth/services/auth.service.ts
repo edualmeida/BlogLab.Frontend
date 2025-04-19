@@ -17,8 +17,8 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   isAdminAuthenticated(): boolean {
-    const item = localStorage.getItem(IDENTITY_STORAGE_KEY);
-    return item ? JSON.parse(item).loginResponse.isAdmin : false;
+    const loginResponse = this.getLoginResponse();
+    return loginResponse ? loginResponse.isAdmin : false;
   }
 
   isAuthenticated() {
@@ -27,8 +27,8 @@ export class AuthService {
   }
 
   getToken(): string | null {
-    const item = localStorage.getItem(IDENTITY_STORAGE_KEY);
-    return item ? JSON.parse(item).loginResponse.token : null;
+    const loginResponse = this.getLoginResponse();
+    return loginResponse ? loginResponse.token : null;
   }
 
   logout(): void {
@@ -52,5 +52,10 @@ export class AuthService {
   getStatus(): Observable<User> {
     const url = `${this.BASE_URL}/status`;
     return this.http.get<User>(url);
+  }
+
+  getLoginResponse(): LoginResponse | null {
+    const item = localStorage.getItem(IDENTITY_STORAGE_KEY);
+    return item ? JSON.parse(item).loginResponse : null;
   }
 }
