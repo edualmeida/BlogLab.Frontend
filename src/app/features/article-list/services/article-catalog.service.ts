@@ -12,7 +12,6 @@ import {
 } from '../models/article';
 import { DatePipe } from '@angular/common';
 import { environment } from '../../../../environments/environment';
-import { AuthService } from '../../auth/services/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,8 +19,7 @@ import { AuthService } from '../../auth/services/auth.service';
 export class ArticleCatalogService {
   constructor(
     private http: HttpClient,
-    private datepipe: DatePipe,
-    private authService: AuthService
+    private datepipe: DatePipe
   ) {}
 
   getArticles(
@@ -30,7 +28,6 @@ export class ArticleCatalogService {
   ): Observable<GetArticlesResponse> {
     const payloadUrl = `?pageNumber= + ${pageNumber} + &pageSize= + ${pageSize}`;
 
-    //if(this.authService.)
     return this.http.get<GetArticlesResponse>(
       environment.articleCatalogBaseUrl + payloadUrl
     );

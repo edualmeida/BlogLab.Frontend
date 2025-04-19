@@ -49,7 +49,6 @@ export class AuthEffects {
         this.actions$.pipe(
           ofType(AuthActions.logOut),
           tap(() => {
-            this.authService.logout();
             this.router.navigateByUrl('/');
           })
         ),

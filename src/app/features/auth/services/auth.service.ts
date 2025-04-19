@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { LoginResponse, TokenUser, User } from '../models/user';
 import { environment } from '../../../../environments/environment';
 import { jwtDecode } from 'jwt-decode';
-import { IDENTITY_STORAGE_KEY } from '../store/auth.reducers';
 
 @Injectable({
   providedIn: 'root',
@@ -15,25 +14,6 @@ export class AuthService {
   public ADMIN_ROLE = 'Administrator';
 
   constructor(private http: HttpClient) {}
-
-  isAdminAuthenticated(): boolean {
-    const loginResponse = this.getLoginResponse();
-    return loginResponse ? loginResponse.isAdmin : false;
-  }
-
-  isAuthenticated() {
-    const item = localStorage.getItem(IDENTITY_STORAGE_KEY);
-    return item ? JSON.parse(item).isAuthenticated : null;
-  }
-
-  getToken(): string | null {
-    const loginResponse = this.getLoginResponse();
-    return loginResponse ? loginResponse.token : null;
-  }
-
-  logout(): void {
-    localStorage.removeItem(IDENTITY_STORAGE_KEY);
-  }
 
   decodeTokenUser(token: string): TokenUser {
     return jwtDecode<TokenUser>(token);
@@ -52,10 +32,5 @@ export class AuthService {
   getStatus(): Observable<User> {
     const url = `${this.BASE_URL}/status`;
     return this.http.get<User>(url);
-  }
-
-  getLoginResponse(): LoginResponse | null {
-    const item = localStorage.getItem(IDENTITY_STORAGE_KEY);
-    return item ? JSON.parse(item).loginResponse : null;
   }
 }

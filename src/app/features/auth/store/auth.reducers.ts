@@ -57,6 +57,11 @@ export const authFeature = createFeature({
       selectAuthState,
       (authState) => authState.loginResponse?.isAdmin
     ),
+    selectIsUserOrAdminAuthenticated: createSelector(
+      selectAuthState,
+      (authState) =>
+        authState.loginResponse?.isAdmin || authState.isAuthenticated
+    ),
   }),
 });
 

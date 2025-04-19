@@ -3,7 +3,6 @@ import { RouterModule } from '@angular/router';
 import { authFeature } from '../../../features/auth/store/auth.reducers';
 import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
-import { AuthService } from '../../../features/auth/services/auth.service';
 import * as AuthActions from '../../../features/auth/store/auth.actions';
 import * as ArticleActions from '../../../features/article-list/store/article.actions';
 
@@ -15,7 +14,6 @@ import * as ArticleActions from '../../../features/article-list/store/article.ac
 })
 export class HeaderComponent {
   store = inject(Store);
-  authService = inject(AuthService);
   loginResponse$ = this.store.select(authFeature.selectLoginResponse);
 
   logout() {
