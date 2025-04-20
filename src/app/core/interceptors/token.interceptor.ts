@@ -11,7 +11,6 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
     first(),
     mergeMap((loginResponse) => {
       const token = loginResponse?.token;
-      console.log('tokenInterceptor->token', token);
       const authReq = token
         ? req.clone({
             setHeaders: {

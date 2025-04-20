@@ -28,12 +28,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadArticles(this.pageNumber);
-
-    this.store
-      .select(authFeature.selectIsAuthenticated)
-      .subscribe((isAuthenticated) => {
-        console.log('isAuthenticated', isAuthenticated);
-      });
   }
 
   selectArticle(articleId: string) {
