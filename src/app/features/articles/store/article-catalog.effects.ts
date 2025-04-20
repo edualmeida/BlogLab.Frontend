@@ -6,7 +6,7 @@ import { ArticleCatalogService } from '../services/article-catalog.service';
 import { articleCatalogActions } from '../store/article-catalog.actions';
 import { Router } from '@angular/router';
 import * as NotificationActions from '../../../core/store/notification.actions';
-import { routePaths } from '../../../app.routes';
+import { articlesRoutePaths } from '../articles.routes';
 
 @Injectable()
 export class ArticleCatalogEffects {
@@ -75,7 +75,7 @@ export class ArticleCatalogEffects {
         this.actions$.pipe(
           ofType(articleCatalogActions.navigateToViewArticle),
           tap(({ articleId }) => {
-            this.router.navigate([routePaths.viewArticle()], {
+            this.router.navigate([articlesRoutePaths.viewArticle()], {
               queryParams: { id: articleId },
             });
           })
