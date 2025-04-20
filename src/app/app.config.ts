@@ -12,18 +12,18 @@ import { provideRouterStore } from '@ngrx/router-store';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { catalogFeature } from './features/article-list/store/article-catalog.reducers';
+import { catalogFeature } from './features/articles/store/article-catalog.reducers';
 import { apiKeyAuthInterceptor } from './core/interceptors/apikey-auth.interceptor';
 import { tokenInterceptor } from './core/interceptors/token.interceptor';
 import { authFeature } from './features/auth/store/auth.reducers';
 import { metaReducers } from './features/auth/store/auth.reducers';
-import { articleFeature } from './features/article-list/store/article.reducers';
+import { articleFeature } from './features/articles/store/article.reducers';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { provideToastr } from 'ngx-toastr';
 import { notificationFeature } from './core/store/notification.reducers';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
-import { ArticleExistsGuard } from './features/article-list/guards/article-exists.guard';
+import { ArticleExistsGuard } from './features/articles/guards/article-exists.guard';
 import { bookmarkFeature } from './features/bookmarks/store/bookmark.reducers';
 
 export const appConfig: ApplicationConfig = {

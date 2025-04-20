@@ -9,7 +9,7 @@ import { environment } from '../../../../../environments/environment';
 import { authFeature } from '../../../auth/store/auth.reducers';
 
 @Component({
-  selector: 'app-article-list',
+  selector: 'blog-article-catalog',
   templateUrl: './article-catalog.component.html',
   styleUrls: [
     '../../../../shared/styles/index.scss',
@@ -17,7 +17,7 @@ import { authFeature } from '../../../auth/store/auth.reducers';
   ],
   imports: [CommonModule, SidebarComponent],
 })
-export class HomeComponent implements OnInit {
+export class ArticleCatalogComponent implements OnInit {
   store = inject(Store);
   articles$ = this.store.select(catalogFeature.selectArticles);
   isLoading$ = this.store.select(catalogFeature.selectLoading);

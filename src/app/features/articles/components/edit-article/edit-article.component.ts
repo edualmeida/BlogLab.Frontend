@@ -15,7 +15,7 @@ import {
   Article,
   CreateArticle,
   UpdateArticle,
-} from '../../../../features/article-list/models/article';
+} from '../../../../features/articles/models/article';
 import { articleFeature } from '../../store/article.reducers';
 import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
-import { ArticleCatalogService } from '../../article-list/services/article-catalog.service';
+import { ArticleCatalogService } from '../../articles/services/article-catalog.service';
 import * as ArticleActions from '../store/article.actions';
 import { Router } from '@angular/router';
 

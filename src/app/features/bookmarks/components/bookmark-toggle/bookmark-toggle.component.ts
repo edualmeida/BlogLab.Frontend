@@ -4,7 +4,7 @@ import * as BookmarkActions from '../../../bookmarks/store/bookmark.actions';
 import { faHeart as faSolidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faRegularHeart } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { Article } from '../../../article-list/models/article';
+import { Article } from '../../../articles/models/article';
 
 @Component({
   selector: 'blog-bookmark-toggle',

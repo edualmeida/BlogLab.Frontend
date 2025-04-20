@@ -2,11 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SidebarComponent } from './sidebar.component';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
-import * as ArticleActions from '../../../features/article-list/store/article-catalog.actions';
-import { catalogFeature } from '../../../features/article-list/store/article-catalog.reducers';
+import * as ArticleActions from '../../../features/articles/store/article-catalog.actions';
+import { catalogFeature } from '../../../features/articles/store/article-catalog.reducers';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { Article } from '../../../features/article-list/models/article';
+import { Article } from '../../../features/articles/models/article';
 
 describe('SidebarComponent', () => {
   let component: SidebarComponent;

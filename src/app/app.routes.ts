@@ -1,23 +1,23 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './features/article-list/components/article-catalog/article-catalog.component';
-import { ViewArticleComponent } from './features/article-list/components/view-article/view-article.component';
+import { ArticleCatalogComponent } from './features/articles/components/article-catalog/article-catalog.component';
+import { ViewArticleComponent } from './features/articles/components/view-article/view-article.component';
 import { authGuard } from './features/auth/guards/auth.guard';
-import { EditArticleComponent } from './features/article-list/components/edit-article/edit-article.component';
+import { EditArticleComponent } from './features/articles/components/edit-article/edit-article.component';
 import { SignUpComponent } from './features/auth/components/sign-up/sign-up.component';
 import { adminAuthGuard } from './features/auth/guards/admin-auth.guard';
-import { ArticleExistsGuard } from './features/article-list/guards/article-exists.guard';
+import { ArticleExistsGuard } from './features/articles/guards/article-exists.guard';
 
 export const routePaths = {
-  Home: (relative = false) => `${relative ? '' : '/'}home`,
+  home: (relative = false) => `${relative ? '' : '/'}home`,
   login: (relative = false) => `${relative ? '' : '/'}login`,
   viewArticle: (relative = false) => `${relative ? '' : '/'}article`,
 };
 
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: '', pathMatch: 'full', redirectTo: routePaths.home(true) },
   {
-    path: '',
-    component: HomeComponent,
+    path: routePaths.home(true),
+    component: ArticleCatalogComponent,
   },
   {
     path: routePaths.viewArticle(true),

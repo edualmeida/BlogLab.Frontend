@@ -83,18 +83,6 @@ export class ArticleCatalogEffects {
       { dispatch: false }
     );
 
-    // loaded by the ArticleExistsGuard
-    // this.loadSelectedArticle$ = createEffect(() =>
-    //   this.actions$.pipe(
-    //     ofType(articleCatalogActions.navigateToViewArticle),
-    //     switchMap(({ articleId }) =>
-    //       of(ArticleActions.loadArticle({
-    //         id: articleId
-    //       }))
-    //     ),
-    //   )
-    // );
-
     this.loadCategories$ = createEffect(() =>
       this.actions$.pipe(
         ofType(articleCatalogActions.loadCategories),

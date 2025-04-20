@@ -4,7 +4,7 @@ import { authFeature } from '../../../features/auth/store/auth.reducers';
 import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
 import * as AuthActions from '../../../features/auth/store/auth.actions';
-import * as ArticleActions from '../../../features/article-list/store/article.actions';
+import * as ArticleActions from '../../../features/articles/store/article.actions';
 
 @Component({
   selector: 'app-header',

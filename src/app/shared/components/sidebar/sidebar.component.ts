@@ -2,10 +2,10 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { catalogFeature } from '../../../features/article-list/store/article-catalog.reducers';
+import { catalogFeature } from '../../../features/articles/store/article-catalog.reducers';
 import { AsyncPipe } from '@angular/common';
 import { environment } from '../../../../environments/environment';
-import { articleCatalogActions } from '../../../features/article-list/store/article-catalog.actions';
+import { articleCatalogActions } from '../../../features/articles/store/article-catalog.actions';
 
 @Component({
   selector: 'app-sidebar',
