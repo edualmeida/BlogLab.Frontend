@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { Router, CanActivateFn } from '@angular/router';
-import { routePaths } from '../../../app.routes';
+import { authRoutePaths } from '../auth.routes';
 import { authFeature } from '../store/auth.reducers';
 import { of, switchMap } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -12,7 +12,7 @@ export const authGuard: CanActivateFn = () => {
   return store.select(authFeature.selectIsUserOrAdminAuthenticated).pipe(
     switchMap((isAuthenticated) => {
       if (!isAuthenticated) {
-        router.navigate([routePaths.login()]);
+        router.navigate([authRoutePaths.login()]);
         return of(false);
       }
 

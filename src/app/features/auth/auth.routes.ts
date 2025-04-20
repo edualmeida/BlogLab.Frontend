@@ -1,19 +1,28 @@
 import { Route } from '@angular/router';
-import { provideEffects } from '@ngrx/effects';
-import { provideState } from '@ngrx/store';
-import { AuthEffects } from './store/auth.effects';
 import { LogInComponent } from './components/log-in/log-in.component';
-import { authFeature, metaReducers } from './store/auth.reducers';
-import { AuthService } from './services/auth.service';
+import { SignUpComponent } from './components/sign-up/sign-up.component';
 
-export const routes: Route[] = [
+const authPrefix = 'auth';
+const authPrefixWithSlash = '/' + authPrefix + '/';
+export const authRoutePaths = {
+  prefix: authPrefix,
+  login: (relative = false) => `${relative ? '' : authPrefixWithSlash}login`,
+  signUp: (relative = false) => `${relative ? '' : authPrefixWithSlash}sign-up`,
+};
+
+export const authRoutes: Route[] = [
   {
     path: '',
-    component: LogInComponent,
-    providers: [
-      AuthService,
-      provideEffects(AuthEffects),
-      provideState(authFeature.name, authFeature.reducer, { metaReducers }),
+    pathMatch: 'prefix',
+    children: [
+      {
+        path: authRoutePaths.login(true),
+        component: LogInComponent,
+      },
+      {
+        path: authRoutePaths.signUp(true),
+        component: SignUpComponent,
+      },
     ],
   },
 ];

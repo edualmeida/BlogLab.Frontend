@@ -5,10 +5,10 @@ import { Router } from '@angular/router';
 import { HttpInterceptorFn } from '@angular/common/http';
 import Utils from '../services/common-utils.service';
 import { ErrorDialogService } from '../services/error-dialog.service';
-import { routePaths } from '../../app.routes';
 import { throwError } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as AuthActions from '../../features/auth/store/auth.actions';
+import { authRoutePaths } from '../../features/auth/auth.routes';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
@@ -31,7 +31,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
       if (response.status === 401 && !response.error) {
         store.dispatch(AuthActions.logOut());
-        router.navigateByUrl(routePaths.login());
+        router.navigateByUrl(authRoutePaths.login());
       } else {
         zone.run(() =>
           errorDialogService.openDialog(

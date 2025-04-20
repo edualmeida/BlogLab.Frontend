@@ -16,8 +16,8 @@
         </li>
         <li><a (click)="logout()">logout</a></li>
       } @else {
-        <li><a routerLink="/sign-up">sign-up</a></li>
-        <li><a routerLink="/login">login</a></li>
+        <li><a [routerLink]="signUpRoutePath">sign-up</a></li>
+        <li><a [routerLink]="loginRoutePath">login</a></li>
       }
     </ul>
   </nav>

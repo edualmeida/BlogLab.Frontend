@@ -3,13 +3,12 @@ import { ArticleCatalogComponent } from './features/articles/components/article-
 import { ViewArticleComponent } from './features/articles/components/view-article/view-article.component';
 import { authGuard } from './features/auth/guards/auth.guard';
 import { EditArticleComponent } from './features/articles/components/edit-article/edit-article.component';
-import { SignUpComponent } from './features/auth/components/sign-up/sign-up.component';
 import { adminAuthGuard } from './features/auth/guards/admin-auth.guard';
 import { ArticleExistsGuard } from './features/articles/guards/article-exists.guard';
+import { authRoutePaths } from './features/auth/auth.routes';
 
 export const routePaths = {
   home: (relative = false) => `${relative ? '' : '/'}home`,
-  login: (relative = false) => `${relative ? '' : '/'}login`,
   viewArticle: (relative = false) => `${relative ? '' : '/'}article`,
 };
 
@@ -25,13 +24,9 @@ export const routes: Routes = [
     canActivate: [authGuard, ArticleExistsGuard],
   },
   {
-    path: routePaths.login(true),
+    path: authRoutePaths.prefix,
     loadChildren: () =>
-      import('../app/features/auth/auth.routes').then((m) => m.routes),
-  },
-  {
-    path: 'sign-up',
-    component: SignUpComponent,
+      import('./features/auth/auth.routes').then((mod) => mod.authRoutes),
   },
   {
     path: 'edit-article',
