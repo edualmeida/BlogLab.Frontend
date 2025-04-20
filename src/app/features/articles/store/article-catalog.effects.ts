@@ -11,9 +11,10 @@ import { articlesRoutePaths } from '../articles.routes';
 @Injectable()
 export class ArticleCatalogEffects {
   loadArticles$;
+  loadArticlesSuccess$;
+  loadArticlesFailure$;
   loadTopArticles$;
   navigateToViewArticle$;
-  loadArticlesSuccess$;
 
   constructor(
     private actions$: Actions,
@@ -86,6 +87,19 @@ export class ArticleCatalogEffects {
           of(
             NotificationActions.displaySuccess({
               title: `Loaded ${action.articles.length} articles`,
+            })
+          )
+        )
+      )
+    );
+
+    this.loadArticlesFailure$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(articleCatalogActions.loadArticlesFailure),
+        mergeMap((action) =>
+          of(
+            NotificationActions.displayError({
+              title: `Error loading articles: ${action.error}`,
             })
           )
         )

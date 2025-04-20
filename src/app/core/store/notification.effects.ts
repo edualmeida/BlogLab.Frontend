@@ -41,7 +41,11 @@ export class NotificationEffects {
         this.actions$.pipe(
           ofType(NotificationActions.displayError),
           tap((action) => {
-            this.toastr.error(action.description, action.title);
+            this.toastr.error(action.description, action.title, {
+              timeOut: 0,
+              extendedTimeOut: 0,
+              closeButton: true,
+            });
           })
         ),
       { dispatch: false }

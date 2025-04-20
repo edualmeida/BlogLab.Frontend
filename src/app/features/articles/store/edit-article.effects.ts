@@ -12,6 +12,7 @@ export class EditArticleEffects {
   createArticle$;
   createArticleSuccess$;
   createArticleSuccessNotification$;
+  createArticleFailureNotification$;
   deleteArticle$;
   deleteArticleSuccess$;
 
@@ -57,6 +58,19 @@ export class EditArticleEffects {
           of(
             NotificationActions.displaySuccess({
               title: 'Article created successfully!',
+            })
+          )
+        )
+      )
+    );
+
+    this.createArticleFailureNotification$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(editArticleActions.createArticleFailure),
+        switchMap((action) =>
+          of(
+            NotificationActions.displayError({
+              title: 'Error creating article: ' + action.error,
             })
           )
         )
