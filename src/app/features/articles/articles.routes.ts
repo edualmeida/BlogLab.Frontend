@@ -5,6 +5,7 @@ import { EditArticleComponent } from './components/edit-article/edit-article.com
 import { adminAuthGuard } from '../auth/guards/admin-auth.guard';
 import { authGuard } from '../auth/guards/auth.guard';
 import { ArticleExistsGuard } from './guards/article-exists.guard';
+import { CategoriesExistsGuard } from './guards/categories-exists.guard';
 
 export const articlesRoutePaths = {
   prefix: 'articles',
@@ -31,7 +32,7 @@ export const articlesRoutes: Route[] = [
       {
         path: articlesRoutePaths.editArticle(true),
         component: EditArticleComponent,
-        canActivate: [adminAuthGuard],
+        canActivate: [adminAuthGuard, CategoriesExistsGuard],
       },
     ],
   },

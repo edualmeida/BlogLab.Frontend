@@ -3,20 +3,20 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { ArticleCatalogService } from '../../articles/services/article-catalog.service';
-import * as ArticleActions from '../store/article.actions';
+import { articleActions } from '../store/article.actions';
 import { Router } from '@angular/router';
+import { articlesRoutePaths } from '../articles.routes';
 
 @Injectable()
 export class ArticleEffects {
-  readonly editArticleUrl = 'edit-article';
+  readonly editArticleUrl = articlesRoutePaths.editArticle();
 
   loadArticle$;
-  deleteArticle$;
-  deleteArticleSuccess$;
   navigateToCreateArticle$;
   navigateToEditArticle$;
   loadSelectedArticle$;
   clearSelectedArticle$;
+
   constructor(
     private actions$: Actions,
     private articleCatalogService: ArticleCatalogService,
@@ -25,7 +25,7 @@ export class ArticleEffects {
     this.navigateToCreateArticle$ = createEffect(
       () =>
         this.actions$.pipe(
-          ofType(ArticleActions.navigateToCreateArticle),
+          ofType(articleActions.navigateToCreateArticle),
           tap(() => {
             this.router.navigate([this.editArticleUrl]);
           })
@@ -35,9 +35,9 @@ export class ArticleEffects {
 
     this.clearSelectedArticle$ = createEffect(() =>
       this.actions$.pipe(
-        ofType(ArticleActions.navigateToCreateArticle),
+        ofType(articleActions.navigateToCreateArticle),
         switchMap(() => {
-          return of(ArticleActions.clearSelectedArticle());
+          return of(articleActions.clearSelectedArticle());
         })
       )
     );
@@ -45,7 +45,7 @@ export class ArticleEffects {
     this.navigateToEditArticle$ = createEffect(
       () =>
         this.actions$.pipe(
-          ofType(ArticleActions.navigateToEditArticle),
+          ofType(articleActions.navigateToEditArticle),
           tap(({ id }) => {
             this.router.navigate([this.editArticleUrl], {
               queryParams: { id: id },
@@ -57,11 +57,11 @@ export class ArticleEffects {
 
     this.loadSelectedArticle$ = createEffect(() =>
       this.actions$.pipe(
-        ofType(ArticleActions.navigateToEditArticle),
+        ofType(articleActions.navigateToEditArticle),
         switchMap(({ id }) => {
           console.log('navigateToEditArticle->ArticleActions.loadArticle', id);
           return of(
-            ArticleActions.loadArticle({
+            articleActions.loadArticle({
               id: id,
             })
           );
@@ -71,44 +71,19 @@ export class ArticleEffects {
 
     this.loadArticle$ = createEffect(() =>
       this.actions$.pipe(
-        ofType(ArticleActions.loadArticle),
+        ofType(articleActions.loadArticle),
         mergeMap((payload: { id: string }) =>
           this.articleCatalogService.getArticleById(payload.id).pipe(
             map((article) => {
               console.log('loadArticle$->getArticleById', article);
-              return ArticleActions.loadArticleSuccess({ article });
+              return articleActions.loadArticleSuccess({ article });
             }),
             catchError((error) =>
-              of(ArticleActions.loadArticleFailure({ error: error.message }))
+              of(articleActions.loadArticleFailure({ error: error.message }))
             )
           )
         )
       )
-    );
-
-    this.deleteArticle$ = createEffect(() =>
-      this.actions$.pipe(
-        ofType(ArticleActions.deleteArticle),
-        mergeMap((payload: { id: string }) =>
-          this.articleCatalogService.deleteArticle(payload.id).pipe(
-            map(() => ArticleActions.deleteArticleSuccess()),
-            catchError((error) =>
-              of(ArticleActions.deleteArticleFailure({ error: error.message }))
-            )
-          )
-        )
-      )
-    );
-
-    this.deleteArticleSuccess$ = createEffect(
-      () =>
-        this.actions$.pipe(
-          ofType(ArticleActions.deleteArticleSuccess),
-          tap(() => {
-            this.router.navigate(['']);
-          })
-        ),
-      { dispatch: false }
     );
   }
 }

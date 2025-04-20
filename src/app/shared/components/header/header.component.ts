@@ -4,7 +4,7 @@ import { authFeature } from '../../../features/auth/store/auth.reducers';
 import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
 import * as AuthActions from '../../../features/auth/store/auth.actions';
-import * as ArticleActions from '../../../features/articles/store/article.actions';
+import { articleActions } from '../../../features/articles/store/article.actions';
 import { authRoutePaths } from '../../../features/auth/auth.routes';
 
 @Component({
@@ -24,6 +24,6 @@ export class HeaderComponent {
   }
 
   createArticle(): void {
-    this.store.dispatch(ArticleActions.navigateToCreateArticle());
+    this.store.dispatch(articleActions.navigateToCreateArticle());
   }
 }

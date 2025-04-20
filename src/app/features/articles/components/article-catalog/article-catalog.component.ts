@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { articleCatalogActions } from '../../store/article-catalog.actions';
-import * as ArticleActions from '../../store/article.actions';
+import { articleActions } from '../../store/article.actions';
 import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../../../../shared/components/sidebar/sidebar.component';
@@ -59,7 +59,7 @@ export class ArticleCatalogComponent implements OnInit {
 
   editArticle(articleId: string): void {
     this.store.dispatch(
-      ArticleActions.navigateToEditArticle({ id: articleId })
+      articleActions.navigateToEditArticle({ id: articleId })
     );
   }
 }

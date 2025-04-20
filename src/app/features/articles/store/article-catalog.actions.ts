@@ -1,10 +1,5 @@
-import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import {
-  Article,
-  ArticleCategory,
-  CreateArticle,
-  UpdateArticle,
-} from '../models/article';
+import { createActionGroup, props } from '@ngrx/store';
+import { Article } from '../models/article';
 
 export const articleCatalogActions = createActionGroup({
   source: 'Catalog',
@@ -16,14 +11,5 @@ export const articleCatalogActions = createActionGroup({
     loadTopArticlesSuccess: props<{ articles: Article[] }>(),
     loadTopArticlesFailure: props<{ error: string }>(),
     navigateToViewArticle: props<{ articleId: string }>(),
-    createArticle: props<{ article: CreateArticle }>(),
-    createArticleSuccess: emptyProps(),
-    createArticleFailure: props<{ error: string }>(),
-    updateArticle: props<{ article: UpdateArticle }>(),
-    updateArticleSuccess: emptyProps(),
-    updateArticleFailure: props<{ error: string }>(),
-    loadCategories: emptyProps(),
-    loadCategoriesSuccess: props<{ categories: ArticleCategory[] }>(),
-    loadCategoriesFailure: props<{ error: string }>(),
   },
 });

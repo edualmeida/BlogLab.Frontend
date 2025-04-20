@@ -1,34 +1,22 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
-import * as ArticleActions from './article.actions';
-import { Article } from '../models/article';
-
-export interface ArticleState {
-  article: Article | null;
-  loading: boolean;
-  error: string;
-}
-
-export const initialState: ArticleState = {
-  article: null,
-  loading: false,
-  error: '',
-};
+import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
+import { articleActions } from '../store/article.actions';
+import { initialState } from './article.state';
 
 const reducer = createReducer(
   initialState,
-  on(ArticleActions.loadArticle, (state) => ({ ...state, loading: true })),
-  on(ArticleActions.loadArticleSuccess, (state, { article }) => ({
+  on(articleActions.loadArticle, (state) => ({ ...state, loading: true })),
+  on(articleActions.loadArticleSuccess, (state, { article }) => ({
     ...state,
     article,
     loading: false,
   })),
-  on(ArticleActions.loadArticleFailure, (state, { error }) => ({
+  on(articleActions.loadArticleFailure, (state, { error }) => ({
     ...state,
     error,
     article: null,
     loading: false,
   })),
-  on(ArticleActions.clearSelectedArticle, (state) => ({
+  on(articleActions.clearSelectedArticle, (state) => ({
     ...state,
     article: null,
     loading: false,
@@ -38,4 +26,10 @@ const reducer = createReducer(
 export const articleFeature = createFeature({
   name: 'article',
   reducer,
+  extraSelectors: ({ selectArticle }) => ({
+    selectNotNullArticle: createSelector(
+      selectArticle,
+      (article) => article !== null
+    ),
+  }),
 });

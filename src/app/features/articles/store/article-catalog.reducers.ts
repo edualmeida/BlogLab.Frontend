@@ -1,26 +1,6 @@
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 import { articleCatalogActions } from './article-catalog.actions';
-import { Article, ArticleCategory } from '../models/article';
-
-export interface ArticleCatalogState {
-  articles: Article[];
-  topArticles: Article[];
-  loading: boolean;
-  selectedId: string | null;
-  error: string;
-  categories: ArticleCategory[];
-  totalPages: number;
-}
-
-export const initialState: ArticleCatalogState = {
-  articles: [],
-  topArticles: [],
-  loading: false,
-  selectedId: null,
-  error: '',
-  categories: [],
-  totalPages: 0,
-};
+import { initialState } from './article-catalog.state';
 
 const reducer = createReducer(
   initialState,
@@ -46,20 +26,6 @@ const reducer = createReducer(
   on(articleCatalogActions.navigateToViewArticle, (state, { articleId }) => ({
     ...state,
     selectedId: articleId,
-  })),
-  on(articleCatalogActions.loadCategories, (state) => ({
-    ...state,
-    loading: true,
-  })),
-  on(articleCatalogActions.loadCategoriesSuccess, (state, { categories }) => ({
-    ...state,
-    categories: categories,
-    loading: false,
-  })),
-  on(articleCatalogActions.loadCategoriesFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
   })),
   on(articleCatalogActions.loadTopArticles, (state) => ({
     ...state,

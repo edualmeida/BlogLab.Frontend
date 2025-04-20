@@ -25,6 +25,8 @@ import { notificationFeature } from './core/store/notification.reducers';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
 import { ArticleExistsGuard } from './features/articles/guards/article-exists.guard';
 import { bookmarkFeature } from './features/bookmarks/store/bookmark.reducers';
+import { CategoriesExistsGuard } from './features/articles/guards/categories-exists.guard';
+import { categoriesFeature } from './features/articles/store/categories.reducers';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -41,6 +43,7 @@ export const appConfig: ApplicationConfig = {
     provideState(notificationFeature),
     provideState(authFeature.name, authFeature.reducer, { metaReducers }),
     provideState(bookmarkFeature),
+    provideState(categoriesFeature),
     provideEffects(appEffects),
     provideHttpClient(
       withInterceptors([
@@ -50,7 +53,6 @@ export const appConfig: ApplicationConfig = {
         loadingInterceptor,
       ])
     ),
-    DatePipe,
     provideRouterStore(),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideAnimationsAsync(),
@@ -58,6 +60,8 @@ export const appConfig: ApplicationConfig = {
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
     }),
+    DatePipe,
     ArticleExistsGuard,
+    CategoriesExistsGuard,
   ],
 };

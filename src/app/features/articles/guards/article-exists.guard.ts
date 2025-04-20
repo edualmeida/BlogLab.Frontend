@@ -5,9 +5,10 @@ import { articleFeature } from '../store/article.reducers';
 import { Observable, of, take } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { ArticleCatalogService } from '../services/article-catalog.service';
-import * as ArticleActions from '../store/article.actions';
+import { articleActions } from '../store/article.actions';
 import { Article } from '../models/article';
 import { HttpErrorResponse } from '@angular/common/http';
+import Utils from '../../../core/services/common-utils.service';
 
 @Injectable()
 export class ArticleExistsGuard implements CanActivate {
@@ -36,10 +37,11 @@ export class ArticleExistsGuard implements CanActivate {
   hasArticleInApi(id: string): Observable<boolean> {
     return this.articleCatalogService.getArticleById(id).pipe(
       tap((article: Article) =>
-        this.store.dispatch(ArticleActions.loadArticleSuccess({ article }))
+        this.store.dispatch(articleActions.loadArticleSuccess({ article }))
       ),
       map((article: Article) => !!article),
       catchError((error) => {
+        Utils.handleError(error);
         if (error instanceof HttpErrorResponse && error.status === 401) {
           this.router.navigate(['/404']);
         }
