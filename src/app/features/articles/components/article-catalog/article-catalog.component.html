@@ -1,76 +1,31 @@
-<!-- Main -->
 <div id="main">
-  <!-- Post -->
-  <ng-container *ngIf="articles$ | async as articles">
-    <div *ngIf="articles.length; else empty">
-      <article class="post" *ngFor="let article of articles; let i = index">
-        <header>
-          <div class="title">
-            <h2>
-              <a (click)="selectArticle(article.id)">{{ article.title }}</a>
-            </h2>
-            <p>{{ article.subtitle }}</p>
-          </div>
-          <div class="meta">
-            <time class="published" datetime="2015-11-01">{{
-              article.createdOn
-            }}</time>
-            <a href="#" class="author"
-              ><span class="name">{{ article.author }}</span
-              ><img src="assets/images/articles/avatar01.jpg" alt="Author"
-            /></a>
-          </div>
-        </header>
-        <a (click)="selectArticle(article.id)" class="image featured"
-          ><img src="{{ article.thumbnail }}" alt="Thumbnail"
-        /></a>
-        <p [innerHtml]="article.text"></p>
-        <footer>
-          <ul class="actions">
-            @if (isAdmin$ | async) {
-              <li>
-                <a (click)="editArticle(article.id)" class="button large"
-                  >Edit</a
-                >
-              </li>
-            }
-            <li>
-              <a (click)="selectArticle(article.id)" class="button large"
-                >Continue Reading</a
-              >
-            </li>
-          </ul>
-          <ul class="stats">
-            <li><a href="#">General</a></li>
-            <li><a href="#" class="icon solid fa-heart">0</a></li>
-            <li><a href="#" class="icon solid fa-comment">0</a></li>
-          </ul>
-        </footer>
-      </article>
-      <!-- Pagination -->
-      <ul class="actions pagination">
-        <li>
-          <input
-            type="button"
-            class="button large next"
-            value="Previous Page"
-            (click)="prevPage()"
-            [disabled]="isPrevDisabled" />
-        </li>
-        <li>
-          <input
-            type="button"
-            class="button large next"
-            value="Next Page"
-            (click)="nextPage()"
-            [disabled]="pageNumber >= ((totalPages$ | async) ?? 0)" />
-        </li>
-      </ul>
-    </div>
-    <ng-template #empty>
-      <div>No Data</div>
-    </ng-template>
-    <div *ngIf="isLoading$ | async">Loading...</div>
-  </ng-container>
+  @if (isLoading$ | async) {
+    <div class="loading">Loading articles catalog...</div>
+  } @else {
+    @for (item of articles$ | async; track item) {
+      <blog-article-catalog-item [article]="item"> </blog-article-catalog-item>
+    } @empty {
+      <div>No articles available</div>
+    }
+    <!-- Pagination -->
+    <ul class="actions pagination">
+      <li>
+        <input
+          type="button"
+          class="button large next"
+          value="Previous Page"
+          (click)="prevPage()"
+          [disabled]="isPrevDisabled" />
+      </li>
+      <li>
+        <input
+          type="button"
+          class="button large next"
+          value="Next Page"
+          (click)="nextPage()"
+          [disabled]="pageNumber >= ((totalPages$ | async) ?? 0)" />
+      </li>
+    </ul>
+  }
 </div>
 <app-sidebar></app-sidebar>

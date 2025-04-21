@@ -1,0 +1,42 @@
+<article class="post">
+  <header>
+    <div class="title">
+      <h2>
+        <a (click)="selectArticle(article.id)">{{ article.title }}</a>
+      </h2>
+      <p>{{ article.subtitle }}</p>
+    </div>
+    <div class="meta">
+      <time class="published" datetime="2015-11-01">{{
+        article.createdOn
+      }}</time>
+      <a href="#" class="author"
+        ><span class="name">{{ article.author }}</span
+        ><img src="assets/images/articles/avatar01.jpg" alt="Author"
+      /></a>
+    </div>
+  </header>
+  <a (click)="selectArticle(article.id)" class="image featured"
+    ><img src="{{ article.thumbnail }}" alt="Thumbnail"
+  /></a>
+  <p [innerHtml]="article.text"></p>
+  <footer>
+    <ul class="actions">
+      @if (isAdmin$ | async) {
+        <li>
+          <a (click)="editArticle(article.id)" class="button large">Edit</a>
+        </li>
+      }
+      <li>
+        <a (click)="selectArticle(article.id)" class="button large"
+          >Continue Reading</a
+        >
+      </li>
+    </ul>
+    <ul class="stats">
+      <li><a href="#">General</a></li>
+      <li><a href="#" class="icon solid fa-heart">0</a></li>
+      <li><a href="#" class="icon solid fa-comment">0</a></li>
+    </ul>
+  </footer>
+</article>
