@@ -67,14 +67,31 @@ const reducer = createReducer(
       ...state.pagination,
       pageNumber: pageNumber,
     },
-  }))
+  })),
+  on(articleCatalogActions.loadArticleFromApi, (state, { article }) => ({
+    ...state,
+    articles: [...state.articles, article],
+    selectedId: article.id,
+  })),
+  on(articleCatalogActions.bookmarkArticle, (state, { articleId }) => {
+    const articles = state.articles.map((article) =>
+      article.id === articleId
+        ? { ...article, bookmarked: !article.isBookmarked }
+        : article
+    );
+    console.log('articleCatalogActions map article', articles);
+    return {
+      ...state,
+      articles: articles,
+    };
+  })
 );
 
 export const catalogFeature = createFeature({
   name: 'catalog',
   reducer,
   extraSelectors: ({ selectSelectedId, selectArticles, selectPagination }) => ({
-    selectSelectedArticle: createSelector(
+    getSelectedArticle: createSelector(
       selectSelectedId,
       selectArticles,
       (selectedId, articles) => articles.find((s) => s.id === selectedId)

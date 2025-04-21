@@ -17,7 +17,6 @@ import { apiKeyAuthInterceptor } from './core/interceptors/apikey-auth.intercept
 import { tokenInterceptor } from './core/interceptors/token.interceptor';
 import { authFeature } from './features/auth/store/auth.reducers';
 import { metaReducers } from './features/auth/store/auth.reducers';
-import { articleFeature } from './features/articles/store/article.reducers';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { provideToastr } from 'ngx-toastr';
@@ -39,7 +38,6 @@ export const appConfig: ApplicationConfig = {
     ),
     provideStore(),
     provideState(catalogFeature),
-    provideState(articleFeature),
     provideState(notificationFeature),
     provideState(authFeature.name, authFeature.reducer, { metaReducers }),
     provideState(bookmarkFeature),

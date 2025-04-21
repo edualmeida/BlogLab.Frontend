@@ -1,14 +1,15 @@
 ﻿import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { articleFeature } from '../store/article.reducers';
 import { Observable, of, take } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
 import { ArticleCatalogService } from '../services/article-catalog.service';
-import { articleActions } from '../store/article.actions';
 import { Article } from '../models/article';
 import { HttpErrorResponse } from '@angular/common/http';
 import Utils from '../../../core/services/common-utils.service';
+import { catalogFeature } from '../store/article-catalog.reducers';
+import { articleCatalogActions } from '../store/article-catalog.actions';
+import { debug } from '../../../core/extensions/rxjs-debug.operator';
 
 @Injectable()
 export class ArticleExistsGuard implements CanActivate {
@@ -19,13 +20,25 @@ export class ArticleExistsGuard implements CanActivate {
   ) {}
 
   /**
+   * I am still thinking if I need this one. It is not used anywhere in the code.
+   * This method creates an observable that waits for loading, emitting one time once loading
+   * has finished.
+   */
+  waitForCollectionToLoad(): Observable<boolean> {
+    return this.store.select(catalogFeature.selectLoading).pipe(
+      filter((loading) => loading === false),
+      take(1)
+    );
+  }
+
+  /**
    * `hasArticle` composes `hasArticleInStore` and `hasArticleInApi`. It first checks
    * if the article is in store, and if not it then checks if it is in the
    * API.
    */
   hasArticleInStore(id: string): Observable<boolean> {
-    return this.store.select(articleFeature.selectArticle).pipe(
-      map((article) => !!article && article.id == id),
+    return this.store.select(catalogFeature.selectArticles).pipe(
+      map((articles) => !!articles.find((article) => article.id === id)),
       take(1)
     );
   }
@@ -37,7 +50,9 @@ export class ArticleExistsGuard implements CanActivate {
   hasArticleInApi(id: string): Observable<boolean> {
     return this.articleCatalogService.getArticleById(id).pipe(
       tap((article: Article) =>
-        this.store.dispatch(articleActions.loadArticleSuccess({ article }))
+        this.store.dispatch(
+          articleCatalogActions.loadArticleFromApi({ article })
+        )
       ),
       map((article: Article) => !!article),
       catchError((error) => {
@@ -58,6 +73,7 @@ export class ArticleExistsGuard implements CanActivate {
    */
   hasArticle(id: string): Observable<boolean> {
     return this.hasArticleInStore(id).pipe(
+      debug('hasArticleInStore'),
       switchMap((inStore) => {
         if (inStore) {
           return of(inStore);

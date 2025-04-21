@@ -16,6 +16,7 @@ import * as NotificationActions from '../../../core/store/notification.actions';
 import { articlesRoutePaths } from '../articles.routes';
 import { catalogFeature } from './article-catalog.reducers';
 import { Store } from '@ngrx/store';
+import { bookmarkActions } from '../../bookmarks/store/bookmark.actions';
 
 @Injectable()
 export class ArticleCatalogEffects {
@@ -26,6 +27,7 @@ export class ArticleCatalogEffects {
   navigateToViewArticle$;
   moveToNextPage$;
   moveToPreviousPage$;
+  articleBookmarked$;
 
   constructor(
     private actions$: Actions,
@@ -132,6 +134,15 @@ export class ArticleCatalogEffects {
       this.actions$.pipe(
         ofType(articleCatalogActions.moveToPreviousPage),
         mergeMap(() => of(articleCatalogActions.loadArticles()))
+      )
+    );
+
+    this.articleBookmarked$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(bookmarkActions.bookmarkArticle),
+        switchMap(({ articleId }) =>
+          of(articleCatalogActions.bookmarkArticle({ articleId }))
+        )
       )
     );
   }

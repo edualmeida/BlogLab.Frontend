@@ -14,12 +14,12 @@ import {
   CreateArticle,
   UpdateArticle,
 } from '../../../../features/articles/models/article';
-import { articleFeature } from '../../store/article.reducers';
 import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { categoriesFeature } from '../../store/categories.reducers';
+import { catalogFeature } from '../../store/article-catalog.reducers';
 
 @Component({
   selector: 'app-edit-article',
@@ -30,7 +30,7 @@ import { categoriesFeature } from '../../store/categories.reducers';
     './edit-article.component.scss',
   ],
 })
-export class EditArticleComponent implements OnInit {
+export class EditArticleComponent {
   store = inject(Store);
   categories$ = this.store.select(categoriesFeature.selectCategories);
   route = inject(ActivatedRoute);
@@ -58,7 +58,8 @@ export class EditArticleComponent implements OnInit {
   });
 
   constructor() {
-    this.article$ = this.store.select(articleFeature.selectArticle).pipe(
+    this.article$ = this.store.select(catalogFeature.getSelectedArticle).pipe(
+      map((article) => article!),
       tap((article) =>
         this.articleForm.patchValue({
           id: article?.id,
@@ -69,10 +70,6 @@ export class EditArticleComponent implements OnInit {
         })
       )
     );
-  }
-
-  ngOnInit() {
-    //this.store.dispatch(categoriesActions.loadCategories());
   }
 
   onSubmit(): void {

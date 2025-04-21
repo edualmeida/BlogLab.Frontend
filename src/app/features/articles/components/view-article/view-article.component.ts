@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { FooterComponent } from '../../../../shared/components/footer/footer.component';
 import { Store } from '@ngrx/store';
-import { articleFeature } from '../../store/article.reducers';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ArticleComponent } from '../article/article.component';
+import { catalogFeature } from '../../store/article-catalog.reducers';
 
 @Component({
   selector: 'app-view-article',
@@ -17,5 +17,5 @@ import { ArticleComponent } from '../article/article.component';
 })
 export class ViewArticleComponent {
   store = inject(Store);
-  article$ = this.store.select(articleFeature.selectArticle);
+  article$ = this.store.select(catalogFeature.getSelectedArticle);
 }

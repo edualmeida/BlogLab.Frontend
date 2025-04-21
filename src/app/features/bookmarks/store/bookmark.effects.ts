@@ -1,10 +1,10 @@
 ﻿import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Router } from '@angular/router';
-import * as BookmarkActions from './bookmark.actions';
 import { catchError, exhaustMap, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { BookmarkService } from '../services/bookmark.service';
+import { bookmarkActions } from './bookmark.actions';
 
 @Injectable()
 export class BookmarkEffects {
@@ -17,15 +17,15 @@ export class BookmarkEffects {
   ) {
     this.bookmarkArticle = createEffect(() =>
       this.actions$.pipe(
-        ofType(BookmarkActions.bookmarkArticle),
+        ofType(bookmarkActions.bookmarkArticle),
         exhaustMap((payload: { articleId: string }) =>
           this.bookmarkService.bookmarkArticle(payload.articleId).pipe(
             map(() => {
-              return BookmarkActions.bookmarkArticleSuccess();
+              return bookmarkActions.bookmarkArticleSuccess();
             }),
             catchError((error) =>
               of(
-                BookmarkActions.bookmarkArticleFailure({ error: error.message })
+                bookmarkActions.bookmarkArticleFailure({ error: error.message })
               )
             )
           )

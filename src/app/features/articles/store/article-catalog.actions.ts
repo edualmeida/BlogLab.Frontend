@@ -14,5 +14,7 @@ export const articleCatalogActions = createActionGroup({
     moveToNextPage: emptyProps(),
     moveToPreviousPage: emptyProps(),
     moveToPage: props<{ pageNumber: number }>(),
+    loadArticleFromApi: props<{ article: Article }>(),
+    bookmarkArticle: props<{ articleId: string }>(),
   },
 });

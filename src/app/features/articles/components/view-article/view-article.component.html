@@ -1,8 +1,8 @@
 <!-- Main -->
 <div id="main">
-	<ng-container *ngIf="article$ | async as article;">
+  <ng-container *ngIf="article$ | async as article">
     <app-article [article]="article"></app-article>
-	</ng-container>
+  </ng-container>
 </div>
 
 <app-footer></app-footer>
