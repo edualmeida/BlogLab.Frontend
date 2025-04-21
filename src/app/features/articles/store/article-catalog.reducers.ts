@@ -14,14 +14,20 @@ const reducer = createReducer(
       ...state,
       articles: articles,
       loading: false,
-      totalPages: totalPages,
+      pagination: {
+        ...state.pagination,
+        totalPages: totalPages,
+      },
     })
   ),
   on(articleCatalogActions.loadArticlesFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,
-    totalPages: 0,
+    pagination: {
+      ...state.pagination,
+      totalPages: 0,
+    },
   })),
   on(articleCatalogActions.navigateToViewArticle, (state, { articleId }) => ({
     ...state,
@@ -40,17 +46,46 @@ const reducer = createReducer(
     ...state,
     error,
     loading: false,
+  })),
+  on(articleCatalogActions.moveToNextPage, (state) => ({
+    ...state,
+    pagination: {
+      ...state.pagination,
+      pageNumber: state.pagination.pageNumber + 1,
+    },
+  })),
+  on(articleCatalogActions.moveToPreviousPage, (state) => ({
+    ...state,
+    pagination: {
+      ...state.pagination,
+      pageNumber: state.pagination.pageNumber - 1,
+    },
+  })),
+  on(articleCatalogActions.moveToPage, (state, { pageNumber }) => ({
+    ...state,
+    pagination: {
+      ...state.pagination,
+      pageNumber: pageNumber,
+    },
   }))
 );
 
 export const catalogFeature = createFeature({
   name: 'catalog',
   reducer,
-  extraSelectors: ({ selectSelectedId, selectArticles }) => ({
+  extraSelectors: ({ selectSelectedId, selectArticles, selectPagination }) => ({
     selectSelectedArticle: createSelector(
       selectSelectedId,
       selectArticles,
       (selectedId, articles) => articles.find((s) => s.id === selectedId)
+    ),
+    selectIsPreviousPageAvailable: createSelector(
+      selectPagination,
+      (pagination) => pagination.pageNumber > 1
+    ),
+    selectIsNextPageAvailable: createSelector(
+      selectPagination,
+      (pagination) => pagination.pageNumber < pagination.totalPages
     ),
   }),
 });

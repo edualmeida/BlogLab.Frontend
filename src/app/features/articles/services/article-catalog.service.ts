@@ -37,6 +37,8 @@ export class ArticleCatalogService {
     pageNumber: number,
     pageSize: number
   ): Observable<GetArticlesResult> {
+    console.log('pageNumber', pageNumber);
+    console.log('pageSize', pageSize);
     return this.getArticles(pageNumber, pageSize).pipe(
       map((response: GetArticlesResponse) => ({
         totalCount: response.totalCount,

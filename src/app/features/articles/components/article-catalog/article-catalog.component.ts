@@ -4,8 +4,8 @@ import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../../../../shared/components/sidebar/sidebar.component';
 import { catalogFeature } from '../../store/article-catalog.reducers';
-import { environment } from '../../../../../environments/environment';
 import { ArticleCatalogItemComponent } from '../article-catalog-item/article-catalog-item.component';
+import { ArticleCatalogPaginationComponent } from '../article-catalog-pagination/article-catalog-pagination.component';
 
 @Component({
   selector: 'blog-article-catalog',
@@ -14,38 +14,20 @@ import { ArticleCatalogItemComponent } from '../article-catalog-item/article-cat
     '../../../../shared/styles/index.scss',
     './article-catalog.component.scss',
   ],
-  imports: [CommonModule, SidebarComponent, ArticleCatalogItemComponent],
+  imports: [
+    CommonModule,
+    SidebarComponent,
+    ArticleCatalogItemComponent,
+    ArticleCatalogPaginationComponent,
+  ],
 })
 export class ArticleCatalogComponent implements OnInit {
   store = inject(Store);
   articles$ = this.store.select(catalogFeature.selectArticles);
   isLoading$ = this.store.select(catalogFeature.selectLoading);
-  totalPages$ = this.store.select(catalogFeature.selectTotalPages);
   avatarImgURL = '/assets/avatar01.jpg'; // TODO: get from store
-  pageNumber = 1;
 
   ngOnInit(): void {
-    this.loadArticles(this.pageNumber);
-  }
-
-  nextPage() {
-    this.loadArticles(this.pageNumber++);
-  }
-
-  prevPage() {
-    this.loadArticles(this.pageNumber--);
-  }
-
-  get isPrevDisabled() {
-    return this.pageNumber === 1;
-  }
-
-  loadArticles(pageNumber = 1) {
-    this.store.dispatch(
-      articleCatalogActions.loadArticles({
-        pageNumber: pageNumber,
-        pageSize: environment.homeArticlesCount,
-      })
-    );
+    this.store.dispatch(articleCatalogActions.loadArticles());
   }
 }

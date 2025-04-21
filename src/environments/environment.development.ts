@@ -7,5 +7,5 @@ export const environment = {
   baseThumbnailUrl: 'assets/images/articles/',
   apiKey: 'JEXqpyi4cPGWgH',
   sidebarArticlesCount: 2,
-  homeArticlesCount: 3,
+  articleCatalogPageSize: 3,
 };

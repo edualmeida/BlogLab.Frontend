@@ -1,4 +1,11 @@
+import { environment } from '../../../../environments/environment';
 import { Article } from '../models/article';
+
+export interface CatalogPagination {
+  totalPages: number;
+  pageNumber: number;
+  pageSize: number;
+}
 
 export interface ArticleCatalogState {
   articles: Article[];
@@ -6,7 +13,7 @@ export interface ArticleCatalogState {
   loading: boolean;
   selectedId: string | null;
   error: string;
-  totalPages: number;
+  pagination: CatalogPagination;
 }
 
 export const initialState: ArticleCatalogState = {
@@ -15,5 +22,9 @@ export const initialState: ArticleCatalogState = {
   loading: false,
   selectedId: null,
   error: '',
-  totalPages: 0,
+  pagination: {
+    totalPages: 0,
+    pageNumber: 1,
+    pageSize: environment.articleCatalogPageSize,
+  },
 };

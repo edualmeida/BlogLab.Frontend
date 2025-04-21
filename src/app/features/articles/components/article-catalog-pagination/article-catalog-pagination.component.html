@@ -1,0 +1,18 @@
+<ul class="actions pagination">
+  <li>
+    <input
+      type="button"
+      class="button large next"
+      value="Previous Page"
+      (click)="prevPage()"
+      [disabled]="(isPreviousPageAvailable$ | async) === false" />
+  </li>
+  <li>
+    <input
+      type="button"
+      class="button large next"
+      value="Next Page"
+      (click)="nextPage()"
+      [disabled]="(isNextPageAvailable$ | async) === false" />
+  </li>
+</ul>

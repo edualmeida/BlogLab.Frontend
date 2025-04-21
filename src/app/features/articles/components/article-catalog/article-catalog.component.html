@@ -7,25 +7,7 @@
     } @empty {
       <div>No articles available</div>
     }
-    <!-- Pagination -->
-    <ul class="actions pagination">
-      <li>
-        <input
-          type="button"
-          class="button large next"
-          value="Previous Page"
-          (click)="prevPage()"
-          [disabled]="isPrevDisabled" />
-      </li>
-      <li>
-        <input
-          type="button"
-          class="button large next"
-          value="Next Page"
-          (click)="nextPage()"
-          [disabled]="pageNumber >= ((totalPages$ | async) ?? 0)" />
-      </li>
-    </ul>
+    <blog-article-catalog-pagination></blog-article-catalog-pagination>
   }
 </div>
 <app-sidebar></app-sidebar>
