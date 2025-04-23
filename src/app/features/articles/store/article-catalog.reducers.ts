@@ -76,7 +76,7 @@ const reducer = createReducer(
   on(articleCatalogActions.bookmarkArticle, (state, { articleId }) => {
     const articles = state.articles.map((article) =>
       article.id === articleId
-        ? { ...article, bookmarked: !article.isBookmarked }
+        ? { ...article, isBookmarked: !article.isBookmarked }
         : article
     );
     console.log('articleCatalogActions map article', articles);

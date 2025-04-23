@@ -16,4 +16,11 @@ export class BookmarkService {
       .post(environment.bookmarksBaseUrl, { articleId })
       .pipe(debug('Bookmarked article id: ' + articleId));
   }
+
+  deleteBookmark(articleId: string): Observable<object> {
+    console.log('Bookmarking article with id: ' + articleId);
+    return this.http
+      .delete(environment.bookmarksBaseUrl + '/' + articleId)
+      .pipe(debug('deleteBookmark article id: ' + articleId));
+  }
 }
