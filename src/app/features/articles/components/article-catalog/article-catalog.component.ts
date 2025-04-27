@@ -2,10 +2,10 @@ import { Component, inject, OnInit } from '@angular/core';
 import { articleCatalogActions } from '../../store/article-catalog.actions';
 import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
-import { SidebarComponent } from '../../../../shared/components/sidebar/sidebar.component';
 import { catalogFeature } from '../../store/article-catalog.reducers';
 import { ArticleCatalogItemComponent } from '../article-catalog-item/article-catalog-item.component';
 import { ArticleCatalogPaginationComponent } from '../article-catalog-pagination/article-catalog-pagination.component';
+import { SidebarComponent } from '../../../common/sidebar/sidebar.component';
 
 @Component({
   selector: 'blog-article-catalog',
@@ -19,6 +19,7 @@ import { ArticleCatalogPaginationComponent } from '../article-catalog-pagination
     SidebarComponent,
     ArticleCatalogItemComponent,
     ArticleCatalogPaginationComponent,
+    SidebarComponent,
   ],
 })
 export class ArticleCatalogComponent implements OnInit {

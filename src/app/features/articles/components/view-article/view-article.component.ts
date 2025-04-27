@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FooterComponent } from '../../../../shared/components/footer/footer.component';
+import { FooterComponent } from '../../../common/footer/footer.component';
 import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
