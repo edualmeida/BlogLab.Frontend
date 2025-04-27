@@ -22,21 +22,22 @@
   <p [innerHtml]="article.text"></p>
   <footer>
     <ul class="actions">
-      @if (isAdmin$ | async) {
-        <li>
-          <a (click)="editArticle(article.id)" class="button large">Edit</a>
-        </li>
-      }
       <li>
         <a (click)="selectArticle(article.id)" class="button large"
           >Continue Reading</a
         >
       </li>
+      @if (isAdmin$ | async) {
+        <li>
+          <a (click)="editArticle(article.id)" class="button large">Edit</a>
+        </li>
+      }
     </ul>
     <ul class="stats">
       <li><a href="#">General</a></li>
-      <li><a href="#" class="icon solid fa-heart">0</a></li>
-      <li><a href="#" class="icon solid fa-comment">0</a></li>
+      <li>
+        <blog-bookmark-toggle [article]="article"></blog-bookmark-toggle>
+      </li>
     </ul>
   </footer>
 </article>

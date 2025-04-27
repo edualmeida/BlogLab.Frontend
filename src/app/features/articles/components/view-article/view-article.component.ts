@@ -3,12 +3,19 @@ import { FooterComponent } from '../../../../shared/components/footer/footer.com
 import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ArticleComponent } from '../article/article.component';
 import { catalogFeature } from '../../store/article-catalog.reducers';
+import { BookmarkToggleComponent } from '../../../bookmarks/components/bookmark-toggle/bookmark-toggle.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-view-article',
-  imports: [CommonModule, FooterComponent, RouterModule, ArticleComponent],
+  imports: [
+    CommonModule,
+    FooterComponent,
+    RouterModule,
+    FontAwesomeModule,
+    BookmarkToggleComponent,
+  ],
   templateUrl: './view-article.component.html',
   styleUrls: [
     '../../../../shared/styles/index.scss',

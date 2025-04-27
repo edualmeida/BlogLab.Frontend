@@ -5,10 +5,11 @@ import { articleCatalogActions } from '../../store/article-catalog.actions';
 import { articleActions } from '../../store/article.actions';
 import { authFeature } from '../../../auth/store/auth.reducers';
 import { CommonModule } from '@angular/common';
+import { BookmarkToggleComponent } from '../../../bookmarks/components/bookmark-toggle/bookmark-toggle.component';
 
 @Component({
   selector: 'blog-article-catalog-item',
-  imports: [CommonModule],
+  imports: [CommonModule, BookmarkToggleComponent],
   templateUrl: './article-catalog-item.component.html',
   styleUrls: [
     '../../../../shared/styles/index.scss',
