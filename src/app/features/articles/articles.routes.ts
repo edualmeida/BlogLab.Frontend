@@ -6,6 +6,7 @@ import { adminAuthGuard } from '../auth/guards/admin-auth.guard';
 import { authGuard } from '../auth/guards/auth.guard';
 import { ArticleExistsGuard } from './guards/article-exists.guard';
 import { CategoriesExistsGuard } from './guards/categories-exists.guard';
+import { CreateArticleComponent } from './components/create-article/create-article.component';
 
 export const articlesRoutePaths = {
   prefix: 'articles',
@@ -13,6 +14,8 @@ export const articlesRoutePaths = {
   viewArticle: (relative = false) => `${relative ? '' : '/articles/'}article`,
   editArticle: (relative = false) =>
     `${relative ? '' : '/articles/'}edit-article`,
+  createArticle: (relative = false) =>
+    `${relative ? '' : '/articles/'}create-article`,
 };
 
 export const articlesRoutes: Route[] = [
@@ -32,6 +35,15 @@ export const articlesRoutes: Route[] = [
       {
         path: articlesRoutePaths.editArticle(true),
         component: EditArticleComponent,
+        canActivate: [
+          adminAuthGuard,
+          CategoriesExistsGuard,
+          ArticleExistsGuard,
+        ],
+      },
+      {
+        path: articlesRoutePaths.createArticle(true),
+        component: CreateArticleComponent,
         canActivate: [adminAuthGuard, CategoriesExistsGuard],
       },
     ],

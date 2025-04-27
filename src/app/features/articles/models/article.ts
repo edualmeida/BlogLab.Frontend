@@ -38,6 +38,14 @@ export interface Article {
   isBookmarked: boolean | null;
 }
 
+export interface ArticleForm {
+  id: string | null;
+  title: string;
+  subtitle: string;
+  text: string;
+  categoryId: string;
+}
+
 export interface CreateArticle {
   title: string;
   subtitle: string;

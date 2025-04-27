@@ -17,6 +17,7 @@ import { articlesRoutePaths } from '../articles.routes';
 import { catalogFeature } from './article-catalog.reducers';
 import { Store } from '@ngrx/store';
 import { bookmarkActions } from '../../bookmarks/store/bookmark.actions';
+import { articleActions } from './article.actions';
 
 @Injectable()
 export class ArticleCatalogEffects {
@@ -28,6 +29,7 @@ export class ArticleCatalogEffects {
   moveToNextPage$;
   moveToPreviousPage$;
   articleBookmarked$;
+  clearSelectedArticle$;
 
   constructor(
     private actions$: Actions,
@@ -143,6 +145,15 @@ export class ArticleCatalogEffects {
         switchMap(({ articleId }) =>
           of(articleCatalogActions.bookmarkArticle({ articleId }))
         )
+      )
+    );
+
+    this.clearSelectedArticle$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(articleActions.navigateToCreateArticle),
+        switchMap(() => {
+          return of(articleCatalogActions.clearSelectedArticle());
+        })
       )
     );
   }

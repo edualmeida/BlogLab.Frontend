@@ -1,94 +1,64 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { editArticleActions } from '../../store/edit-article.actions';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import {
   Article,
-  CreateArticle,
+  ArticleForm,
   UpdateArticle,
 } from '../../../../features/articles/models/article';
 import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
-import { categoriesFeature } from '../../store/categories.reducers';
+import { map, takeUntil, tap } from 'rxjs/operators';
 import { catalogFeature } from '../../store/article-catalog.reducers';
+import { ArticleFormComponent } from '../article-form/article-form.component';
+import { debug } from '../../../../core/extensions/rxjs-debug.operator';
 
 @Component({
   selector: 'app-edit-article',
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    ArticleFormComponent,
+  ],
   templateUrl: './edit-article.component.html',
   styleUrls: [
     '../../../../shared/styles/index.scss',
     './edit-article.component.scss',
   ],
 })
-export class EditArticleComponent {
-  store = inject(Store);
-  categories$ = this.store.select(categoriesFeature.selectCategories);
-  route = inject(ActivatedRoute);
+export class EditArticleComponent implements OnInit {
   readonly dialog = inject(MatDialog);
-  article$: Observable<Article | null> | null = null; // = this.store.select(articleFeature.selectArticle);
+  store = inject(Store);
+  route = inject(ActivatedRoute);
+  article$ = this.store.select(catalogFeature.getSelectedArticle);
+  selectedArticle: Article | null = null;
 
-  articleForm = new FormGroup({
-    id: new FormControl<string | null>(null),
-    title: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.minLength(3)],
-    }),
-    subtitle: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.minLength(3)],
-    }),
-    text: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.minLength(3)],
-    }),
-    categoryId: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-  });
-
-  constructor() {
-    this.article$ = this.store.select(catalogFeature.getSelectedArticle).pipe(
-      map((article) => article!),
-      tap((article) =>
-        this.articleForm.patchValue({
-          id: article?.id,
-          title: article?.title,
-          subtitle: article?.subtitle,
-          text: article?.text,
-          categoryId: article?.categoryId,
-        })
-      )
-    );
+  ngOnInit(): void {
+    console.log('ngOnInit', this.route.snapshot.queryParams['id']);
+    // this.article$
+    //   .pipe(
+    //     map((article) => article!),
+    //     tap((article) => {
+    //       console.log('2EditArticleComponent.article$', article);
+    //       return (this.selectedArticle = article!);
+    //     }),
+    //     takeUntilDestroyed()
+    //   )
+    //   .subscribe();
   }
 
-  onSubmit(): void {
-    console.log('articleForm', this.articleForm.value);
-    if (this.articleForm.value.id) {
-      const updateArticle = this.articleForm.value as UpdateArticle;
-      console.log('updateArticle', updateArticle);
-      this.store.dispatch(
-        editArticleActions.updateArticle({
-          article: updateArticle,
-        })
-      );
-    } else {
-      this.store.dispatch(
-        editArticleActions.createArticle({
-          article: this.articleForm.value as CreateArticle,
-        })
-      );
-    }
+  articleSaved(articleForm: ArticleForm): void {
+    this.store.dispatch(
+      editArticleActions.updateArticle({
+        article: articleForm as UpdateArticle,
+      })
+    );
   }
 
   deleteArticle(id: string) {

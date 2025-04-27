@@ -79,12 +79,20 @@ const reducer = createReducer(
         ? { ...article, isBookmarked: !article.isBookmarked }
         : article
     );
-    console.log('articleCatalogActions map article', articles);
     return {
       ...state,
       articles: articles,
     };
-  })
+  }),
+  on(articleCatalogActions.articleSelected, (state, { articleId }) => ({
+    ...state,
+    selectedId: articleId,
+  })),
+  on(articleCatalogActions.clearSelectedArticle, (state) => ({
+    ...state,
+    selectedId: null,
+    error: '',
+  }))
 );
 
 export const catalogFeature = createFeature({

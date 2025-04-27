@@ -76,6 +76,9 @@ export class ArticleExistsGuard implements CanActivate {
       debug('hasArticleInStore'),
       switchMap((inStore) => {
         if (inStore) {
+          this.store.dispatch(
+            articleCatalogActions.articleSelected({ articleId: id })
+          );
           return of(inStore);
         }
 

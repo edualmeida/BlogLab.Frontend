@@ -10,12 +10,12 @@ import { articlesRoutePaths } from '../articles.routes';
 @Injectable()
 export class ArticleEffects {
   readonly editArticleUrl = articlesRoutePaths.editArticle();
+  readonly createArticleUrl = articlesRoutePaths.createArticle();
 
   loadArticle$;
   navigateToCreateArticle$;
   navigateToEditArticle$;
   loadSelectedArticle$;
-  clearSelectedArticle$;
 
   constructor(
     private actions$: Actions,
@@ -27,19 +27,10 @@ export class ArticleEffects {
         this.actions$.pipe(
           ofType(articleActions.navigateToCreateArticle),
           tap(() => {
-            this.router.navigate([this.editArticleUrl]);
+            this.router.navigate([this.createArticleUrl]);
           })
         ),
       { dispatch: false }
-    );
-
-    this.clearSelectedArticle$ = createEffect(() =>
-      this.actions$.pipe(
-        ofType(articleActions.navigateToCreateArticle),
-        switchMap(() => {
-          return of(articleActions.clearSelectedArticle());
-        })
-      )
     );
 
     this.navigateToEditArticle$ = createEffect(

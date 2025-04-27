@@ -1,0 +1,109 @@
+<form [formGroup]="articleFormGroup" (ngSubmit)="submitArticle()">
+  <article class="post">
+    <header>
+      <div class="title row gtr-uniform">
+        <div class="col-12">
+          <label for="title">Title</label>
+          <input
+            class="form-control"
+            id="title"
+            formControlName="title"
+            type="text"
+            placeholder="enter title"
+            required />
+          @if (
+            articleFormGroup.get("title")?.invalid &&
+            articleFormGroup.get("title")?.touched
+          ) {
+            <div>
+              @if (articleFormGroup.get("title")?.errors?.["required"]) {
+                <small>title is required.</small>
+              }
+              @if (articleFormGroup.get("title")?.errors?.["minlength"]) {
+                <small>title must be at least 5 characters long.</small>
+              }
+            </div>
+          }
+        </div>
+        <div class="col-12">
+          <label for="subtitle">Subtitle</label>
+          <input
+            class="form-control"
+            id="subtitle"
+            formControlName="subtitle"
+            type="text"
+            placeholder="enter subtitle"
+            required />
+          @if (
+            articleFormGroup.get("subtitle")?.invalid &&
+            articleFormGroup.get("subtitle")?.touched
+          ) {
+            <div>
+              @if (articleFormGroup.get("subtitle")?.errors?.["required"]) {
+                <small>subtitle is required.</small>
+              }
+              @if (articleFormGroup.get("subtitle")?.errors?.["minlength"]) {
+                <small>subtitle must be at least 5 characters long.</small>
+              }
+            </div>
+          }
+        </div>
+        <div class="col-12">
+          <label for="categoryId">Category</label>
+          <select
+            formControlName="categoryId"
+            name="categoryId"
+            id="categoryId">
+            <option value="">- Category -</option>
+            @for (category of categories$ | async; track category.id) {
+              <option [value]="category.id">{{ category.name }}</option>
+            }
+          </select>
+        </div>
+      </div>
+    </header>
+    <div class="row gtr-uniform">
+      <div class="col-12">
+        <label for="text">Text</label>
+        <textarea
+          class="form-control"
+          id="text"
+          formControlName="text"
+          type="text"
+          placeholder="enter text"
+          rows="16"
+          required></textarea>
+        @if (
+          articleFormGroup.get("text")?.invalid &&
+          articleFormGroup.get("text")?.touched
+        ) {
+          <div>
+            @if (articleFormGroup.get("text")?.errors?.["required"]) {
+              <small>text is required.</small>
+            }
+            @if (articleFormGroup.get("text")?.errors?.["minlength"]) {
+              <small>text must be at least 5 characters long.</small>
+            }
+          </div>
+        }
+      </div>
+      <div class="col-12">
+        <ul class="actions">
+          <li>
+            <input
+              type="submit"
+              [disabled]="articleFormGroup.invalid"
+              value="Submit" />
+          </li>
+          <li><input type="reset" value="Reset" /></li>
+          <li><input [routerLink]="['/']" type="button" value="Cancel" /></li>
+          <li>
+            @if (this.isDeleteMode()) {
+              <input (click)="deleteArticle()" type="button" value="Delete" />
+            }
+          </li>
+        </ul>
+      </div>
+    </div>
+  </article>
+</form>

@@ -5,7 +5,6 @@ export const articleActions = createActionGroup({
   source: 'Article',
   events: {
     navigateToCreateArticle: emptyProps(),
-    clearSelectedArticle: emptyProps(),
     navigateToEditArticle: props<{ id: string }>(),
     loadArticle: props<{ id: string }>(),
     loadArticleSuccess: props<{ article: Article }>(),
