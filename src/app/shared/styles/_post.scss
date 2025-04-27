@@ -8,6 +8,15 @@
 	position: relative;
 }
 
+	.post button .astext{
+		background: none;
+		border: none;
+		margin: 0;
+		padding: 0;
+		cursor: pointer;
+		box-shadow: none;
+	}
+
 	.post > header {
 		display: -moz-flex;
 		display: -webkit-flex;
@@ -18,7 +27,7 @@
 		margin: -3em 0 3em 0;
 		position: relative;
 		width: calc(100% + 6em);
-	}
+	}	  
 
 		.post > header .title {
 			-moz-flex-grow: 1;
