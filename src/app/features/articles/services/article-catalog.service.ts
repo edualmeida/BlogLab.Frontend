@@ -9,9 +9,11 @@ import {
   CreateArticle,
   GetArticlesResponse,
   GetArticlesResult,
+  UpdateArticle,
 } from '../models/article';
 import { DatePipe } from '@angular/common';
 import { environment } from '../../../../environments/environment';
+import { debug } from '../../../core/extensions/rxjs-debug.operator';
 
 @Injectable({
   providedIn: 'root',
@@ -67,7 +69,13 @@ export class ArticleCatalogService {
   createArticle(article: CreateArticle): Observable<object> {
     return this.http
       .post(environment.articleCatalogBaseUrl, article)
-      .pipe(tap(() => console.log(`Article added`)));
+      .pipe(debug(`Article added`));
+  }
+
+  updateArticle(article: UpdateArticle): Observable<object> {
+    return this.http
+      .put(environment.articleCatalogBaseUrl + '/' + article.id, article)
+      .pipe(debug(`Article updated`));
   }
 
   deleteArticle(id: string): Observable<object> {

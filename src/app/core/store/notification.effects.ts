@@ -41,7 +41,11 @@ export class NotificationEffects {
         this.actions$.pipe(
           ofType(NotificationActions.displayError),
           tap((action) => {
-            this.toastr.error(action.description, action.title, {
+            let description = action.description;
+            if (!description) {
+              description = 'An error occurred. Please try again later.';
+            }
+            this.toastr.error(description, action.title, {
               timeOut: 0,
               extendedTimeOut: 0,
               closeButton: true,

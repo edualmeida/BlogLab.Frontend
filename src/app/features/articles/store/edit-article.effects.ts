@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import {
+  catchError,
+  exhaustMap,
+  map,
+  mergeMap,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { ArticleCatalogService } from '../services/article-catalog.service';
 import { Router } from '@angular/router';
 import * as NotificationActions from '../../../core/store/notification.actions';
@@ -12,6 +19,9 @@ export class EditArticleEffects {
   createArticle$;
   createArticleSuccess$;
   createArticleSuccessNotification$;
+  updateArticle$;
+  updateArticleSuccess$;
+  updateArticleFailureNotification$;
   createArticleFailureNotification$;
   deleteArticle$;
   deleteArticleSuccess$;
@@ -71,6 +81,51 @@ export class EditArticleEffects {
           of(
             NotificationActions.displayError({
               title: 'Error creating article: ' + action.error,
+            })
+          )
+        )
+      )
+    );
+
+    this.updateArticle$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(editArticleActions.updateArticle),
+        exhaustMap((params) =>
+          this.articleCatalogService.updateArticle(params.article).pipe(
+            map(() => editArticleActions.updateArticleSuccess()),
+            catchError((error) => {
+              return of(
+                editArticleActions.updateArticleFailure({
+                  error: error.message,
+                })
+              );
+            })
+          )
+        )
+      )
+    );
+
+    this.updateArticleSuccess$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(editArticleActions.updateArticleSuccess),
+        switchMap(() =>
+          of(
+            NotificationActions.displaySuccess({
+              title: 'Article updated successfully',
+            })
+          )
+        )
+      )
+    );
+
+    this.updateArticleFailureNotification$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(editArticleActions.updateArticleFailure),
+        switchMap((action) =>
+          of(
+            NotificationActions.displayError({
+              title: 'Error updating article',
+              description: action.error,
             })
           )
         )

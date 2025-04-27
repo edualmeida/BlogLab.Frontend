@@ -1,6 +1,5 @@
 <div id="main">
-  @let article = article$ | async;
-  <h3>Edit article {{ article?.title }} {{ this.selectedArticle?.id }}</h3>
+  <h3>Edit article</h3>
   <blog-article-form
     (articleSaved)="articleSaved($event)"
     [article]="article$ | async"></blog-article-form>

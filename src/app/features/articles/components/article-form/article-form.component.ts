@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input, input, OnInit, output } from '@angular/core';
+import { Component, inject, Input, input, output } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -47,15 +47,6 @@ export class ArticleFormComponent {
     }),
   });
 
-  submitArticle(): void {
-    console.log('articleForm', this.articleFormGroup.value);
-    this.articleSaved.emit(this.articleFormGroup.value as ArticleForm);
-  }
-
-  resetForm(): void {
-    this.articleFormGroup.reset();
-  }
-
   @Input() set article(article: Article | null | undefined) {
     this.articleFormGroup.patchValue({
       id: article?.id,
@@ -64,6 +55,11 @@ export class ArticleFormComponent {
       text: article?.text,
       categoryId: article?.categoryId,
     });
+  }
+
+  submitArticle(): void {
+    console.log('articleForm', this.articleFormGroup.value);
+    this.articleSaved.emit(this.articleFormGroup.value as ArticleForm);
   }
 
   deleteArticle(): void {
