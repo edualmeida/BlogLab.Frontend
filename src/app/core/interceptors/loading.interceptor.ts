@@ -11,5 +11,5 @@ export const loadingInterceptor: HttpInterceptorFn = (request, next) => {
     finalize(() => {
       loadingDialogService.hideDialog();
     })
-  ) as Observable<HttpEvent<any>>;
+  ) as Observable<HttpEvent<unknown>>;
 };

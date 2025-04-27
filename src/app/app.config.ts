@@ -21,7 +21,6 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { provideToastr } from 'ngx-toastr';
 import { notificationFeature } from './core/store/notification.reducers';
-import { loadingInterceptor } from './core/interceptors/loading.interceptor';
 import { ArticleExistsGuard } from './features/articles/guards/article-exists.guard';
 import { bookmarkFeature } from './features/bookmarks/store/bookmark.reducers';
 import { CategoriesExistsGuard } from './features/articles/guards/categories-exists.guard';
@@ -48,7 +47,6 @@ export const appConfig: ApplicationConfig = {
         apiKeyAuthInterceptor,
         tokenInterceptor,
         errorInterceptor,
-        loadingInterceptor,
       ])
     ),
     provideRouterStore(),

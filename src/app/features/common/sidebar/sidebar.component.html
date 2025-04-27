@@ -15,18 +15,25 @@
   <section>
     <ul class="posts">
       @if (isLoading$ | async) {
-        <li>Loading...</li>
+        <li>Loading side articles...</li>
       } @else {
         @for (article of articles$ | async; track article.id) {
           <li>
             <article>
               <header>
                 <h3>
-                  <a (click)="selectArticle(article.id)">{{ article.title }}</a>
+                  <a
+                    href="javascript:void(0)"
+                    (click)="selectArticle(article.id)"
+                    >{{ article.title }}</a
+                  >
                 </h3>
                 <time class="published">{{ article.createdOn }}</time>
               </header>
-              <a (click)="selectArticle(article.id)" class="image"
+              <a
+                href="javascript:void(0)"
+                (click)="selectArticle(article.id)"
+                class="image"
                 ><img src="assets/images/articles/mini-pic.jpg" alt=""
               /></a>
             </article>
