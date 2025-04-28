@@ -6,6 +6,6 @@ export const environment = {
   bookmarksBaseUrl: 'https://localhost:7190/api/bookmarks',
   baseThumbnailUrl: 'assets/images/articles/',
   apiKey: 'JEXqpyi4cPGWgH',
-  sidebarArticlesCount: 3,
+  topArticlesPageSize: 3,
   articleCatalogPageSize: 3,
 };

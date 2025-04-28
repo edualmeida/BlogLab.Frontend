@@ -10,14 +10,11 @@ const reducer = createReducer(
   })),
   on(
     articleCatalogActions.loadArticlesSuccess,
-    (state, { articles, totalPages }) => ({
+    (state, { articles, pagination }) => ({
       ...state,
       articles: articles,
       loading: false,
-      pagination: {
-        ...state.pagination,
-        totalPages: totalPages,
-      },
+      pagination: pagination,
     })
   ),
   on(articleCatalogActions.loadArticlesFailure, (state, { error }) => ({
@@ -33,34 +30,45 @@ const reducer = createReducer(
     ...state,
     selectedId: articleId,
   })),
-  on(articleCatalogActions.loadTopArticles, (state) => ({
-    ...state,
-    loading: true,
-  })),
-  on(articleCatalogActions.loadTopArticlesSuccess, (state, { articles }) => ({
-    ...state,
-    topArticles: articles,
-    loading: false,
-  })),
-  on(articleCatalogActions.loadTopArticlesFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  })),
-  on(articleCatalogActions.moveToNextPage, (state) => ({
-    ...state,
-    pagination: {
-      ...state.pagination,
-      pageNumber: state.pagination.pageNumber + 1,
-    },
-  })),
-  on(articleCatalogActions.moveToPreviousPage, (state) => ({
-    ...state,
-    pagination: {
-      ...state.pagination,
-      pageNumber: state.pagination.pageNumber - 1,
-    },
-  })),
+  on(
+    articleCatalogActions.loadTopArticlesSuccess,
+    (state, { pageSize, articles }) => {
+      if (state.topArticles.length > 0) {
+        return state;
+      }
+
+      return {
+        ...state,
+        topArticles: articles.slice(0, pageSize),
+      };
+    }
+  ),
+  on(articleCatalogActions.moveToNextPage, (state) => {
+    console.log(
+      'moveToNextPage TYPEOF is number',
+      typeof state.pagination.pageNumber === 'number'
+    );
+    return {
+      ...state,
+      pagination: {
+        ...state.pagination,
+        pageNumber: state.pagination.pageNumber + 1,
+      },
+    };
+  }),
+  on(articleCatalogActions.moveToPreviousPage, (state) => {
+    console.log(
+      'moveToPreviousPage TYPEOF is number',
+      typeof state.pagination.pageNumber === 'number'
+    );
+    return {
+      ...state,
+      pagination: {
+        ...state.pagination,
+        pageNumber: state.pagination.pageNumber - 1,
+      },
+    };
+  }),
   on(articleCatalogActions.moveToPage, (state, { pageNumber }) => ({
     ...state,
     pagination: {

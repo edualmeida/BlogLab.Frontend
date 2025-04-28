@@ -18,6 +18,12 @@ import { catalogFeature } from './article-catalog.reducers';
 import { Store } from '@ngrx/store';
 import { bookmarkActions } from '../../bookmarks/store/bookmark.actions';
 import { articleActions } from './article.actions';
+import { environment } from '../../../../environments/environment';
+import {
+  selectQueryParams,
+  selectRouteData,
+  selectRouteParams,
+} from '../../../core/store/router';
 
 @Injectable()
 export class ArticleCatalogEffects {
@@ -26,10 +32,11 @@ export class ArticleCatalogEffects {
   loadArticlesFailure$;
   loadTopArticles$;
   navigateToViewArticle$;
-  moveToNextPage$;
-  moveToPreviousPage$;
+  // moveToNextPage$;
+  // moveToPreviousPage$;
   articleBookmarked$;
   clearSelectedArticle$;
+  changeRoutePagination$;
 
   constructor(
     private actions$: Actions,
@@ -40,15 +47,18 @@ export class ArticleCatalogEffects {
     this.loadArticles$ = createEffect(() =>
       this.actions$.pipe(
         ofType(articleCatalogActions.loadArticles),
-        withLatestFrom(store.select(catalogFeature.selectPagination)),
-        switchMap(([, pagination]) => {
+        switchMap(({ pageNumber }) => {
           return this.articleCatalogService
-            .getAllArticles(pagination.pageNumber, pagination.pageSize)
+            .getAllArticles(pageNumber, environment.articleCatalogPageSize)
             .pipe(
               map((result) => {
                 return articleCatalogActions.loadArticlesSuccess({
                   articles: result.articles,
-                  totalPages: result.totalPages,
+                  pagination: {
+                    pageNumber: pageNumber,
+                    pageSize: environment.articleCatalogPageSize,
+                    totalPages: result.totalPages,
+                  },
                 });
               }),
               catchError((error) => {
@@ -66,21 +76,13 @@ export class ArticleCatalogEffects {
 
     this.loadTopArticles$ = createEffect(() =>
       this.actions$.pipe(
-        ofType(articleCatalogActions.loadTopArticles),
-        mergeMap(({ pageSize }) =>
-          this.articleCatalogService.getAllArticles(1, pageSize).pipe(
-            map((result) =>
-              articleCatalogActions.loadTopArticlesSuccess({
-                articles: result.articles,
-              })
-            ),
-            catchError((error) =>
-              of(
-                articleCatalogActions.loadTopArticlesFailure({
-                  error: error.message,
-                })
-              )
-            )
+        ofType(articleCatalogActions.loadArticlesSuccess),
+        switchMap((payload) =>
+          of(
+            articleCatalogActions.loadTopArticlesSuccess({
+              pageSize: environment.topArticlesPageSize,
+              articles: payload.articles,
+            })
           )
         )
       )
@@ -125,19 +127,46 @@ export class ArticleCatalogEffects {
       )
     );
 
-    this.moveToNextPage$ = createEffect(() =>
+    this.changeRoutePagination$ = createEffect(() =>
       this.actions$.pipe(
-        ofType(articleCatalogActions.moveToNextPage),
-        mergeMap(() => of(articleCatalogActions.loadArticles()))
+        ofType(
+          articleCatalogActions.moveToNextPage,
+          articleCatalogActions.moveToPreviousPage
+        ),
+        withLatestFrom(store.select(catalogFeature.selectPagination)),
+        tap(([, pagination]) => {
+          console.log('changeRoutePagination', pagination);
+          this.router.navigate([], {
+            queryParams: {
+              pageNumber: pagination.pageNumber,
+            },
+            queryParamsHandling: 'merge',
+            skipLocationChange: false,
+          });
+        }),
+        switchMap(([, pagination]) => {
+          return of(
+            articleCatalogActions.loadArticles({
+              pageNumber: pagination.pageNumber,
+            })
+          );
+        })
       )
     );
 
-    this.moveToPreviousPage$ = createEffect(() =>
-      this.actions$.pipe(
-        ofType(articleCatalogActions.moveToPreviousPage),
-        mergeMap(() => of(articleCatalogActions.loadArticles()))
-      )
-    );
+    // this.moveToNextPage$ = createEffect(() =>
+    //   this.actions$.pipe(
+    //     ofType(articleCatalogActions.moveToNextPage),
+    //     mergeMap(() => of(articleCatalogActions.loadArticles()))
+    //   )
+    // );
+
+    // this.moveToPreviousPage$ = createEffect(() =>
+    //   this.actions$.pipe(
+    //     ofType(articleCatalogActions.moveToPreviousPage),
+    //     mergeMap(() => of(articleCatalogActions.loadArticles()))
+    //   )
+    // );
 
     this.articleBookmarked$ = createEffect(() =>
       this.actions$.pipe(

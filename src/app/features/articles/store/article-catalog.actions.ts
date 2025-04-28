@@ -1,15 +1,17 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { Article } from '../models/article';
+import { CatalogPagination } from './article-catalog.state';
 
 export const articleCatalogActions = createActionGroup({
   source: 'Catalog',
   events: {
-    loadArticles: emptyProps(),
-    loadArticlesSuccess: props<{ articles: Article[]; totalPages: number }>(),
+    loadArticles: props<{ pageNumber: number }>(),
+    loadArticlesSuccess: props<{
+      articles: Article[];
+      pagination: CatalogPagination;
+    }>(),
     loadArticlesFailure: props<{ error: string }>(),
-    loadTopArticles: props<{ pageSize: number }>(),
-    loadTopArticlesSuccess: props<{ articles: Article[] }>(),
-    loadTopArticlesFailure: props<{ error: string }>(),
+    loadTopArticlesSuccess: props<{ pageSize: number; articles: Article[] }>(),
     navigateToViewArticle: props<{ articleId: string }>(),
     moveToNextPage: emptyProps(),
     moveToPreviousPage: emptyProps(),
@@ -18,5 +20,6 @@ export const articleCatalogActions = createActionGroup({
     bookmarkArticle: props<{ articleId: string }>(),
     articleSelected: props<{ articleId: string }>(),
     clearSelectedArticle: emptyProps(),
+    routePaginationChanged: emptyProps(),
   },
 });
