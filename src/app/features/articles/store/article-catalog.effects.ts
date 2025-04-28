@@ -19,11 +19,6 @@ import { Store } from '@ngrx/store';
 import { bookmarkActions } from '../../bookmarks/store/bookmark.actions';
 import { articleActions } from './article.actions';
 import { environment } from '../../../../environments/environment';
-import {
-  selectQueryParams,
-  selectRouteData,
-  selectRouteParams,
-} from '../../../core/store/router';
 
 @Injectable()
 export class ArticleCatalogEffects {
@@ -31,6 +26,8 @@ export class ArticleCatalogEffects {
   loadArticlesSuccess$;
   loadArticlesFailure$;
   loadTopArticles$;
+  setTopArticles$;
+  loadTopArticlesFailure$;
   navigateToViewArticle$;
   // moveToNextPage$;
   // moveToPreviousPage$;
@@ -74,14 +71,56 @@ export class ArticleCatalogEffects {
       )
     );
 
-    this.loadTopArticles$ = createEffect(() =>
+    this.setTopArticles$ = createEffect(() =>
       this.actions$.pipe(
         ofType(articleCatalogActions.loadArticlesSuccess),
-        switchMap((payload) =>
-          of(
+        switchMap((action) => {
+          if (action.pagination.pageNumber !== 1) {
+            return of(articleCatalogActions.loadTopArticles());
+          }
+
+          return of(
             articleCatalogActions.loadTopArticlesSuccess({
               pageSize: environment.topArticlesPageSize,
-              articles: payload.articles,
+              articles: action.articles,
+            })
+          );
+        })
+      )
+    );
+
+    this.loadTopArticles$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(articleCatalogActions.loadTopArticles),
+        mergeMap(() =>
+          this.articleCatalogService
+            .getAllArticles(1, environment.topArticlesPageSize)
+            .pipe(
+              map((result) =>
+                articleCatalogActions.loadTopArticlesSuccess({
+                  pageSize: environment.topArticlesPageSize,
+                  articles: result.articles,
+                })
+              ),
+              catchError((error) =>
+                of(
+                  articleCatalogActions.loadTopArticlesFailure({
+                    error: error.message,
+                  })
+                )
+              )
+            )
+        )
+      )
+    );
+
+    this.loadTopArticlesFailure$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(articleCatalogActions.loadTopArticlesFailure),
+        mergeMap((action) =>
+          of(
+            NotificationActions.displayError({
+              title: `Error loading top articles: ${action.error}`,
             })
           )
         )

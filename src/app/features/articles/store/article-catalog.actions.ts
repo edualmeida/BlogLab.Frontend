@@ -11,7 +11,9 @@ export const articleCatalogActions = createActionGroup({
       pagination: CatalogPagination;
     }>(),
     loadArticlesFailure: props<{ error: string }>(),
+    loadTopArticles: emptyProps(),
     loadTopArticlesSuccess: props<{ pageSize: number; articles: Article[] }>(),
+    loadTopArticlesFailure: props<{ error: string }>(),
     navigateToViewArticle: props<{ articleId: string }>(),
     moveToNextPage: emptyProps(),
     moveToPreviousPage: emptyProps(),

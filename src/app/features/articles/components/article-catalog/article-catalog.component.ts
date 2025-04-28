@@ -6,7 +6,6 @@ import { catalogFeature } from '../../store/article-catalog.reducers';
 import { ArticleCatalogItemComponent } from '../article-catalog-item/article-catalog-item.component';
 import { ArticleCatalogPaginationComponent } from '../article-catalog-pagination/article-catalog-pagination.component';
 import { SidebarComponent } from '../../../common/sidebar/sidebar.component';
-import { environment } from '../../../../../environments/environment';
 import { Router } from '@angular/router';
 
 @Component({
