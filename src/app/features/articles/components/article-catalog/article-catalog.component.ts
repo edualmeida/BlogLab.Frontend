@@ -7,6 +7,7 @@ import { ArticleCatalogItemComponent } from '../article-catalog-item/article-cat
 import { ArticleCatalogPaginationComponent } from '../article-catalog-pagination/article-catalog-pagination.component';
 import { SidebarComponent } from '../../../common/sidebar/sidebar.component';
 import { Router } from '@angular/router';
+import { IntroComponent } from '../../../common/intro/intro.component';
 
 @Component({
   selector: 'blog-article-catalog',
@@ -21,6 +22,7 @@ import { Router } from '@angular/router';
     ArticleCatalogItemComponent,
     ArticleCatalogPaginationComponent,
     SidebarComponent,
+    IntroComponent,
   ],
 })
 export class ArticleCatalogComponent implements OnInit {

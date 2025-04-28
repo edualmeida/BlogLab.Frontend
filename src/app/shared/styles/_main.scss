@@ -1,6 +1,6 @@
 /* Wrapper */
 
-:host {
+#main {
 	display: -moz-flex;
 	display: -webkit-flex;
 	display: -ms-flex;
@@ -16,17 +16,17 @@
 	margin: 0 auto;
 	max-width: 100%;
 	opacity: 1;
-	padding: 4.5em;
-	width: 90em;
+	padding: 0;
+	// width: 90em;
 }
 
-	body.is-menu-visible :host {
+	body.is-menu-visible #main {
 		opacity: 0.15;
 	}
 
 	@media screen and (max-width: 1680px) {
 
-		:host {
+		#main {
 			padding: 3em;
 		}
 
@@ -34,7 +34,7 @@
 
 	@media screen and (max-width: 1280px) {
 
-		:host {
+		#main {
 			display: block;
 		}
 
@@ -42,13 +42,13 @@
 
 	@media screen and (max-width: 736px) {
 
-		:host {
+		#main {
 			padding: 1.5em;
 		}
 
 	}
 
-	body.single :host {
+	body.single #main {
 		display: block;
 	}
 	

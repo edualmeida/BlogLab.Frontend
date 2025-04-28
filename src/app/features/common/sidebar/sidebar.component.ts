@@ -5,10 +5,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { catalogFeature } from '../../../features/articles/store/article-catalog.reducers';
 import { AsyncPipe } from '@angular/common';
 import { articleCatalogActions } from '../../../features/articles/store/article-catalog.actions';
+import { IntroComponent } from '../intro/intro.component';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [FontAwesomeModule, AsyncPipe],
+  imports: [FontAwesomeModule, AsyncPipe, IntroComponent],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
