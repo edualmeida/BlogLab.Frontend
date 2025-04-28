@@ -14,6 +14,7 @@ import { IntroComponent } from '../../../common/intro/intro.component';
   templateUrl: './article-catalog.component.html',
   styleUrls: [
     '../../../../shared/styles/index.scss',
+    '../../../../shared/styles/host-container.scss',
     './article-catalog.component.scss',
   ],
   imports: [

@@ -19,6 +19,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   templateUrl: './view-article.component.html',
   styleUrls: [
     '../../../../shared/styles/index.scss',
+    '../../../../shared/styles/host-container.scss',
     './view-article.component.scss',
   ],
 })
