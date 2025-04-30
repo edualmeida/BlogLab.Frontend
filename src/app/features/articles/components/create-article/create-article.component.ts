@@ -10,6 +10,7 @@ import { editArticleActions } from '../../store/edit-article.actions';
   templateUrl: './create-article.component.html',
   styleUrls: [
     '../../../../shared/styles/index.scss',
+    '../../../../shared/styles/host-container.scss',
     './create-article.component.scss',
   ],
 })

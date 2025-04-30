@@ -24,6 +24,7 @@ import { ArticleFormComponent } from '../article-form/article-form.component';
   templateUrl: './edit-article.component.html',
   styleUrls: [
     '../../../../shared/styles/index.scss',
+    '../../../../shared/styles/host-container.scss',
     './edit-article.component.scss',
   ],
 })
