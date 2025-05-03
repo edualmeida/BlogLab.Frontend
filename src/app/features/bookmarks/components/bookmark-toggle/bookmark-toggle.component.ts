@@ -20,7 +20,10 @@ export class BookmarkToggleComponent {
 
   bookmarkArticle(): void {
     this.store.dispatch(
-      bookmarkActions.bookmarkArticle({ articleId: this.article.id })
+      bookmarkActions.bookmarkArticle({
+        articleId: this.article.id,
+        isBookmarked: this.article.isBookmarked ?? false,
+      })
     );
   }
 }

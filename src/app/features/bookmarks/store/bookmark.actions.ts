@@ -3,7 +3,7 @@
 export const bookmarkActions = createActionGroup({
   source: 'Bookmark',
   events: {
-    bookmarkArticle: props<{ articleId: string }>(),
+    bookmarkArticle: props<{ articleId: string; isBookmarked: boolean }>(),
     bookmarkArticleSuccess: emptyProps(),
     bookmarkArticleFailure: props<{ error: string }>(),
   },
