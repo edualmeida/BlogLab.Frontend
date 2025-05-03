@@ -79,10 +79,12 @@
         ) {
           <div>
             @if (articleFormGroup.get("text")?.errors?.["required"]) {
-              <small>text is required.</small>
+              <small class="warning">text is required.</small>
             }
             @if (articleFormGroup.get("text")?.errors?.["minlength"]) {
-              <small>text must be at least 5 characters long.</small>
+              <small class="warning"
+                >text must be at least 5 characters long.</small
+              >
             }
           </div>
         }

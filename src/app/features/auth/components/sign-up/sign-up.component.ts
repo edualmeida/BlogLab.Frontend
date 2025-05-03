@@ -18,6 +18,7 @@ import { ValidationErrorsComponent } from '../../../../shared/components/validat
   templateUrl: './sign-up.component.html',
   styleUrls: [
     '../../../../shared/styles/index.scss',
+    '../../../../shared/styles/host-container.scss',
     './sign-up.component.scss',
   ],
   imports: [

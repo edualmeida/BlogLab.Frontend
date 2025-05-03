@@ -3,7 +3,6 @@ import { ArticleCatalogComponent } from './components/article-catalog/article-ca
 import { ViewArticleComponent } from './components/view-article/view-article.component';
 import { EditArticleComponent } from './components/edit-article/edit-article.component';
 import { adminAuthGuard } from '../auth/guards/admin-auth.guard';
-import { authGuard } from '../auth/guards/auth.guard';
 import { ArticleExistsGuard } from './guards/article-exists.guard';
 import { CategoriesExistsGuard } from './guards/categories-exists.guard';
 import { CreateArticleComponent } from './components/create-article/create-article.component';
@@ -30,7 +29,7 @@ export const articlesRoutes: Route[] = [
       {
         path: articlesRoutePaths.viewArticle(true),
         component: ViewArticleComponent,
-        canActivate: [authGuard, ArticleExistsGuard],
+        canActivate: [ArticleExistsGuard],
       },
       {
         path: articlesRoutePaths.editArticle(true),
